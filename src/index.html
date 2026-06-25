@@ -16,198 +16,278 @@
     Sub-heading     : <h3 class="sub-h">Sub-heading</h3>
     Body text       : <p>...</p>
     Bullet list     : <ul><li>...</li></ul>
-  NOTE: the first <p> immediately after each .sec-h auto-bolds (CSS rule
-        ".sec-h + p"); no markup needed. Subsequent paragraphs are regular.
+  NOTE: the first <p> immediately after each .sec-h auto-bolds; subsequent
+        paragraphs are regular. Section anchor nav, heading ids, dropdown
+        tiles and tooltips are all built at runtime from each chapter's
+        .sec-h elements, so chapter content markup is never modified.
   Remove the <p class="awaiting"> note from a chapter once its content is added.
-  Read time auto-calculates from word count (200 wpm) once content is present.
   ============================================================================
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 
 <style>
   :root{
+    --navy:#161823;
     --page:#F7F7F5;
-    --sidebar:#0F1019;
+    --line:#E8E8E6;
     --green:#40BB6A;
-    --ink:#1A1A1A;
-    --body:#3D3D3D;
-    --muted:#7C8194;
-    --active:#40BB6A;
   }
 
-  *{box-sizing:border-box;margin:0;padding:0;}
+  *{box-sizing:border-box;margin:0;padding:0;border-radius:0;}
 
-  html,body{height:100%;}
+  html{scroll-behavior:smooth;}
 
   body{
     font-family:'Poppins',sans-serif;
     background:var(--page);
-    color:var(--ink);
-    display:flex;
+    color:#1A1A1A;
+    padding-top:56px;
     -webkit-font-smoothing:antialiased;
   }
 
-  /* ---------- SIDEBAR (unchanged, stays dark) ---------- */
-  .sidebar{
+  /* ============================================================
+     TOP NAV
+     ============================================================ */
+  .topnav{
     position:fixed;
-    top:0;left:0;bottom:0;
-    width:260px;
-    background:var(--sidebar);
-    overflow-y:auto;
-    padding:28px 0;
-    z-index:30;
-    transition:transform .25s ease;
-  }
-
-  .brand{
+    top:0;left:0;
+    width:100%;
+    height:56px;
+    background:var(--navy);
+    z-index:1000;
     display:flex;
     align-items:center;
-    gap:10px;
-    padding:0 24px 28px;
+    padding:0 24px;
   }
-  .brand-logo{
+  .topnav-logo{
+    height:28px;
+    width:auto;
     display:block;
-    width:188px;
-    height:auto;
+    margin-right:32px;
   }
 
-  .nav{list-style:none;}
-  .nav-section{
-    padding:14px 24px 8px;
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--muted);
-  }
-
-  .nav-item{
+  .nav-links{
     display:flex;
-    align-items:flex-start;
-    gap:11px;
-    width:100%;
-    text-align:left;
+    align-items:center;
+    height:100%;
+    gap:24px;
+  }
+  .nav-link{
+    height:100%;
+    display:flex;
+    align-items:center;
     background:none;
     border:none;
-    border-left:3px solid transparent;
-    padding:11px 24px 11px 21px;
+    border-bottom:2px solid transparent;
     font-family:inherit;
-    font-size:13px;
-    font-weight:400;
-    line-height:1.35;
-    color:var(--muted);
-    cursor:pointer;
-    transition:color .15s ease, background .15s ease;
-  }
-  .nav-item:hover{color:#fff;background:rgba(255,255,255,.03);}
-  .nav-item .dot{
-    flex:0 0 auto;
-    width:9px;height:9px;
-    border-radius:50%;
-    margin-top:4px;
-    background:var(--c);
-  }
-  .nav-item.active{
-    color:#fff;
     font-weight:500;
-    background:rgba(255,255,255,.04);
-    border-left-color:var(--active);
+    font-size:12px;
+    color:rgba(255,255,255,0.55);
+    cursor:pointer;
+    transition:color .15s ease;
+  }
+  .nav-link:hover{color:#fff;}
+  .nav-link.active{
+    color:#fff;
+    border-bottom-color:var(--green);
+  }
+  .nav-link.muted,
+  .nav-link.muted:hover{
+    color:rgba(255,255,255,0.3);
+    cursor:default;
   }
 
-  /* ---------- CONTENT PANEL ---------- */
-  .content{
-    margin-left:260px;
-    flex:1;
-    height:100vh;
-    overflow-y:auto;
-    position:relative;
-    background:var(--page);
-  }
-
-  .progress{
-    position:sticky;
-    top:0;
-    left:0;
-    height:4px;
-    width:100%;
-    background:rgba(0,0,0,.08);
-    z-index:10;
-  }
-  .progress-fill{
-    height:100%;
-    width:0;
-    background:var(--active);
-    transition:width .35s ease, background .35s ease;
-  }
-
-  .content-inner{padding:48px;}
-
-  /* ---------- CHAPTER (content column constrained + centered) ---------- */
-  .chapter{
+  /* Hamburger (mobile only) */
+  .burger{
     display:none;
-    max-width:780px;
-    margin:0 auto;
+    margin-left:auto;
+    width:40px;height:40px;
+    background:none;border:none;
+    cursor:pointer;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
   }
-  .chapter.visible{display:block;}
+  .burger span{
+    display:block;
+    width:18px;height:2px;
+    background:#fff;
+  }
 
-  /* ---------- CHAPTER HEADER BANNER (light-mode invert) ---------- */
-  .chapter-head{
+  /* ---------- CHAPTERS DROPDOWN ---------- */
+  .chapters-panel{
+    display:none;
+    position:absolute;
+    top:56px;left:0;
+    width:100%;
+    background:#0d0f18;
+    padding:2px;
+    z-index:999;
+    grid-template-columns:repeat(3,1fr);
+    grid-auto-rows:72px;
+    gap:2px;
+  }
+  .chapters-panel.open{display:grid;}
+
+  .tile{
     position:relative;
     overflow:hidden;
-    background:var(--c);
-    border-radius:10px;
-    padding:30px 32px 34px;
-    margin-bottom:26px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:14px 16px;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    transition:filter .15s ease;
   }
-  .ghost-num{
-    position:absolute;
-    top:50%;
-    right:22px;
-    transform:translateY(-50%);
-    font-size:170px;
-    font-weight:700;
-    line-height:1;
+  .tile:hover{filter:brightness(1.15);}
+  .tile-title{
+    position:relative;
+    z-index:1;
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    font-size:11px;
+    line-height:1.3;
     color:#fff;
-    opacity:.12;
+    max-width:72%;
+  }
+  .tile-ghost{
+    position:absolute;
+    right:10px;bottom:4px;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:40px;
+    line-height:1;
+    color:rgba(255,255,255,0.15);
+    z-index:0;
+    pointer-events:none;
+  }
+
+  /* ============================================================
+     CHAPTER (one visible at a time)
+     ============================================================ */
+  .chapter{display:none;}
+  .chapter.visible{display:block;}
+
+  /* ---------- HERO BANNER ---------- */
+  .hero{
+    position:relative;
+    width:100%;
+    height:240px;
+    overflow:hidden;
+    background:var(--c);
+  }
+  .hero-ghost{
+    position:absolute;
+    right:24px;bottom:-10px;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:220px;
+    line-height:1;
+    color:rgba(255,255,255,0.07);
     user-select:none;
     pointer-events:none;
-    z-index:0;
   }
-  .chapter-head-inner{position:relative;z-index:1;}
-  .chapter-tab{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:12px;
+  .hero-content{
+    position:absolute;
+    left:0;bottom:0;
+    padding:0 32px 28px;
   }
-  .chapter-kicker{
-    font-size:11px;
+  .hero-label{
     font-weight:600;
-    letter-spacing:1.5px;
+    font-size:10px;
     text-transform:uppercase;
-    color:#fff;
+    letter-spacing:0.14em;
+    color:rgba(255,255,255,0.5);
+    margin-bottom:6px;
   }
-  .chapter-tab .readtime{
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:.6px;
-    text-transform:uppercase;
-    color:rgba(255,255,255,.82);
-  }
-  .chapter-title{
-    font-size:32px;
+  .hero-title{
     font-weight:700;
+    font-size:28px;
+    line-height:1.1;
     color:#fff;
-    line-height:1.15;
+  }
+
+  /* ---------- SECTION ANCHOR NAV ---------- */
+  .section-nav{
+    position:sticky;
+    top:56px;
+    z-index:50;
+    width:100%;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    display:flex;
+  }
+  .sec-pill{
+    position:relative;
+    flex:1;
+    background:none;
+    border:none;
+    border-right:0.5px solid var(--line);
+    border-bottom:2px solid transparent;
+    padding:12px 4px;
+    font-family:inherit;
+    font-weight:600;
+    font-size:11px;
+    color:#999;
+    text-align:center;
+    cursor:pointer;
+    transition:color .12s ease;
+  }
+  .section-nav .sec-pill:last-child{border-right:none;}
+  .sec-pill:hover{color:var(--c);}
+  .sec-pill.active{
+    color:var(--c);
+    border-bottom-color:var(--c);
+  }
+
+  /* Tooltip */
+  .sec-tip{
+    position:absolute;
+    top:calc(100% + 8px);
+    background:var(--navy);
+    color:#fff;
+    font-family:inherit;
+    font-weight:400;
+    font-size:11px;
+    line-height:1.3;
+    padding:6px 10px;
+    white-space:nowrap;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .12s ease;
+    z-index:60;
+  }
+  .sec-pill:hover .sec-tip{opacity:1;}
+  .sec-tip::after{
+    content:"";
+    position:absolute;
+    bottom:100%;
+    border:5px solid transparent;
+    border-bottom-color:var(--navy);
+  }
+  .sec-tip.tip-center{left:50%;transform:translateX(-50%);}
+  .sec-tip.tip-center::after{left:50%;transform:translateX(-50%);}
+  .sec-tip.tip-left{left:8px;}
+  .sec-tip.tip-left::after{left:14px;}
+  .sec-tip.tip-right{right:8px;}
+  .sec-tip.tip-right::after{right:14px;}
+
+  /* ============================================================
+     CONTENT AREA
+     ============================================================ */
+  .content-area{
+    max-width:780px;
+    margin:0 auto;
+    padding:48px 32px;
   }
 
   /* ---------- STATS WIDGET (Chapter 1 only) ---------- */
   .stats-card{
     background:#1A1A2E;
-    border-radius:8px;
     padding:16px 24px;
     display:flex;
     align-items:center;
@@ -252,47 +332,41 @@
     align-items:center;
     gap:14px;
     margin:38px 0 14px;
-    font-size:18px;
+    font-family:'Poppins',sans-serif;
     font-weight:700;
-    color:var(--c);
+    font-size:16px;
     line-height:1.3;
+    color:var(--c);
+    scroll-margin-top:104px;
   }
   .chapter-content .sec-h .sec-num{
     flex:0 0 auto;
     background:var(--c);
     color:#fff;
     font-weight:700;
-    font-size:13px;
-    padding:3px 10px;
-    border-radius:4px;
+    font-size:11px;
+    padding:2px 8px;
     line-height:1.4;
     white-space:nowrap;
   }
 
   .chapter-content .sub-h{
-    font-size:15px;
     font-weight:600;
-    color:var(--ink);
+    font-size:14px;
+    color:#1A1A1A;
     margin:24px 0 8px;
   }
 
   .chapter-content p{
-    font-size:15px;
     font-weight:400;
+    font-size:15px;
     line-height:1.85;
-    color:var(--body);
+    color:#3D3D3D;
     margin:0 0 16px;
   }
-  /* First paragraph immediately after a section heading is bold. */
-  .chapter-content .sec-h + p{
-    font-weight:700;
-    color:var(--ink);
-  }
+  .chapter-content .sec-h + p{font-weight:700;color:#1A1A1A;}
 
-  .chapter-content a{
-    color:var(--c);
-    text-decoration:none;
-  }
+  .chapter-content a{color:var(--c);text-decoration:none;}
   .chapter-content a:hover{text-decoration:underline;}
 
   .chapter-content ul{
@@ -303,79 +377,86 @@
     position:relative;
     padding-left:22px;
     margin-bottom:10px;
-    font-size:15px;
     font-weight:700;
+    font-size:15px;
     line-height:1.8;
-    color:var(--ink);
+    color:#1A1A1A;
   }
   .chapter-content ul li::before{
     content:"";
     position:absolute;
-    left:0;
-    top:10px;
+    left:0;top:9px;
     width:8px;height:8px;
-    border-radius:50%;
     background:var(--c);
   }
 
-  .doc-figure {
-    margin: 24px 0;
-    max-width: 100%;
-    overflow: hidden;
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    border-left:3px solid var(--c);
+    background:color-mix(in srgb, var(--c) 6%, #fff);
+    padding:12px 16px;
+    margin:24px 0;
+    font-weight:500;
+    font-size:14px;
+    font-style:italic;
+    color:#1A1A1A;
   }
-  .doc-figure img {
-    display: block;
-    max-width: 100%;
-    width: 100%;
-    height: auto;
+  .callout p{
+    margin:0;
+    font-weight:500;
+    font-size:14px;
+    font-style:italic;
+    color:#1A1A1A;
+    line-height:1.7;
   }
-  .doc-figure figcaption { font-size: 12px; color: #777; font-style: italic; margin-top: 8px; line-height: 1.5; }
+
+  /* ---------- FIGURES ---------- */
+  .doc-figure{margin:24px 0;}
+  .doc-figure img{
+    display:block;
+    max-width:100%;
+    width:100%;
+    height:auto;
+  }
+  .doc-figure figcaption{
+    font-weight:400;
+    font-size:12px;
+    font-style:italic;
+    color:#888;
+    margin-top:8px;
+    line-height:1.5;
+  }
 
   .awaiting{
     font-style:italic;
-    color:var(--muted);
+    color:#999;
     font-size:14px;
   }
 
-  /* ---------- HAMBURGER (mobile) ---------- */
-  .hamburger{
-    display:none;
-    position:fixed;
-    top:14px;left:14px;
-    z-index:40;
-    width:42px;height:42px;
-    background:var(--sidebar);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:6px;
-    cursor:pointer;
-    padding:0;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:4px;
-  }
-  .hamburger span{
-    display:block;
-    width:18px;height:2px;
-    background:#fff;
-  }
-  .scrim{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-    z-index:25;
-  }
+  /* ============================================================
+     MOBILE  (< 768px)
+     ============================================================ */
+  @media (max-width:767px){
+    .nav-links{display:none;}
+    .burger{display:flex;}
 
-  @media (max-width:880px){
-    .hamburger{display:flex;}
-    .sidebar{transform:translateX(-100%);}
-    .sidebar.open{transform:translateX(0);}
-    .sidebar.open ~ .scrim{display:block;}
-    .content{margin-left:0;}
-    .content-inner{padding:72px 20px 48px;}
-    .ghost-num{font-size:120px;}
-    .chapter-title{font-size:26px;}
+    .chapters-panel{
+      position:fixed;
+      top:56px;left:0;
+      width:100%;
+      height:calc(100vh - 56px);
+      grid-template-columns:repeat(2,1fr);
+      grid-auto-rows:96px;
+      overflow-y:auto;
+    }
+
+    .hero-title{font-size:24px;}
+    .hero-ghost{font-size:170px;}
+
+    .section-nav{overflow-x:auto;}
+    .sec-pill{flex:0 0 auto;min-width:64px;}
+
+    .content-area{padding:36px 20px;}
     .stats-card{flex-direction:column;align-items:flex-start;gap:16px;}
     .stats-metrics{flex-wrap:wrap;gap:22px;}
   }
@@ -383,51 +464,33 @@
 </head>
 <body>
 
-  <!-- HAMBURGER -->
-  <button class="hamburger" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="brand">
-      <img src="../assets/logo.png" alt="Roofbuddy" class="brand-logo">
-    </div>
-
-    <div class="nav-section">Consultant Handbook</div>
-    <ul class="nav">
-      <li><button class="nav-item" data-target="ch1"  style="--c:#40BB6A"><span class="dot"></span>01 · Who we are and why we exist</button></li>
-      <li><button class="nav-item" data-target="ch2"  style="--c:#27963C"><span class="dot"></span>02 · The 5-5-8 framework</button></li>
-      <li><button class="nav-item" data-target="ch3"  style="--c:#2C6C76"><span class="dot"></span>03 · The 5 steps to the sale</button></li>
-      <li><button class="nav-item" data-target="ch4"  style="--c:#425D74"><span class="dot"></span>04 · The 5 impulses - Persuasion</button></li>
-      <li><button class="nav-item" data-target="ch5"  style="--c:#51ABE4"><span class="dot"></span>05 · The 8 steps to success - Personal development</button></li>
-      <li><button class="nav-item" data-target="ch6"  style="--c:#383960"><span class="dot"></span>06 · DISC personality profiling</button></li>
-      <li><button class="nav-item" data-target="ch7"  style="--c:#68386B"><span class="dot"></span>07 · Product knowledge</button></li>
-      <li><button class="nav-item" data-target="ch8"  style="--c:#EE255E"><span class="dot"></span>08 · Roofing domain knowledge</button></li>
-      <li><button class="nav-item" data-target="ch9"  style="--c:#7E2237"><span class="dot"></span>09 · Pipeline management and follow-up</button></li>
-      <li><button class="nav-item" data-target="ch10" style="--c:#D75936"><span class="dot"></span>10 · Technology and tools</button></li>
-      <li><button class="nav-item" data-target="ch11" style="--c:#D38B5E"><span class="dot"></span>11 · Time management and daily structure</button></li>
-      <li><button class="nav-item" data-target="ch12" style="--c:#D79E2D"><span class="dot"></span>12 · Learning outcomes and self-assessment</button></li>
-      <li><button class="nav-item" data-target="glossary" style="--c:#40BB6A"><span class="dot"></span>Glossary</button></li>
-    </ul>
-  </aside>
+  <!-- TOP NAV -->
+  <header class="topnav">
+    <img src="../assets/logo.png" alt="Roofbuddy" class="topnav-logo">
+    <nav class="nav-links">
+      <button class="nav-link" data-nav="chapters">Chapters</button>
+      <button class="nav-link" data-nav="glossary">Glossary</button>
+      <button class="nav-link muted" data-nav="pipeline">Pipeline</button>
+      <button class="nav-link muted" data-nav="team">Team</button>
+    </nav>
+    <button class="burger" aria-label="Open chapters" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="chapters-panel" id="chaptersPanel"></div>
+  </header>
 
   <!-- CONTENT -->
   <main class="content">
-    <div class="progress"><div class="progress-fill"></div></div>
-    <div class="content-inner">
 
-      <section class="chapter" id="ch1" data-index="1" style="--c:#40BB6A">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">01</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 1</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Who we are and why we exist</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch1" data-index="1" style="--c:#40BB6A">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">01</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 1</div>
+          <h1 class="hero-title">Who we are and why we exist</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <div class="stats-card">
             <img src="../assets/logo.png" alt="Roofbuddy" class="stats-logo">
@@ -450,7 +513,7 @@
 
           <h2 class="sec-h"><span class="sec-num">1.1</span>The founding premise.</h2>
           <p>Roofbuddy was founded in November 2021 in Auckland, New Zealand. The founding premise was straightforward: getting a good roofing quote in this country is harder than it should be. Homeowners ring around, wait for callbacks that don't come, receive quotes in formats that are impossible to compare, and eventually make a decision that's poorly informed because they have no independent reference point. They trust whoever showed up and sounded confident.</p>
-          <p>That's not a market. That's a gap.</p>
+          <div class="callout"><p>That's not a market. That's a gap.</p></div>
           <p>The gap was infrastructure. There was no trusted, technology-enabled intermediary in the New Zealand roofing market. No single point of contact who could aggregate demand, vet suppliers, manage the quote process end to end, and stand behind the outcome. Roofbuddy was built to fulfil that marketplace function and occupy that middle ground.</p>
           <p>The company's own summary of its position: "The greatest roofing, sales, tech, pricing aggregation company in New Zealand." That's not boasting. That's a category claim. There is no direct competitor doing what Roofbuddy does at this scale anywhere in the world.</p>
 
@@ -467,7 +530,7 @@
           <p>What that means in practice: they don't have to become a roofing expert to make a good decision. We do the expert work on their behalf.</p>
           <h3 class="sub-h">For roofers in the network</h3>
           <p>Roofers in the Roofbuddy network receive qualified leads. These are homeowners who have already expressed genuine intent and been screened and had their requirements fully specified. The roofer's cost to market drops. They don't waste time on information-gathering enquiries or price checking on time consuming quotes. They arrive at jobs where a real scope of work exists and a real decision is being made. They also benefit from network vetting: being part of the Roofbuddy marketplace signals to the market that they've been assessed and approved. That protects their reputation.</p>
-          <p>"We make roofing easy." That's the company tagline and it's the product from the client's perspective. Everything in your role as a consultant should serve that statement.</p>
+          <div class="callout"><p>"We make roofing easy." That's the company tagline and it's the product from the client's perspective. Everything in your role as a consultant should serve that statement.</p></div>
 
           <h2 class="sec-h"><span class="sec-num">1.4</span>The numbers behind the company.</h2>
           <p>The current state of the marketplace, drawn from the CRM dashboard:</p>
@@ -523,262 +586,340 @@
           <h2 class="sec-h"><span class="sec-num">1.9</span>Who this handbook is for.</h2>
           <p>This manual is for people who have chosen to build a sales career inside a company that rewards skill, attitude, and effort in roughly equal measure. It is not for people who want a script to read from. Scripts are tools inside a larger system. The system is what you need to understand.</p>
           <p>If you do the work in this manual, apply the framework consistently, and bring the attitude that the values section describes, you will close more deals than consultants who rely on charm or confidence alone. The framework is a multiplier on whatever natural ability you bring. The more you internalise it, the more it pays.</p>
-          <p>Read carefully. Practise relentlessly. This is not a one-time orientation document. Come back to it when you hit a wall. The answer to most sales problems is usually in here somewhere.</p>
+          <div class="callout"><p>Read carefully. Practise relentlessly. This is not a one-time orientation document. Come back to it when you hit a wall. The answer to most sales problems is usually in here somewhere.</p></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch2" data-index="2" style="--c:#27963C">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">02</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 2</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">The 5-5-8 framework</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch2" data-index="2" style="--c:#27963C">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">02</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 2</div>
+          <h1 class="hero-title">The 5-5-8 framework</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch3" data-index="3" style="--c:#2C6C76">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">03</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 3</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">The 5 steps to the sale</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch3" data-index="3" style="--c:#2C6C76">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">03</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 3</div>
+          <h1 class="hero-title">The 5 steps to the sale</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch4" data-index="4" style="--c:#425D74">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">04</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 4</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">The 5 impulses - Persuasion</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch4" data-index="4" style="--c:#425D74">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">04</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 4</div>
+          <h1 class="hero-title">The 5 impulses - Persuasion</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch5" data-index="5" style="--c:#51ABE4">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">05</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 5</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">The 8 steps to success - Personal development</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch5" data-index="5" style="--c:#51ABE4">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">05</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 5</div>
+          <h1 class="hero-title">The 8 steps to success - Personal development</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch6" data-index="6" style="--c:#383960">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">06</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 6</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">DISC personality profiling</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch6" data-index="6" style="--c:#383960">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">06</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 6</div>
+          <h1 class="hero-title">DISC personality profiling</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch7" data-index="7" style="--c:#68386B">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">07</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 7</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Product knowledge</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch7" data-index="7" style="--c:#68386B">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">07</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 7</div>
+          <h1 class="hero-title">Product knowledge</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch8" data-index="8" style="--c:#EE255E">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">08</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 8</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Roofing domain knowledge</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch8" data-index="8" style="--c:#EE255E">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">08</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 8</div>
+          <h1 class="hero-title">Roofing domain knowledge</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch9" data-index="9" style="--c:#7E2237">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">09</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 9</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Pipeline management and follow-up</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch9" data-index="9" style="--c:#7E2237">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">09</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 9</div>
+          <h1 class="hero-title">Pipeline management and follow-up</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch10" data-index="10" style="--c:#D75936">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">10</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 10</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Technology and tools</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch10" data-index="10" style="--c:#D75936">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">10</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 10</div>
+          <h1 class="hero-title">Technology and tools</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch11" data-index="11" style="--c:#D38B5E">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">11</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 11</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Time management and daily structure</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch11" data-index="11" style="--c:#D38B5E">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">11</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 11</div>
+          <h1 class="hero-title">Time management and daily structure</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="ch12" data-index="12" style="--c:#D79E2D">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">12</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">CHAPTER / 12</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Learning outcomes and self-assessment</h1>
-          </div>
-        </header>
+    <section class="chapter" id="ch12" data-index="12" style="--c:#D79E2D">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">12</span>
+        <div class="hero-content">
+          <div class="hero-label">Chapter 12</div>
+          <h1 class="hero-title">Learning outcomes and self-assessment</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="chapter" id="glossary" data-index="13" style="--c:#40BB6A">
-        <header class="chapter-head">
-          <span class="ghost-num" aria-hidden="true">G</span>
-          <div class="chapter-head-inner">
-            <div class="chapter-tab">
-              <span class="chapter-kicker">REFERENCE</span>
-              <span class="readtime">— min read</span>
-            </div>
-            <h1 class="chapter-title">Glossary</h1>
-          </div>
-        </header>
+    <section class="chapter" id="glossary" data-index="13" style="--c:#40BB6A">
+      <div class="hero">
+        <span class="hero-ghost" aria-hidden="true">G</span>
+        <div class="hero-content">
+          <div class="hero-label">Reference</div>
+          <h1 class="hero-title">Glossary</h1>
+        </div>
+      </div>
+      <div class="content-area">
         <div class="chapter-content">
           <p class="awaiting">Awaiting content from Tango.</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-    </div>
   </main>
-
-  <div class="scrim"></div>
 
 <script>
   (function(){
-    var navItems = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+    var topnav   = document.querySelector('.topnav');
+    var panel    = document.getElementById('chaptersPanel');
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+    var burger   = document.querySelector('.burger');
     var sections = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
-    var content  = document.querySelector('.content');
-    var bar      = document.querySelector('.progress-fill');
     var root     = document.documentElement;
-    var sidebar  = document.querySelector('.sidebar');
-    var TOTAL    = 12;
 
-    function colorOf(el){
-      return getComputedStyle(el).getPropertyValue('--c').trim();
+    function colorOf(el){ return getComputedStyle(el).getPropertyValue('--c').trim(); }
+
+    // ----------------------------------------------------------------
+    // Build the Chapters dropdown (12 chapter tiles, 3 x 4 grid).
+    // ----------------------------------------------------------------
+    sections.forEach(function(sec){
+      if(sec.id === 'glossary'){ return; }
+      var idx   = parseInt(sec.dataset.index, 10);
+      var title = sec.querySelector('.hero-title').textContent.trim();
+      var num   = (idx < 10 ? '0' : '') + idx;
+
+      var tile = document.createElement('button');
+      tile.className = 'tile';
+      tile.dataset.target = sec.id;
+      tile.style.background = colorOf(sec);
+      tile.innerHTML =
+        '<span class="tile-title">' + title + '</span>' +
+        '<span class="tile-ghost" aria-hidden="true">' + num + '</span>';
+      tile.addEventListener('click', function(){ activate(sec.id); closePanel(); });
+      panel.appendChild(tile);
+    });
+
+    // ----------------------------------------------------------------
+    // Build the section anchor nav + heading ids for each chapter.
+    // ----------------------------------------------------------------
+    sections.forEach(function(sec){
+      var secHs = Array.prototype.slice.call(sec.querySelectorAll('.sec-h'));
+      if(!secHs.length){ return; }
+
+      secHs.forEach(function(h){
+        var numEl = h.querySelector('.sec-num');
+        var num   = numEl ? numEl.textContent.trim() : '';
+        var title = h.textContent.replace(num, '').trim();
+        h.dataset.secNum   = num;
+        h.dataset.secTitle = title;
+        if(!h.id){ h.id = 'sec-' + num.replace(/[^\w]+/g, '-'); }
+      });
+
+      var nav = document.createElement('nav');
+      nav.className = 'section-nav';
+      secHs.forEach(function(h, i){
+        var btn = document.createElement('button');
+        btn.className = 'sec-pill';
+        btn.dataset.sec = h.id;
+
+        var tipClass = 'tip-center';
+        if(i === 0){ tipClass = 'tip-left'; }
+        else if(i === secHs.length - 1){ tipClass = 'tip-right'; }
+
+        btn.innerHTML = h.dataset.secNum +
+          '<span class="sec-tip ' + tipClass + '">' + h.dataset.secTitle + '</span>';
+        btn.addEventListener('click', function(){ scrollToSection(h.id); });
+        nav.appendChild(btn);
+      });
+
+      var hero = sec.querySelector('.hero');
+      hero.insertAdjacentElement('afterend', nav);
+    });
+
+    // ----------------------------------------------------------------
+    // Navigation
+    // ----------------------------------------------------------------
+    function setActiveSecPill(secId){
+      var el = document.getElementById(secId);
+      if(!el){ return; }
+      var sec = el.closest('.chapter');
+      if(!sec){ return; }
+      sec.querySelectorAll('.sec-pill').forEach(function(p){
+        p.classList.toggle('active', p.dataset.sec === secId);
+      });
+    }
+
+    function scrollToSection(secId){
+      var el = document.getElementById(secId);
+      if(!el){ return; }
+      var nav = el.closest('.chapter').querySelector('.section-nav');
+      var offset = 56 + (nav ? nav.offsetHeight : 0);
+      var y = el.getBoundingClientRect().top + window.pageYOffset - offset - 12;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
 
     function activate(target){
-      var item = navItems.filter(function(n){ return n.dataset.target === target; })[0];
-      var sec  = document.getElementById(target);
+      var sec = document.getElementById(target);
       if(!sec){ return; }
-
-      var color = colorOf(sec);
-      root.style.setProperty('--active', color);
-
-      navItems.forEach(function(n){ n.classList.toggle('active', n === item); });
+      root.style.setProperty('--active', colorOf(sec));
       sections.forEach(function(s){ s.classList.toggle('visible', s === sec); });
 
-      var idx = parseInt(sec.dataset.index, 10);
-      var pct = (sec.id === 'glossary') ? 100 : (idx / TOTAL) * 100;
-      bar.style.width = pct + '%';
+      navLinks.forEach(function(l){
+        if(l.dataset.nav === 'chapters'){ l.classList.toggle('active', target !== 'glossary'); }
+        else if(l.dataset.nav === 'glossary'){ l.classList.toggle('active', target === 'glossary'); }
+      });
 
-      content.scrollTo({ top: 0, behavior: 'smooth' });
-      sidebar.classList.remove('open');
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
-    navItems.forEach(function(n){
-      n.addEventListener('click', function(){ activate(n.dataset.target); });
+    function openPanel(){
+      panel.classList.add('open');
+      burger.setAttribute('aria-expanded','true');
+    }
+    function closePanel(){
+      panel.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+    }
+    function togglePanel(){
+      if(panel.classList.contains('open')){ closePanel(); } else { openPanel(); }
+    }
+
+    navLinks.forEach(function(l){
+      l.addEventListener('click', function(e){
+        e.stopPropagation();
+        var which = l.dataset.nav;
+        if(which === 'chapters'){ togglePanel(); }
+        else if(which === 'glossary'){ closePanel(); activate('glossary'); }
+        // pipeline / team are muted — no action.
+      });
     });
 
-    // Auto-calculate read time from actual content (200 wpm).
-    sections.forEach(function(s){
-      var body = s.querySelector('.chapter-content');
-      var rt   = s.querySelector('.readtime');
-      if(!body || !rt){ return; }
-      var matches = body.textContent.trim().match(/\S+/g);
-      var words = matches ? matches.length : 0;
-      var hasReal = !body.querySelector('.awaiting') && words > 0;
-      rt.textContent = hasReal ? (Math.max(1, Math.round(words / 200)) + ' min read') : '— min read';
+    burger.addEventListener('click', function(e){ e.stopPropagation(); togglePanel(); });
+
+    // Close dropdown on click outside.
+    document.addEventListener('click', function(e){
+      if(panel.classList.contains('open') && !topnav.contains(e.target)){ closePanel(); }
     });
 
-    // Mobile menu
-    var hamburger = document.querySelector('.hamburger');
-    var scrim = document.querySelector('.scrim');
-    hamburger.addEventListener('click', function(){ sidebar.classList.toggle('open'); });
-    scrim.addEventListener('click', function(){ sidebar.classList.remove('open'); });
+    // ----------------------------------------------------------------
+    // Active-section tracking (intersection observer).
+    // ----------------------------------------------------------------
+    var allSecHs = Array.prototype.slice.call(document.querySelectorAll('.sec-h'));
+    if('IntersectionObserver' in window && allSecHs.length){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ setActiveSecPill(en.target.id); }
+        });
+      }, { rootMargin: '-110px 0px -65% 0px', threshold: 0 });
+      allSecHs.forEach(function(h){ io.observe(h); });
+    }
 
-    // Initial state
+    // Initial state.
     activate('ch1');
   })();
 </script>
