@@ -18,8 +18,8 @@
     Bullet list     : <ul><li>...</li></ul>
   NOTE: the first <p> immediately after each .sec-h auto-bolds; subsequent
         paragraphs are regular. Section anchor nav, heading ids, dropdown
-        tiles and tooltips are all built at runtime from each chapter's
-        .sec-h elements, so chapter content markup is never modified.
+        tiles and tooltips are built at runtime from each chapter's .sec-h
+        elements, so chapter body markup is never modified.
   Remove the <p class="awaiting"> note from a chapter once its content is added.
   ============================================================================
 -->
@@ -44,7 +44,7 @@
     font-family:'Poppins',sans-serif;
     background:var(--page);
     color:#1A1A1A;
-    padding-top:56px;
+    padding-top:64px;
     -webkit-font-smoothing:antialiased;
   }
 
@@ -55,15 +55,20 @@
     position:fixed;
     top:0;left:0;
     width:100%;
-    height:56px;
+    height:64px;
     background:var(--navy);
     z-index:1000;
+  }
+  .topnav-inner{
+    max-width:780px;
+    margin:0 auto;
+    padding:0 32px;
+    height:100%;
     display:flex;
     align-items:center;
-    padding:0 24px;
   }
   .topnav-logo{
-    height:28px;
+    height:32px;
     width:auto;
     display:block;
     margin-right:32px;
@@ -85,6 +90,7 @@
     font-family:inherit;
     font-weight:500;
     font-size:12px;
+    letter-spacing:0;
     color:rgba(255,255,255,0.55);
     cursor:pointer;
     transition:color .15s ease;
@@ -96,7 +102,7 @@
   }
   .nav-link.muted,
   .nav-link.muted:hover{
-    color:rgba(255,255,255,0.3);
+    color:rgba(255,255,255,0.25);
     cursor:default;
   }
 
@@ -112,23 +118,19 @@
     justify-content:center;
     gap:4px;
   }
-  .burger span{
-    display:block;
-    width:18px;height:2px;
-    background:#fff;
-  }
+  .burger span{display:block;width:18px;height:2px;background:#fff;}
 
   /* ---------- CHAPTERS DROPDOWN ---------- */
   .chapters-panel{
     display:none;
     position:absolute;
-    top:56px;left:0;
+    top:64px;left:0;
     width:100%;
     background:#0d0f18;
     padding:2px;
     z-index:999;
     grid-template-columns:repeat(3,1fr);
-    grid-auto-rows:72px;
+    grid-auto-rows:minmax(72px,auto);
     gap:2px;
   }
   .chapters-panel.open{display:grid;}
@@ -136,6 +138,7 @@
   .tile{
     position:relative;
     overflow:hidden;
+    min-height:72px;
     display:flex;
     flex-direction:column;
     justify-content:flex-end;
@@ -154,7 +157,7 @@
     font-size:11px;
     line-height:1.3;
     color:#fff;
-    max-width:72%;
+    max-width:85%;
   }
   .tile-ghost{
     position:absolute;
@@ -181,40 +184,60 @@
     overflow:hidden;
     background:var(--c);
   }
+  .hero-img{
+    position:absolute;
+    inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    object-position:center;
+  }
+  .hero-tint{
+    position:absolute;
+    inset:0;
+    background:var(--c);
+    opacity:0.72;
+  }
   .hero-ghost{
     position:absolute;
-    right:24px;bottom:-10px;
+    right:0;bottom:-16px;
     font-family:'Bebas Neue',sans-serif;
     font-size:220px;
     line-height:1;
-    color:rgba(255,255,255,0.07);
+    color:#fff;
+    mix-blend-mode:screen;
+    opacity:0.18;
     user-select:none;
     pointer-events:none;
   }
-  .hero-content{
-    position:absolute;
-    left:0;bottom:0;
+  .hero-inner{
+    position:relative;
+    max-width:780px;
+    margin:0 auto;
     padding:0 32px 28px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
   }
   .hero-label{
     font-weight:600;
     font-size:10px;
     text-transform:uppercase;
     letter-spacing:0.14em;
-    color:rgba(255,255,255,0.5);
-    margin-bottom:6px;
+    color:rgba(255,255,255,0.6);
+    margin-bottom:8px;
   }
   .hero-title{
     font-weight:700;
     font-size:28px;
-    line-height:1.1;
+    line-height:1.15;
     color:#fff;
   }
 
   /* ---------- SECTION ANCHOR NAV ---------- */
   .section-nav{
     position:sticky;
-    top:56px;
+    top:64px;
     z-index:50;
     width:100%;
     background:#fff;
@@ -247,7 +270,7 @@
   /* Tooltip */
   .sec-tip{
     position:absolute;
-    top:calc(100% + 8px);
+    top:calc(100% + 9px);
     background:var(--navy);
     color:#fff;
     font-family:inherit;
@@ -262,12 +285,13 @@
     z-index:60;
   }
   .sec-pill:hover .sec-tip{opacity:1;}
+  /* Arrow pointing down (::after) sitting above the tooltip box. */
   .sec-tip::after{
     content:"";
     position:absolute;
     bottom:100%;
     border:5px solid transparent;
-    border-bottom-color:var(--navy);
+    border-top-color:var(--navy);
   }
   .sec-tip.tip-center{left:50%;transform:translateX(-50%);}
   .sec-tip.tip-center::after{left:50%;transform:translateX(-50%);}
@@ -282,7 +306,7 @@
   .content-area{
     max-width:780px;
     margin:0 auto;
-    padding:48px 32px;
+    padding:56px 32px 40px;
   }
 
   /* ---------- STATS WIDGET (Chapter 1 only) ---------- */
@@ -294,34 +318,12 @@
     gap:28px;
     margin-bottom:8px;
   }
-  .stats-logo{
-    width:120px;
-    height:auto;
-    flex:0 0 auto;
-  }
-  .stats-metrics{
-    display:flex;
-    gap:40px;
-    flex:1;
-  }
-  .stat-num{
-    color:#fff;
-    font-size:22px;
-    font-weight:700;
-    line-height:1.2;
-  }
-  .stat-label{
-    color:#8892A4;
-    font-size:12px;
-    font-weight:400;
-    margin-top:3px;
-  }
+  .stats-logo{width:120px;height:auto;flex:0 0 auto;}
+  .stats-metrics{display:flex;gap:40px;flex:1;}
+  .stat-num{color:#fff;font-size:22px;font-weight:700;line-height:1.2;}
+  .stat-label{color:#8892A4;font-size:12px;font-weight:400;margin-top:3px;}
   .chapter-content .stats-caption{
-    color:#8892A4;
-    font-size:12px;
-    font-style:italic;
-    font-weight:400;
-    margin:0 0 28px;
+    color:#8892A4;font-size:12px;font-style:italic;font-weight:400;margin:0 0 28px;
   }
 
   /* ---------- CONTENT TYPOGRAPHY ---------- */
@@ -330,14 +332,14 @@
   .chapter-content .sec-h{
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:10px;
     margin:38px 0 14px;
     font-family:'Poppins',sans-serif;
     font-weight:700;
     font-size:16px;
     line-height:1.3;
     color:var(--c);
-    scroll-margin-top:104px;
+    scroll-margin-top:118px;
   }
   .chapter-content .sec-h .sec-num{
     flex:0 0 auto;
@@ -369,10 +371,7 @@
   .chapter-content a{color:var(--c);text-decoration:none;}
   .chapter-content a:hover{text-decoration:underline;}
 
-  .chapter-content ul{
-    list-style:none;
-    margin:0 0 18px;
-  }
+  .chapter-content ul{list-style:none;margin:0 0 18px;}
   .chapter-content ul li{
     position:relative;
     padding-left:22px;
@@ -418,20 +417,8 @@
     width:100%;
     height:auto;
   }
-  .doc-figure figcaption{
-    font-weight:400;
-    font-size:12px;
-    font-style:italic;
-    color:#888;
-    margin-top:8px;
-    line-height:1.5;
-  }
 
-  .awaiting{
-    font-style:italic;
-    color:#999;
-    font-size:14px;
-  }
+  .awaiting{font-style:italic;color:#999;font-size:14px;}
 
   /* ============================================================
      MOBILE  (< 768px)
@@ -442,9 +429,9 @@
 
     .chapters-panel{
       position:fixed;
-      top:56px;left:0;
+      top:64px;left:0;
       width:100%;
-      height:calc(100vh - 56px);
+      height:calc(100vh - 64px);
       grid-template-columns:repeat(2,1fr);
       grid-auto-rows:96px;
       overflow-y:auto;
@@ -453,10 +440,10 @@
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
 
-    .section-nav{overflow-x:auto;}
+    .section-nav{overflow-x:auto;flex-wrap:nowrap;}
     .sec-pill{flex:0 0 auto;min-width:64px;}
 
-    .content-area{padding:36px 20px;}
+    .content-area{padding:44px 20px 36px;}
     .stats-card{flex-direction:column;align-items:flex-start;gap:16px;}
     .stats-metrics{flex-wrap:wrap;gap:22px;}
   }
@@ -466,16 +453,18 @@
 
   <!-- TOP NAV -->
   <header class="topnav">
-    <img src="../assets/logo.png" alt="Roofbuddy" class="topnav-logo">
-    <nav class="nav-links">
-      <button class="nav-link" data-nav="chapters">Chapters</button>
-      <button class="nav-link" data-nav="glossary">Glossary</button>
-      <button class="nav-link muted" data-nav="pipeline">Pipeline</button>
-      <button class="nav-link muted" data-nav="team">Team</button>
-    </nav>
-    <button class="burger" aria-label="Open chapters" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="topnav-inner">
+      <img src="../assets/logo.png" alt="Roofbuddy" class="topnav-logo">
+      <nav class="nav-links">
+        <button class="nav-link" data-nav="chapters">Chapters</button>
+        <button class="nav-link" data-nav="glossary">Glossary</button>
+        <button class="nav-link muted" data-nav="pipeline">Pipeline</button>
+        <button class="nav-link muted" data-nav="team">Team</button>
+      </nav>
+      <button class="burger" aria-label="Open chapters" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
     <div class="chapters-panel" id="chaptersPanel"></div>
   </header>
 
@@ -484,8 +473,10 @@
 
     <section class="chapter" id="ch1" data-index="1" style="--c:#40BB6A">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">01</span>
-        <div class="hero-content">
+        <img class="hero-img" src="../assets/ch1/Chapter01_header_image.jpg" alt="">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">01</span>
           <div class="hero-label">Chapter 1</div>
           <h1 class="hero-title">Who we are and why we exist</h1>
         </div>
@@ -545,15 +536,13 @@
           <h2 class="sec-h"><span class="sec-num">1.5</span>Recognition.</h2>
           <p>The market has noticed what Roofbuddy has built. In 2024, Roofbuddy won three awards at the 2degrees Auckland Business Awards, powered by Auckland Business Chamber: Excellence in Innovation award, Supreme Business Excellence award, and Best of the Best, Excellence in Innovation award.</p>
           <figure class="doc-figure">
-            <img src="../assets/ch1/ch1_awards.png" alt="2024 Auckland Business Awards">
-            <figcaption>2024 Winner — Excellence in Innovation award. 2024 Winner — Supreme Business Excellence award. 2024 Winner — Best of the Best, Excellence in Innovation award.</figcaption>
+            <img src="../assets/ch1/ch1_awards_white.jpg" alt="2024 Auckland Business Awards">
           </figure>
           <p>In 2025, Roofbuddy was a Finalist in the NZ Hi-Tech Awards.</p>
           <p>These awards matter because they come from external evaluators with no stake in the company's success. They reflect what the judges found when they examined the business: a genuine innovation in a traditional industry, executed at a level that competes with the best businesses in Auckland.</p>
           <p>Google Business Profile, current snapshot: 4.7 stars across 433 Google reviews. Real homeowner reviews are part of the credibility infrastructure. When a client questions whether Roofbuddy is legitimate, the review base is a fast, public proof point. Refer them to it.</p>
           <figure class="doc-figure">
             <img src="../assets/ch1/ch1_google_profile.jpg" alt="Google Business Profile snapshot">
-            <figcaption>Google Business Profile, current snapshot — 4.7 stars across 433 Google reviews.</figcaption>
           </figure>
 
           <h2 class="sec-h"><span class="sec-num">1.6</span>The vision: Where we are going.</h2>
@@ -575,7 +564,6 @@
           <p>On day one you will not know who does what or who to talk to about what. The org chart below shows the structure of the group across all three companies — Roofbuddy, Guardian Seal, and Guardian Steel — and where you sit in it.</p>
           <figure class="doc-figure">
             <img src="../assets/ch1/ch1_org_chart.png" alt="Roofbuddy Group org chart">
-            <figcaption>Roofbuddy Group org chart (current). Senior leadership at the top, followed by the function leads for technology, sales, customer experience, operations, and the two subsidiary business units.</figcaption>
           </figure>
           <p>The board of directors is: James Logan (Director/CEO), Michael Haskell (Executive Director/Business Development) and McGregor Fea (Director).</p>
           <p>The senior leadership team is: Igi Manaloto runs technology as CTO, Finn Delaney leads the sales team you will be joining, Chris Kinnell is CXO, Jenna Glen is COO, and the two subsidiary business unit managers are Candice Deutschmann (Guardian Seal) and Daniel Deutschmann (Guardian Steel).</p>
@@ -593,8 +581,9 @@
 
     <section class="chapter" id="ch2" data-index="2" style="--c:#27963C">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">02</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">02</span>
           <div class="hero-label">Chapter 2</div>
           <h1 class="hero-title">The 5-5-8 framework</h1>
         </div>
@@ -608,8 +597,9 @@
 
     <section class="chapter" id="ch3" data-index="3" style="--c:#2C6C76">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">03</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">03</span>
           <div class="hero-label">Chapter 3</div>
           <h1 class="hero-title">The 5 steps to the sale</h1>
         </div>
@@ -623,8 +613,9 @@
 
     <section class="chapter" id="ch4" data-index="4" style="--c:#425D74">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">04</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">04</span>
           <div class="hero-label">Chapter 4</div>
           <h1 class="hero-title">The 5 impulses - Persuasion</h1>
         </div>
@@ -638,8 +629,9 @@
 
     <section class="chapter" id="ch5" data-index="5" style="--c:#51ABE4">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">05</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">05</span>
           <div class="hero-label">Chapter 5</div>
           <h1 class="hero-title">The 8 steps to success - Personal development</h1>
         </div>
@@ -653,8 +645,9 @@
 
     <section class="chapter" id="ch6" data-index="6" style="--c:#383960">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">06</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">06</span>
           <div class="hero-label">Chapter 6</div>
           <h1 class="hero-title">DISC personality profiling</h1>
         </div>
@@ -668,8 +661,9 @@
 
     <section class="chapter" id="ch7" data-index="7" style="--c:#68386B">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">07</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">07</span>
           <div class="hero-label">Chapter 7</div>
           <h1 class="hero-title">Product knowledge</h1>
         </div>
@@ -683,8 +677,9 @@
 
     <section class="chapter" id="ch8" data-index="8" style="--c:#EE255E">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">08</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">08</span>
           <div class="hero-label">Chapter 8</div>
           <h1 class="hero-title">Roofing domain knowledge</h1>
         </div>
@@ -698,8 +693,9 @@
 
     <section class="chapter" id="ch9" data-index="9" style="--c:#7E2237">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">09</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">09</span>
           <div class="hero-label">Chapter 9</div>
           <h1 class="hero-title">Pipeline management and follow-up</h1>
         </div>
@@ -713,8 +709,9 @@
 
     <section class="chapter" id="ch10" data-index="10" style="--c:#D75936">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">10</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">10</span>
           <div class="hero-label">Chapter 10</div>
           <h1 class="hero-title">Technology and tools</h1>
         </div>
@@ -728,8 +725,9 @@
 
     <section class="chapter" id="ch11" data-index="11" style="--c:#D38B5E">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">11</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">11</span>
           <div class="hero-label">Chapter 11</div>
           <h1 class="hero-title">Time management and daily structure</h1>
         </div>
@@ -743,8 +741,9 @@
 
     <section class="chapter" id="ch12" data-index="12" style="--c:#D79E2D">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">12</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">12</span>
           <div class="hero-label">Chapter 12</div>
           <h1 class="hero-title">Learning outcomes and self-assessment</h1>
         </div>
@@ -758,8 +757,9 @@
 
     <section class="chapter" id="glossary" data-index="13" style="--c:#40BB6A">
       <div class="hero">
-        <span class="hero-ghost" aria-hidden="true">G</span>
-        <div class="hero-content">
+        <div class="hero-tint"></div>
+        <div class="hero-inner">
+          <span class="hero-ghost" aria-hidden="true">G</span>
           <div class="hero-label">Reference</div>
           <h1 class="hero-title">Glossary</h1>
         </div>
@@ -858,7 +858,7 @@
       var el = document.getElementById(secId);
       if(!el){ return; }
       var nav = el.closest('.chapter').querySelector('.section-nav');
-      var offset = 56 + (nav ? nav.offsetHeight : 0);
+      var offset = 64 + (nav ? nav.offsetHeight : 0);
       var y = el.getBoundingClientRect().top + window.pageYOffset - offset - 12;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
@@ -877,17 +877,9 @@
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
-    function openPanel(){
-      panel.classList.add('open');
-      burger.setAttribute('aria-expanded','true');
-    }
-    function closePanel(){
-      panel.classList.remove('open');
-      burger.setAttribute('aria-expanded','false');
-    }
-    function togglePanel(){
-      if(panel.classList.contains('open')){ closePanel(); } else { openPanel(); }
-    }
+    function openPanel(){ panel.classList.add('open'); burger.setAttribute('aria-expanded','true'); }
+    function closePanel(){ panel.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+    function togglePanel(){ if(panel.classList.contains('open')){ closePanel(); } else { openPanel(); } }
 
     navLinks.forEach(function(l){
       l.addEventListener('click', function(e){
@@ -915,7 +907,7 @@
         entries.forEach(function(en){
           if(en.isIntersecting){ setActiveSecPill(en.target.id); }
         });
-      }, { rootMargin: '-110px 0px -65% 0px', threshold: 0 });
+      }, { rootMargin: '-120px 0px -65% 0px', threshold: 0 });
       allSecHs.forEach(function(h){ io.observe(h); });
     }
 
