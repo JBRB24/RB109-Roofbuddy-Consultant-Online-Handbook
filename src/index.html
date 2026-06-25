@@ -197,6 +197,19 @@
     background:var(--c);
     opacity:0.72;
   }
+  /* Chapter 1 hero contrast stack (over the header image) */
+  #ch1 .hero-img{filter:contrast(1.2) saturate(1.3);}
+  #ch1 .hero-layer-dark{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+  }
+  #ch1 .hero-layer-green{
+    position:absolute;
+    inset:0;
+    background:rgba(20,140,50,0.72);
+    mix-blend-mode:multiply;
+  }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -417,6 +430,14 @@
     width:100%;
     height:auto;
   }
+  .doc-figure figcaption{
+    font-weight:400;
+    font-size:12px;
+    color:#888888;
+    font-style:italic;
+    margin-top:8px;
+    line-height:1.5;
+  }
 
   .awaiting{font-style:italic;color:#999;font-size:14px;}
 
@@ -519,7 +540,8 @@
     <section class="chapter" id="ch1" data-index="1" style="--c:#40BB6A">
       <div class="hero">
         <img class="hero-img" src="../assets/ch1/Chapter01_header_image.jpg" alt="">
-        <div class="hero-tint"></div>
+        <div class="hero-layer-dark"></div>
+        <div class="hero-layer-green"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">01</span>
           <div class="hero-label">Chapter 1</div>
@@ -582,12 +604,14 @@
           <p>The market has noticed what Roofbuddy has built. In 2024, Roofbuddy won three awards at the 2degrees Auckland Business Awards, powered by Auckland Business Chamber: Excellence in Innovation award, Supreme Business Excellence award, and Best of the Best, Excellence in Innovation award.</p>
           <figure class="doc-figure">
             <img src="../assets/ch1/ch1_awards.png" alt="2024 Auckland Business Awards">
+            <figcaption>2024 Winner — Excellence in Innovation award. 2024 Winner — Supreme Business Excellence award. 2024 Winner — Best of the Best, Excellence in Innovation award.</figcaption>
           </figure>
           <p>In 2025, Roofbuddy was a Finalist in the NZ Hi-Tech Awards.</p>
           <p>These awards matter because they come from external evaluators with no stake in the company's success. They reflect what the judges found when they examined the business: a genuine innovation in a traditional industry, executed at a level that competes with the best businesses in Auckland.</p>
           <p>Google Business Profile, current snapshot: 4.7 stars across 433 Google reviews. Real homeowner reviews are part of the credibility infrastructure. When a client questions whether Roofbuddy is legitimate, the review base is a fast, public proof point. Refer them to it.</p>
           <figure class="doc-figure">
             <img src="../assets/ch1/ch1_google_profile.jpg" alt="Google Business Profile snapshot">
+            <figcaption>Google Business Profile, current snapshot — 4.7 stars across 433 Google reviews.</figcaption>
           </figure>
 
           <h2 class="sec-h"><span class="sec-num">1.6</span>The vision: Where we are going.</h2>
@@ -609,6 +633,7 @@
           <p>On day one you will not know who does what or who to talk to about what. The org chart below shows the structure of the group across all three companies — Roofbuddy, Guardian Seal, and Guardian Steel — and where you sit in it.</p>
           <figure class="doc-figure">
             <img src="../assets/ch1/ch1_org_chart.png" alt="Roofbuddy Group org chart">
+            <figcaption>Roofbuddy Group org chart (current). Senior leadership at the top, followed by the function leads for technology, sales, customer experience, operations, and the two subsidiary business units.</figcaption>
           </figure>
           <p>The board of directors is: James Logan (Director/CEO), Michael Haskell (Executive Director/Business Development) and McGregor Fea (Director).</p>
           <p>The senior leadership team is: Igi Manaloto runs technology as CTO, Finn Delaney leads the sales team you will be joining, Chris Kinnell is CXO, Jenna Glen is COO, and the two subsidiary business unit managers are Candice Deutschmann (Guardian Seal) and Daniel Deutschmann (Guardian Steel).</p>
