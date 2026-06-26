@@ -483,6 +483,27 @@
   }
 
   /* ============================================================
+     WELCOME SECTION
+     ============================================================ */
+  .welcome-section { width: 100%; display: none; }
+  .welcome-section.visible { display: block; }
+  .welcome-hero { position: relative; width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .welcome-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .welcome-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.52); }
+  .welcome-content { position: relative; z-index: 2; text-align: center; padding: 120px 32px; max-width: 640px; width: 100%; }
+  .welcome-eyebrow { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 20px; font-family: 'Poppins', sans-serif; }
+  .welcome-heading { font-size: 42px; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 28px; font-family: 'Poppins', sans-serif; }
+  .welcome-heading span { color: #40BB6A; }
+  .welcome-rule { width: 40px; height: 2px; background: #009444; margin: 0 auto 32px; }
+  .welcome-letter p { font-size: 14px; color: rgba(255,255,255,0.78); line-height: 1.9; margin-bottom: 16px; font-family: 'Poppins', sans-serif; }
+  .welcome-letter p strong { color: white; font-weight: 700; }
+  .welcome-signoff { font-size: 14px; color: rgba(255,255,255,0.78); margin: 24px 0 28px; font-family: 'Poppins', sans-serif; }
+  .welcome-sig { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .welcome-sig-img { width: 140px; height: auto; display: block; }
+  .welcome-sig-name { font-size: 14px; font-weight: 700; color: white; font-family: 'Poppins', sans-serif; }
+  .welcome-sig-role { font-size: 12px; color: rgba(255,255,255,0.5); font-family: 'Poppins', sans-serif; }
+
+  /* ============================================================
      MOBILE  (< 768px)
      ============================================================ */
   @media (max-width:767px){
@@ -518,6 +539,7 @@
     <div class="topnav-inner">
       <img src="../assets/logo-lh.png" alt="Roofbuddy" class="topnav-logo">
       <nav class="nav-links">
+        <a href="#welcome" class="nav-link nav-item" data-section="welcome" data-nav="welcome">Welcome</a>
         <button class="nav-link" data-nav="chapters">Chapters</button>
         <button class="nav-link" data-nav="glossary">Glossary</button>
         <button class="nav-link muted" data-nav="pipeline">Pipeline</button>
@@ -535,6 +557,31 @@
 
   <!-- CONTENT -->
   <main class="content">
+
+    <section id="welcome" class="welcome-section">
+      <div class="welcome-hero">
+        <img src="../assets/welcome/james-in-factory.jpg" class="welcome-bg" alt="James Logan, Founder of Roofbuddy">
+        <div class="welcome-overlay"></div>
+        <div class="welcome-content">
+          <div class="welcome-eyebrow">Roofbuddy Consultant Handbook</div>
+          <h1 class="welcome-heading">Welcome from<br>the <span>founder.</span></h1>
+          <div class="welcome-rule"></div>
+          <div class="welcome-letter">
+            <p><strong>Congratulations. You have made it into the team at Roofbuddy.</strong></p>
+            <p>You are joining a team of people with common values, who work together to create the best possible working environment and client experience, improving our own lives and the lives of those around us.</p>
+            <p>We achieve this through creativity, ambition, mahi, and a positive working environment.</p>
+            <p>As one of our team members we expect that you will strive to always arrive on time, with a positive attitude and demeanour, ready to help create a world class sales and technology company.</p>
+            <p>At Roofbuddy we value positivity, creativity, ambition, and team work. By living and displaying these values you will contribute to the culture and success of Roofbuddy, and yourself.</p>
+          </div>
+          <p class="welcome-signoff">Welcome aboard.</p>
+          <div class="welcome-sig">
+            <img src="../assets/welcome/james-signature.png" alt="James Logan signature" class="welcome-sig-img">
+            <div class="welcome-sig-name">James Logan</div>
+            <div class="welcome-sig-role">Founder, Roofbuddy</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="chapter" id="ch1" data-index="1" style="--c:#40BB6A">
       <div class="hero">
@@ -858,6 +905,7 @@
     var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
     var burger   = document.querySelector('.burger');
     var sections = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
+    var welcomeSec = document.getElementById('welcome');
     var root     = document.documentElement;
 
     function colorOf(el){ return getComputedStyle(el).getPropertyValue('--c').trim(); }
@@ -944,14 +992,26 @@
     function activate(target){
       var sec = document.getElementById(target);
       if(!sec){ return; }
+      if(welcomeSec){ welcomeSec.classList.remove('visible'); }
       root.style.setProperty('--active', colorOf(sec));
       sections.forEach(function(s){ s.classList.toggle('visible', s === sec); });
 
       navLinks.forEach(function(l){
         if(l.dataset.nav === 'chapters'){ l.classList.toggle('active', target !== 'glossary'); }
         else if(l.dataset.nav === 'glossary'){ l.classList.toggle('active', target === 'glossary'); }
+        else if(l.dataset.nav === 'welcome'){ l.classList.remove('active'); }
       });
 
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    function showWelcome(){
+      if(welcomeSec){ welcomeSec.classList.add('visible'); }
+      sections.forEach(function(s){ s.classList.remove('visible'); });
+      navLinks.forEach(function(l){
+        l.classList.toggle('active', l.dataset.nav === 'welcome');
+      });
+      closePanel();
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
@@ -963,7 +1023,8 @@
       l.addEventListener('click', function(e){
         e.stopPropagation();
         var which = l.dataset.nav;
-        if(which === 'chapters'){ togglePanel(); }
+        if(which === 'welcome'){ e.preventDefault(); closePanel(); showWelcome(); }
+        else if(which === 'chapters'){ togglePanel(); }
         else if(which === 'glossary'){ closePanel(); activate('glossary'); }
         // pipeline / team are muted — no action.
       });
@@ -1053,7 +1114,7 @@
     }
 
     // Initial state.
-    activate('ch1');
+    showWelcome();
   })();
 </script>
 
