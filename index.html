@@ -367,6 +367,18 @@
     z-index:25;
   }
 
+  /* ---------- CHAPTER INTRO POPUP ---------- */
+  .ch-popup { position: fixed; inset: 0; z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; }
+  .ch-popup.visible { opacity: 1; }
+  .ch-popup-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ch-popup-tint { position: absolute; inset: 0; opacity: 0.12; }
+  .ch-popup-content { position: relative; z-index: 2; text-align: center; padding: 80px 48px; max-width: 680px; width: 100%; }
+  .ch-popup-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; font-family: 'Poppins', sans-serif; }
+  .ch-popup-rule { width: 32px; height: 2px; margin: 0 auto 32px; }
+  .ch-popup-quote { font-size: 28px; font-weight: 700; color: white; line-height: 1.35; margin-bottom: 40px; font-family: 'Poppins', sans-serif; }
+  .ch-popup-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 500; font-family: 'Poppins', sans-serif; padding: 10px 28px; cursor: pointer; letter-spacing: 0.06em; transition: all 0.2s; }
+  .ch-popup-btn:hover { color: white; }
+
   @media (max-width:880px){
     .hamburger{display:flex;}
     .sidebar{transform:translateX(-100%);}
@@ -396,18 +408,18 @@
 
     <div class="nav-section">Consultant Handbook</div>
     <ul class="nav">
-      <li><button class="nav-item" data-target="ch1"  style="--c:#40BB6A"><span class="dot"></span>01 · Who we are and why we exist</button></li>
-      <li><button class="nav-item" data-target="ch2"  style="--c:#27963C"><span class="dot"></span>02 · The 5-5-8 framework</button></li>
-      <li><button class="nav-item" data-target="ch3"  style="--c:#2C6C76"><span class="dot"></span>03 · The 5 steps to the sale</button></li>
-      <li><button class="nav-item" data-target="ch4"  style="--c:#425D74"><span class="dot"></span>04 · The 5 impulses - Persuasion</button></li>
-      <li><button class="nav-item" data-target="ch5"  style="--c:#51ABE4"><span class="dot"></span>05 · The 8 steps to success - Personal development</button></li>
-      <li><button class="nav-item" data-target="ch6"  style="--c:#383960"><span class="dot"></span>06 · DISC personality profiling</button></li>
-      <li><button class="nav-item" data-target="ch7"  style="--c:#68386B"><span class="dot"></span>07 · Product knowledge</button></li>
-      <li><button class="nav-item" data-target="ch8"  style="--c:#EE255E"><span class="dot"></span>08 · Roofing domain knowledge</button></li>
-      <li><button class="nav-item" data-target="ch9"  style="--c:#7E2237"><span class="dot"></span>09 · Pipeline management and follow-up</button></li>
-      <li><button class="nav-item" data-target="ch10" style="--c:#D75936"><span class="dot"></span>10 · Technology and tools</button></li>
-      <li><button class="nav-item" data-target="ch11" style="--c:#D38B5E"><span class="dot"></span>11 · Time management and daily structure</button></li>
-      <li><button class="nav-item" data-target="ch12" style="--c:#D79E2D"><span class="dot"></span>12 · Learning outcomes and self-assessment</button></li>
+      <li><button class="nav-item" data-target="ch1" data-chapter="1"  style="--c:#40BB6A"><span class="dot"></span>01 · Who we are and why we exist</button></li>
+      <li><button class="nav-item" data-target="ch2" data-chapter="2"  style="--c:#27963C"><span class="dot"></span>02 · The 5-5-8 framework</button></li>
+      <li><button class="nav-item" data-target="ch3" data-chapter="3"  style="--c:#2C6C76"><span class="dot"></span>03 · The 5 steps to the sale</button></li>
+      <li><button class="nav-item" data-target="ch4" data-chapter="4"  style="--c:#425D74"><span class="dot"></span>04 · The 5 impulses - Persuasion</button></li>
+      <li><button class="nav-item" data-target="ch5" data-chapter="5"  style="--c:#51ABE4"><span class="dot"></span>05 · The 8 steps to success - Personal development</button></li>
+      <li><button class="nav-item" data-target="ch6" data-chapter="6"  style="--c:#383960"><span class="dot"></span>06 · DISC personality profiling</button></li>
+      <li><button class="nav-item" data-target="ch7" data-chapter="7"  style="--c:#68386B"><span class="dot"></span>07 · Product knowledge</button></li>
+      <li><button class="nav-item" data-target="ch8" data-chapter="8"  style="--c:#EE255E"><span class="dot"></span>08 · Roofing domain knowledge</button></li>
+      <li><button class="nav-item" data-target="ch9" data-chapter="9"  style="--c:#7E2237"><span class="dot"></span>09 · Pipeline management and follow-up</button></li>
+      <li><button class="nav-item" data-target="ch10" data-chapter="10" style="--c:#D75936"><span class="dot"></span>10 · Technology and tools</button></li>
+      <li><button class="nav-item" data-target="ch11" data-chapter="11" style="--c:#D38B5E"><span class="dot"></span>11 · Time management and daily structure</button></li>
+      <li><button class="nav-item" data-target="ch12" data-chapter="12" style="--c:#D79E2D"><span class="dot"></span>12 · Learning outcomes and self-assessment</button></li>
       <li><button class="nav-item" data-target="glossary" style="--c:#40BB6A"><span class="dot"></span>Glossary</button></li>
     </ul>
   </aside>
@@ -781,6 +793,92 @@
     // Initial state
     activate('ch1');
   })();
+</script>
+
+<div id="chapterPopup" class="ch-popup" style="display:none;" aria-modal="true" role="dialog">
+  <img src="assets/ui/popup-bg.jpg" class="ch-popup-bg" alt="">
+  <div class="ch-popup-tint" id="chPopupTint"></div>
+  <div class="ch-popup-content">
+    <div class="ch-popup-label" id="chPopupLabel"></div>
+    <div class="ch-popup-rule" id="chPopupRule"></div>
+    <div class="ch-popup-quote" id="chPopupQuote"></div>
+    <button class="ch-popup-btn" id="chPopupBtn">Enter chapter →</button>
+  </div>
+</div>
+
+<script>
+const CHAPTER_COLOURS = {
+  1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#425D74',5:'#51ABE4',
+  6:'#383960',7:'#68386B',8:'#EE255E',9:'#7E2237',10:'#D75936',
+  11:'#D38B5E',12:'#D79E2D'
+};
+
+const CHAPTER_QUOTES = {
+  1: "Choosing to have and maintain a positive attitude is easy. Actually doing it takes work.",
+  2: "Sales people are made, not born. Nobody walked into this role already great at it.",
+  3: "First impressions last. The first 10 seconds is critical.",
+  4: "Every sale has a psychological layer. The steps are the ingredients and the impulses are the seasonings.",
+  5: "A positive attitude is genuine, not performed. It is the orientation that you are here to help, that you are good at what you do, and that the client is better off for meeting you.",
+  6: "The consultant who can tailor their approach is dramatically more effective than the consultant who delivers the same script to every client.",
+  7: "You cannot sell what you do not understand. Take time to understand your clients' situation. Ask questions. Be inquisitive.",
+  8: "The best way to sound knowledgeable, is to be knowledgeable. Invest in your own capability.",
+  9: "A consultant who runs an average appointment and follows up every quote 100% of the time will outperform a consultant who runs a great appointment and follows up 60% of the time.",
+  10: "Roofbuddy is a tech-enabled service business. The tools you use every day matter — they determine your speed, your accuracy, and how professional you look.",
+  11: "Sales is a high-autonomy role. Consultants who run a disciplined daily structure outperform the consultants who don't.",
+  12: "This manual is not designed to be read once. It is a working reference for the first 90 days of your role at Roofbuddy."
+};
+
+const CHAPTER_POPUP_TITLES = {
+  1: "Chapter 01 — Who we are and why we exist.",
+  2: "Chapter 02 — The 5-5-8 framework.",
+  3: "Chapter 03 — The 5 steps to the sale.",
+  4: "Chapter 04 — The 5 impulses — Persuasion.",
+  5: "Chapter 05 — The 8 steps to success — Personal development.",
+  6: "Chapter 06 — DISC personality profiling.",
+  7: "Chapter 07 — Product knowledge.",
+  8: "Chapter 08 — Roofing domain knowledge.",
+  9: "Chapter 09 — Pipeline management and follow-up.",
+  10: "Chapter 10 — Technology and tools.",
+  11: "Chapter 11 — Time management and daily structure.",
+  12: "Chapter 12 — Learning outcomes and self-assessment."
+};
+
+const seenChapters = new Set();
+
+function showChapterPopup(chapterNum, colour) {
+  if (seenChapters.has(chapterNum)) return;
+  seenChapters.add(chapterNum);
+  const popup = document.getElementById('chapterPopup');
+  document.getElementById('chPopupLabel').style.color = colour;
+  document.getElementById('chPopupLabel').textContent = CHAPTER_POPUP_TITLES[chapterNum] || '';
+  document.getElementById('chPopupRule').style.background = colour;
+  document.getElementById('chPopupTint').style.background = colour;
+  document.getElementById('chPopupQuote').textContent = '“' + (CHAPTER_QUOTES[chapterNum] || '') + '”';
+  document.getElementById('chPopupBtn').style.borderColor = 'rgba(255,255,255,0.25)';
+  popup.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => popup.classList.add('visible'));
+}
+
+function closeChapterPopup() {
+  const popup = document.getElementById('chapterPopup');
+  popup.classList.remove('visible');
+  setTimeout(() => {
+    popup.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 400);
+}
+
+document.getElementById('chPopupBtn').addEventListener('click', closeChapterPopup);
+
+document.querySelectorAll('[data-chapter]').forEach(el => {
+  el.addEventListener('click', () => {
+    const num = parseInt(el.dataset.chapter);
+    if (num && CHAPTER_COLOURS[num]) {
+      showChapterPopup(num, CHAPTER_COLOURS[num]);
+    }
+  });
+});
 </script>
 
 </body>
