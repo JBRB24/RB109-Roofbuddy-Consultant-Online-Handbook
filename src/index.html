@@ -27,6 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
 
 <style>
   :root{
@@ -519,6 +520,10 @@
         <button class="nav-link" data-nav="glossary">Glossary</button>
         <button class="nav-link muted" data-nav="pipeline">Pipeline</button>
         <button class="nav-link muted" data-nav="team">Team</button>
+        <button id="searchBtn" aria-label="Search" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.55);" onmouseenter="this.style.color='#fff'" onmouseleave="this.style.color='rgba(255,255,255,0.55)'">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          <kbd style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);font-size:10px;padding:2px 5px;margin-left:4px;font-family:'Poppins',sans-serif;">⌘K</kbd>
+        </button>
       </nav>
       <button class="burger" aria-label="Open chapters" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -1049,6 +1054,183 @@
     // Initial state.
     activate('ch1');
   })();
+</script>
+
+<div id="searchOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2000; align-items:flex-start; justify-content:center; padding-top:80px;">
+  <div id="searchModal" style="width:580px; max-width:calc(100vw - 32px); background:#0d0f18;">
+    <div style="display:flex; align-items:center; gap:12px; padding:0 16px; border-bottom:0.5px solid rgba(255,255,255,0.08);">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><path d="M11.5 11.5L15 15" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="square"/></svg>
+      <input id="searchInput" type="text" placeholder="Search the handbook…" autocomplete="off" style="background:transparent; border:none; outline:none; color:white; font-family:'Poppins',sans-serif; font-size:15px; padding:16px 0; flex:1;">
+      <span style="color:rgba(255,255,255,0.25); font-size:11px; font-family:'Poppins',sans-serif;">ESC to close</span>
+    </div>
+    <div id="searchResults" style="max-height:380px; overflow-y:auto;"></div>
+    <div style="padding:8px 16px; border-top:0.5px solid rgba(255,255,255,0.08); display:flex; align-items:center; gap:14px;">
+      <span style="font-size:11px; color:rgba(255,255,255,0.25); font-family:'Poppins',sans-serif;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 5px; font-size:10px;">↑↓</kbd> navigate</span>
+      <span style="font-size:11px; color:rgba(255,255,255,0.25); font-family:'Poppins',sans-serif;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 5px; font-size:10px;">↵</kbd> go to result</span>
+      <span style="font-size:11px; color:rgba(255,255,255,0.25); font-family:'Poppins',sans-serif;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 5px; font-size:10px;">ESC</kbd> close</span>
+      <span id="searchCount" style="margin-left:auto; font-size:11px; color:rgba(255,255,255,0.25); font-family:'Poppins',sans-serif;"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+const CHAPTER_COLOURS = {
+  1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#425D74',5:'#51ABE4',
+  6:'#383960',7:'#68386B',8:'#EE255E',9:'#7E2237',10:'#D75936',
+  11:'#D38B5E',12:'#D79E2D'
+};
+const CHAPTER_TITLES = {
+  1:'Who we are and why we exist.',2:'The 5-5-8 framework.',
+  3:'The 5 steps to the sale.',4:'The 5 impulses — Persuasion.',
+  5:'The 8 steps to success — Personal development.',6:'DISC personality profiling.',
+  7:'Product knowledge.',8:'Roofing domain knowledge.',
+  9:'Pipeline management and follow-up.',10:'Technology and tools.',
+  11:'Time management and daily structure.',12:'Learning outcomes and self-assessment.'
+};
+
+// Build search index from existing content
+const miniSearch = new MiniSearch({
+  fields: ['title','content'],
+  storeFields: ['title','content','chapterNum','sectionNum','anchorId'],
+  searchOptions: { fuzzy:0.2, prefix:true, boost:{title:2} }
+});
+
+function buildIndex() {
+  const docs = [];
+  document.querySelectorAll('.sec-h').forEach(heading => {
+    const sectionNum = heading.querySelector('.sec-num')?.textContent?.trim() || '';
+    const chapterNum = parseInt(sectionNum.split('.')[0]) || 0;
+    const title = heading.textContent.replace(sectionNum,'').trim();
+    const anchorId = heading.id || ('sec-'+sectionNum.replace('.','-'));
+    if (!heading.id) heading.id = anchorId;
+    // Collect paragraph text following this heading
+    let content = '';
+    let el = heading.nextElementSibling;
+    let count = 0;
+    while (el && !el.classList.contains('sec-h') && count < 4) {
+      content += ' ' + (el.textContent || '');
+      el = el.nextElementSibling;
+      count++;
+    }
+    docs.push({ id: anchorId, title, content: content.slice(0,400), chapterNum, sectionNum, anchorId });
+  });
+  miniSearch.addAll(docs);
+}
+
+function highlight(text, query) {
+  if (!text || !query) return text;
+  const words = query.trim().split(/\s+/).filter(Boolean);
+  let result = text;
+  words.forEach(word => {
+    const re = new RegExp('('+word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')', 'gi');
+    result = result.replace(re, '|||$1|||');
+  });
+  return result.split('|||').map((part,i) =>
+    i%2===1 ? ''+part+'' : part
+  ).join('');
+}
+
+function getSnippet(content, query) {
+  if (!content) return '';
+  const idx = content.toLowerCase().indexOf(query.toLowerCase().split(' ')[0]);
+  const start = Math.max(0, idx - 60);
+  const end = Math.min(content.length, idx + 120);
+  return (start > 0 ? '…' : '') + content.slice(start, end) + (end < content.length ? '…' : '');
+}
+
+function renderResults(results, query) {
+  const container = document.getElementById('searchResults');
+  const count = document.getElementById('searchCount');
+  if (!results.length) {
+    container.innerHTML = '<div style="padding:24px 16px; color:rgba(255,255,255,0.3); font-size:13px; font-family:Poppins,sans-serif;">No results found.</div>';
+    count.textContent = '';
+    return;
+  }
+  // Group by chapter
+  const groups = {};
+  results.forEach(r => {
+    if (!groups[r.chapterNum]) groups[r.chapterNum] = [];
+    groups[r.chapterNum].push(r);
+  });
+  let html = '';
+  let total = 0;
+  Object.keys(groups).sort((a,b)=>a-b).forEach(ch => {
+    const colour = CHAPTER_COLOURS[ch] || '#40BB6A';
+    const chTitle = CHAPTER_TITLES[ch] || 'Chapter '+ch;
+    const num = String(ch).padStart(2,'0');
+    html += `<div class="rg" style="margin-bottom:2px;">
+      <div style="height:40px;padding:0 14px;display:flex;align-items:center;position:relative;overflow:hidden;background:${colour};">
+        <div style="font-size:11px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:82%;position:relative;z-index:1;font-family:Poppins,sans-serif;">${chTitle}</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:rgba(255,255,255,0.13);position:absolute;right:10px;bottom:-2px;line-height:1;">${num}</div>
+      </div>`;
+    groups[ch].forEach(r => {
+      const snippet = highlight(getSnippet(r.content, query), query);
+      const titleH = highlight(r.title, query);
+      html += `<div class="ri" data-anchor="${r.anchorId}" style="padding:9px 14px;cursor:pointer;border-left:3px solid transparent;display:flex;flex-direction:column;gap:3px;" onmouseenter="this.style.background='rgba(255,255,255,0.05)'" onmouseleave="this.style.background=''">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.06em;font-family:Poppins,sans-serif;">${r.sectionNum}</span>
+          <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.85);font-family:Poppins,sans-serif;">${titleH}</span>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.55;font-family:Poppins,sans-serif;">${snippet}</div>
+      </div>`;
+      total++;
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+  count.textContent = total + ' result' + (total!==1?'s':'');
+  // Highlight spans
+  container.querySelectorAll('.sh').forEach(el => {
+    const ch = el.closest('.rg')?.querySelector('[style*="background:"]');
+    if (ch) {
+      const bg = ch.style.background;
+      el.style.color = bg;
+      el.style.fontWeight = '600';
+    }
+  });
+  // Click handlers
+  container.querySelectorAll('.ri').forEach(el => {
+    el.addEventListener('click', () => {
+      closeSearch();
+      const target = document.getElementById(el.dataset.anchor);
+      if (target) { target.scrollIntoView({behavior:'smooth',block:'start'}); }
+    });
+  });
+}
+
+// Open / close
+function openSearch() {
+  const overlay = document.getElementById('searchOverlay');
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('searchInput').focus();
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+  document.getElementById('searchCount').textContent = '';
+}
+function closeSearch() {
+  document.getElementById('searchOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Events
+document.getElementById('searchBtn').addEventListener('click', openSearch);
+document.getElementById('searchOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('searchOverlay')) closeSearch();
+});
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+  if (e.key === 'Escape') closeSearch();
+});
+document.getElementById('searchInput').addEventListener('input', e => {
+  const q = e.target.value.trim();
+  if (q.length < 2) { document.getElementById('searchResults').innerHTML = ''; return; }
+  const results = miniSearch.search(q, { fuzzy:0.2, prefix:true });
+  renderResults(results.slice(0,20), q);
+});
+
+// Build index on load
+window.addEventListener('DOMContentLoaded', buildIndex);
 </script>
 
 </body>
