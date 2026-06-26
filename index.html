@@ -379,6 +379,18 @@
   .ch-popup-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 500; font-family: 'Poppins', sans-serif; padding: 10px 28px; cursor: pointer; letter-spacing: 0.06em; transition: all 0.2s; }
   .ch-popup-btn:hover { color: white; }
 
+  /* ---------- TEAM SECTION ---------- */
+  .team-section { width: 100%; }
+  .team-hero { position: relative; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; overflow: hidden; }
+  .team-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .team-content { position: relative; z-index: 2; max-width: 780px; width: 100%; padding: 80px 32px; }
+  .team-eyebrow { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; font-family: 'Poppins', sans-serif; }
+  .team-heading { font-size: 42px; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 20px; font-family: 'Poppins', sans-serif; }
+  .team-rule { width: 40px; height: 2px; background: #40BB6A; margin-bottom: 24px; }
+  .team-intro { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.85; margin-bottom: 40px; font-family: 'Poppins', sans-serif; }
+  .team-chart-img { width: 100%; height: auto; display: block; cursor: zoom-in; }
+  .team-chart figcaption { font-size: 12px; color: rgba(255,255,255,0.5); font-style: italic; margin-top: 10px; font-family: 'Poppins', sans-serif; }
+
   @media (max-width:880px){
     .hamburger{display:flex;}
     .sidebar{transform:translateX(-100%);}
@@ -421,6 +433,7 @@
       <li><button class="nav-item" data-target="ch11" data-chapter="11" style="--c:#D38B5E"><span class="dot"></span>11 · Time management and daily structure</button></li>
       <li><button class="nav-item" data-target="ch12" data-chapter="12" style="--c:#D79E2D"><span class="dot"></span>12 · Learning outcomes and self-assessment</button></li>
       <li><button class="nav-item" data-target="glossary" style="--c:#40BB6A"><span class="dot"></span>Glossary</button></li>
+      <li><button class="nav-item" data-target="team" style="--c:#40BB6A"><span class="dot"></span>Our team</button></li>
     </ul>
   </aside>
 
@@ -731,6 +744,22 @@
         </div>
       </section>
 
+      <section id="team" class="team-section" style="display:none; --c:#40BB6A">
+        <div class="team-hero">
+          <img src="assets/ui/team-bg.jpg" class="team-bg-img" alt="">
+          <div class="team-content">
+            <div class="team-eyebrow">Roofbuddy Group</div>
+            <h1 class="team-heading">Our team.</h1>
+            <div class="team-rule"></div>
+            <p class="team-intro">On day one you will not know who does what or who to talk to about what. The org chart below shows the structure of the group across all three companies — Roofbuddy, Guardian Seal, and Guardian Steel — and where you sit in it.</p>
+            <figure class="team-chart doc-figure">
+              <img src="assets/ch1/ch1_org_chart.png" alt="Roofbuddy Group org chart showing full team structure" class="team-chart-img">
+              <figcaption>Roofbuddy Group org chart (current). Senior leadership at the top, followed by the function leads for technology, sales, customer experience, operations, and the two subsidiary business units.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 
@@ -744,6 +773,7 @@
     var bar      = document.querySelector('.progress-fill');
     var root     = document.documentElement;
     var sidebar  = document.querySelector('.sidebar');
+    var teamSec  = document.getElementById('team');
     var TOTAL    = 12;
 
     function colorOf(el){
@@ -760,10 +790,13 @@
 
       navItems.forEach(function(n){ n.classList.toggle('active', n === item); });
       sections.forEach(function(s){ s.classList.toggle('visible', s === sec); });
+      if(teamSec){ teamSec.style.display = (target === 'team') ? 'block' : 'none'; }
 
-      var idx = parseInt(sec.dataset.index, 10);
-      var pct = (sec.id === 'glossary') ? 100 : (idx / TOTAL) * 100;
-      bar.style.width = pct + '%';
+      if(sec.id !== 'team'){
+        var idx = parseInt(sec.dataset.index, 10);
+        var pct = (sec.id === 'glossary') ? 100 : (idx / TOTAL) * 100;
+        bar.style.width = pct + '%';
+      }
 
       content.scrollTo({ top: 0, behavior: 'smooth' });
       sidebar.classList.remove('open');
