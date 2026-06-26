@@ -533,6 +533,30 @@
   .team-chart figcaption { font-size: 12px; color: rgba(255,255,255,0.5); font-style: italic; margin-top: 10px; font-family: 'Poppins', sans-serif; }
 
   /* ============================================================
+     GLOSSARY SECTION
+     ============================================================ */
+  .glossary-section { width: 100%; background: #F7F7F5; }
+  .az-strip { background: white; border-bottom: 1px solid #E8E8E6; position: sticky; top: 64px; z-index: 100; }
+  .az-strip-inner { max-width: 780px; margin: 0 auto; display: flex; align-items: center; }
+  .az-letter { font-size: 12px; font-weight: 600; color: #009444; padding: 10px 10px; cursor: pointer; border-bottom: 2px solid transparent; }
+  .az-letter:hover { border-bottom: 2px solid #009444; }
+  .az-letter.az-active { border-bottom: 2px solid #009444; }
+  .az-letter.az-empty { color: #CCC; cursor: default; pointer-events: none; }
+  .glossary-wrap { max-width: 780px; margin: 0 auto; padding: 40px 0 80px; }
+  .glossary-header { margin-bottom: 28px; display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; }
+  .glossary-title { font-size: 28px; font-weight: 700; color: #1A1A1A; margin-bottom: 8px; font-family: 'Poppins', sans-serif; }
+  .glossary-rule { width: 40px; height: 2px; background: #40BB6A; margin: 12px 0; }
+  .glossary-intro { font-size: 14px; color: #666; line-height: 1.7; max-width: 500px; font-family: 'Poppins', sans-serif; }
+  .glossary-filter-input { border: 1px solid #E8E8E6; background: white; padding: 9px 14px; font-size: 13px; font-family: 'Poppins', sans-serif; color: #1A1A1A; width: 220px; outline: none; flex-shrink: 0; }
+  .glossary-filter-input:focus { border-color: #009444; }
+  .glossary-filter-input::placeholder { color: #AAA; }
+  .az-section { margin-bottom: 0; }
+  .az-heading { font-size: 13px; font-weight: 700; color: #009444; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 0 8px; border-bottom: 1.5px solid #009444; margin-bottom: 0; font-family: 'Poppins', sans-serif; }
+  .glossary-entry { padding: 14px 0; border-bottom: 0.5px solid #E8E8E6; }
+  .glossary-entry dt { font-size: 14px; font-weight: 700; color: #1A1A1A; margin-bottom: 4px; font-family: 'Poppins', sans-serif; }
+  .glossary-entry dd { font-size: 13px; color: #3D3D3D; line-height: 1.75; margin: 0; font-family: 'Poppins', sans-serif; }
+
+  /* ============================================================
      MOBILE  (< 768px)
      ============================================================ */
   @media (max-width:767px){
@@ -898,21 +922,70 @@
       </div>
     </section>
 
-    <section class="chapter" id="glossary" data-index="13" style="--c:#40BB6A">
-      <div class="hero">
-        <div class="hero-tint"></div>
-        <div class="hero-inner">
-          <span class="hero-ghost" aria-hidden="true">G</span>
-          <div class="hero-label">Reference</div>
-          <h1 class="hero-title">Glossary</h1>
-        </div>
+<section id="glossary" class="glossary-section" style="display:none;">
+  <div class="az-strip"><div class="az-strip-inner">
+    <div class="az-letter az-active" onclick="jumpToLetter('#')">#</div>
+    <div class="az-letter" onclick="jumpToLetter('A')">A</div>
+    <div class="az-letter" onclick="jumpToLetter('B')">B</div>
+    <div class="az-letter" onclick="jumpToLetter('C')">C</div>
+    <div class="az-letter" onclick="jumpToLetter('D')">D</div>
+    <div class="az-letter" onclick="jumpToLetter('E')">E</div>
+    <div class="az-letter" onclick="jumpToLetter('F')">F</div>
+    <div class="az-letter" onclick="jumpToLetter('G')">G</div>
+    <div class="az-letter" onclick="jumpToLetter('H')">H</div>
+    <div class="az-letter" onclick="jumpToLetter('I')">I</div>
+    <div class="az-letter" onclick="jumpToLetter('J')">J</div>
+    <div class="az-letter az-empty">K</div>
+    <div class="az-letter" onclick="jumpToLetter('L')">L</div>
+    <div class="az-letter" onclick="jumpToLetter('M')">M</div>
+    <div class="az-letter az-empty">N</div>
+    <div class="az-letter" onclick="jumpToLetter('O')">O</div>
+    <div class="az-letter" onclick="jumpToLetter('P')">P</div>
+    <div class="az-letter" onclick="jumpToLetter('Q')">Q</div>
+    <div class="az-letter" onclick="jumpToLetter('R')">R</div>
+    <div class="az-letter" onclick="jumpToLetter('S')">S</div>
+    <div class="az-letter" onclick="jumpToLetter('T')">T</div>
+    <div class="az-letter az-empty">U</div>
+    <div class="az-letter" onclick="jumpToLetter('V')">V</div>
+    <div class="az-letter" onclick="jumpToLetter('W')">W</div>
+    <div class="az-letter az-empty">X</div>
+    <div class="az-letter az-empty">Y</div>
+    <div class="az-letter az-empty">Z</div>
+  </div></div>
+  <div class="glossary-wrap">
+    <div class="glossary-header">
+      <div>
+        <div class="glossary-title">Glossary.</div>
+        <div class="glossary-rule"></div>
+        <div class="glossary-intro">Quick reference of roofing, sales, and operational terminology used throughout this manual and in the field.</div>
       </div>
-      <div class="content-area">
-        <div class="chapter-content">
-          <p class="awaiting">Awaiting content from Tango.</p>
-        </div>
-      </div>
-    </section>
+      <input class="glossary-filter-input" type="text" placeholder="Filter terms…" id="glossaryFilter" oninput="filterGlossary(this.value)">
+    </div>
+    <div id="glossaryContent">
+      <div class="az-section" id="az-hash"><div class="az-heading">#</div><dl><div class="glossary-entry"><dt>5-5-8</dt><dd>Roofbuddy's core organising framework. 5 Steps to the Sale, 5 Impulses, 8 Steps to Success. The architecture of the role. See Chapter 2.</dd></div></dl></div>
+      <div class="az-section" id="az-A"><div class="az-heading">A</div><dl><div class="glossary-entry"><dt>Apron flashing</dt><dd>Edge flashing along the lower roof edges, also called a drip edge. Directs water runoff away from the fascia.</dd></div><div class="glossary-entry"><dt>Asbestos</dt><dd>Fibrous mineral used in NZ building materials before approximately 1984. Found in Super 6 sheets and many decramastic tiles. Requires specialist removal.</dd></div></dl></div>
+      <div class="az-section" id="az-B"><div class="az-heading">B</div><dl><div class="glossary-entry"><dt>Back tray</dt><dd>Horizontal flashing component at the rear of a roof where it meets a wall. A failing back tray is a common cause of internal water ingress.</dd></div><div class="glossary-entry"><dt>Box gutter</dt><dd>See Internal gutter.</dd></div><div class="glossary-entry"><dt>Buddy Pay</dt><dd>Roofbuddy's interest-free finance product offered on every quote. 6, 12, or 18 month terms.</dd></div><div class="glossary-entry"><dt>Building paper / underlay</dt><dd>Secondary waterproofing layer installed between the roof structure and the metal roofing material. Specified on every reroof.</dd></div></dl></div>
+      <div class="az-section" id="az-C"><div class="az-heading">C</div><dl><div class="glossary-entry"><dt>C-tier</dt><dd>Lead quality tier indicating real interest but uncertain timing. Requires nurturing follow-up over weeks to months.</dd></div><div class="glossary-entry"><dt>CAA (Civil Aviation Authority)</dt><dd>The New Zealand regulator for drone operation. Part 101 covers general operation rules; Part 102 covers certified operators.</dd></div><div class="glossary-entry"><dt>CAA Part 101 / Part 102</dt><dd>Civil Aviation Authority drone operation rules. Part 101 = general; Part 102 = certified operators.</dd></div><div class="glossary-entry"><dt>Centre of influence</dt><dd>A professional contact (real estate agent, property manager, building inspector, painter, asbestos specialist, builder) who encounters roofing situations regularly and may refer leads.</dd></div><div class="glossary-entry"><dt>Collar flashing</dt><dd>Specialist flashing used around metal flue chimneys.</dd></div><div class="glossary-entry"><dt>COLORSTEEL</dt><dd>Brand name for NZ Steel's pre-painted steel roofing product range.</dd></div><div class="glossary-entry"><dt>COLORSTEEL Altimate</dt><dd>Marine-grade tier within the COLORSTEEL range. Required for properties within 50 metres of breaking surf.</dd></div><div class="glossary-entry"><dt>Common substrates</dt><dd>Galvalume, Galvanized, Stainless, Aluminium.</dd></div><div class="glossary-entry"><dt>Customer warranty</dt><dd>Roofbuddy's protection of up to $50,000 against roofer failure to complete contracted work. Full terms at roofbuddy.co.nz/customer-warranties.</dd></div></dl></div>
+      <div class="az-section" id="az-D"><div class="az-heading">D</div><dl><div class="glossary-entry"><dt>D-tier</dt><dd>Lead quality tier indicating information-gathering only. See Chapter 9 sub-types.</dd></div><div class="glossary-entry"><dt>Decramastic</dt><dd>Metal tile with stone-chip coating. Pre-1975 versions often contain asbestos. Cannot be visually distinguished from non-asbestos versions; testing required.</dd></div><div class="glossary-entry"><dt>Dektite</dt><dd>Flexible rubber boot flashing for round pipe penetrations. Brand name used generically.</dd></div><div class="glossary-entry"><dt>DISC</dt><dd>Personality profiling framework used to read clients and adapt approach. Four types: Dominant, Influential, Supportive, Conscientious. See Chapter 6.</dd></div><div class="glossary-entry"><dt>Do the mahi</dt><dd>Te reo phrase meaning "do the work." Internal expression that captures the daily discipline of the role.</dd></div></dl></div>
+      <div class="az-section" id="az-E"><div class="az-heading">E</div><dl><div class="glossary-entry"><dt>Eight rules</dt><dd>The behavioural standards governing professional conduct. See Chapter 5.</dd></div><div class="glossary-entry"><dt>Esprit de corps</dt><dd>French phrase meaning shared spirit of a group. One of Roofbuddy's six company values; the team-practice orientation of the 8 Steps.</dd></div></dl></div>
+      <div class="az-section" id="az-F"><div class="az-heading">F</div><dl><div class="glossary-entry"><dt>Fascia</dt><dd>Vertical board along the lower roof edge. Supports the gutter.</dd></div><div class="glossary-entry"><dt>Fear of loss (impulse)</dt><dd>The impulse that responds to the threat of missing a specific defined opportunity. See Chapter 4.</dd></div><div class="glossary-entry"><dt>Five impulses</dt><dd>Jones, Sense of Urgency, Greed, Fear of Loss, Indifference. See Chapter 4.</dd></div><div class="glossary-entry"><dt>Five steps</dt><dd>Introduction, Presentation, Short Story, Close, Rehash. See Chapter 3.</dd></div><div class="glossary-entry"><dt>Friends in the industry</dt><dd>How Roofbuddy refers to other roofing companies. Never "competitors" in client conversations.</dd></div><div class="glossary-entry"><dt>FUD</dt><dd>Fear, Uncertainty and Doubt. The negative emotional response a poorly-positioned salesperson can create in a client. To be avoided.</dd></div></dl></div>
+      <div class="az-section" id="az-G"><div class="az-heading">G</div><dl><div class="glossary-entry"><dt>G300 / G550</dt><dd>Steel grade designations used in pre-painted steel substrates such as Em-One. G550 is harder and higher-tensile; G300 is softer.</dd></div><div class="glossary-entry"><dt>Galvalume</dt><dd>Alloy coating on steel substrate combining zinc and aluminium. Used as the base for Em-One and similar pre-painted steel products. Marketed under brand name AM150 in Em-One.</dd></div><div class="glossary-entry"><dt>Galvanic corrosion</dt><dd>Accelerated corrosion that occurs when two dissimilar metals are in electrical contact in the presence of moisture.</dd></div><div class="glossary-entry"><dt>Greed (impulse)</dt><dd>The impulse that responds to a clear, time-limited opportunity for advantage. See Chapter 4.</dd></div><div class="glossary-entry"><dt>Guardian Seal</dt><dd>Roofbuddy's water-based polyurethane membrane coating product. Subsidiary business unit.</dd></div><div class="glossary-entry"><dt>Guardian Seal Pro</dt><dd>Thicker variant of Guardian Seal for permanently wet surfaces including gutters, flat sections, internal gutters, and TPO overcoating.</dd></div><div class="glossary-entry"><dt>Guardian Steel</dt><dd>Roofbuddy's pre-painted steel roofing range. Subsidiary business unit.</dd></div></dl></div>
+      <div class="az-section" id="az-H"><div class="az-heading">H</div><dl><div class="glossary-entry"><dt>Hip</dt><dd>Angled external roof junction where two sloping sections meet diagonally.</dd></div><div class="glossary-entry"><dt>HSWA</dt><dd>Health and Safety at Work Act 2015. The primary New Zealand workplace health and safety legislation.</dd></div></dl></div>
+      <div class="az-section" id="az-I"><div class="az-heading">I</div><dl><div class="glossary-entry"><dt>Indifference (impulse)</dt><dd>The professional posture of being completely comfortable with the client not buying. The most counterintuitive impulse in the toolkit. See Chapter 4.</dd></div><div class="glossary-entry"><dt>Internal gutter / box gutter</dt><dd>A gutter built into the roof structure rather than attached externally. Ongoing maintenance liability.</dd></div><div class="glossary-entry"><dt>ISO environmental zones (C1-C5)</dt><dd>Standardised classification of environmental exposure for warranty determination. C1-C2 Mild, C3 Moderate, C4 Severe, C5 Very Severe. See Chapter 7.2.</dd></div></dl></div>
+      <div class="az-section" id="az-J"><div class="az-heading">J</div><dl><div class="glossary-entry"><dt>Jones (impulse)</dt><dd>The social pressure to keep pace with neighbours and peers. Activated by neighbourhood-specific Short Stories.</dd></div></dl></div>
+      <div class="az-section" id="az-L"><div class="az-heading">L</div><dl><div class="glossary-entry"><dt>LBP (Licensed Building Practitioner)</dt><dd>The New Zealand certification scheme for building practitioners. Note: LBP is not the licensing framework for asbestos removal — that is a separate WorkSafe certification.</dd></div><div class="glossary-entry"><dt>Lead-headed nails</dt><dd>Specialist fixings used in certain roofing applications. Incorrect fixings can void warranties.</dd></div><div class="glossary-entry"><dt>Lineal metres</dt><dd>Length measurement used for specifying gutters and downpipes. Distinct from square metres (area).</dd></div><div class="glossary-entry"><dt>LVR</dt><dd>Light Value Reflectance. Higher values indicate more reflected light and less heat absorption.</dd></div></dl></div>
+      <div class="az-section" id="az-M"><div class="az-heading">M</div><dl><div class="glossary-entry"><dt>Major close</dt><dd>The final commitment-to-proceed close, typically delivered as an assumptive close after the Rehash.</dd></div><div class="glossary-entry"><dt>Membrane coating</dt><dd>A flexible polymer-based coating applied to a roof. Used generically in product conversations; technically refers to products like Guardian Seal.</dd></div><div class="glossary-entry"><dt>Microns</dt><dd>Thousandths of a millimetre. Coating film thickness unit. Guardian Seal target film thickness is approximately 750 microns.</dd></div><div class="glossary-entry"><dt>Minor close</dt><dd>A small agreement gathered during the appointment that builds toward the final close. Target 15 or more before the formal close.</dd></div></dl></div>
+      <div class="az-section" id="az-O"><div class="az-heading">O</div><dl><div class="glossary-entry"><dt>Onduline</dt><dd>Bitumen-saturated fibre corrugated sheet. Legacy product withdrawn from NZ market mid-2000s.</dd></div></dl></div>
+      <div class="az-section" id="az-P"><div class="az-heading">P</div><dl><div class="glossary-entry"><dt>Perforation</dt><dd>A through-hole in the roof material. Beyond the range of membrane coating; requires replacement.</dd></div><div class="glossary-entry"><dt>Pitch</dt><dd>The angle of the roof surface. Determines product warranty compliance. 3-degree minimum for metal warranty.</dd></div></dl></div>
+      <div class="az-section" id="az-Q"><div class="az-heading">Q</div><dl><div class="glossary-entry"><dt>Quote diary</dt><dd>The CRM follow-up review discipline. Reviewed at the start of every day to identify follow-ups due that day.</dd></div></dl></div>
+      <div class="az-section" id="az-R"><div class="az-heading">R</div><dl><div class="glossary-entry"><dt>Reference site</dt><dd>A delivered job used as a credibility asset for future appointments. Photographs, before-and-after data, client name (with permission). See Chapter 3.5 Rehash.</dd></div><div class="glossary-entry"><dt>Rehash</dt><dd>Step 5 of the 5 Steps to the Sale. Confirms what was agreed, locks in the commitment, leaves the client confident.</dd></div><div class="glossary-entry"><dt>Repitching</dt><dd>Structural roof angle change. Requires removing the existing roof and building substructure to raise the ridge. May be restricted building work requiring consent.</dd></div><div class="glossary-entry"><dt>Rule 7</dt><dd>The goal-setting discipline. Know your number and your why. Write it down. See Chapter 5.</dd></div></dl></div>
+      <div class="az-section" id="az-S"><div class="az-heading">S</div><dl><div class="glossary-entry"><dt>SADP</dt><dd>Super Advance Durability Polyester. The coating system applied to Em-One products.</dd></div><div class="glossary-entry"><dt>Self-Gen (self-generated lead)</dt><dd>A lead the consultant brings into the company rather than coming through marketing-generated channels. Higher conversion rate, often higher value.</dd></div><div class="glossary-entry"><dt>Sense of urgency (impulse)</dt><dd>The general energy and pace impulse that signals decisions need to be made now. See Chapter 4.</dd></div><div class="glossary-entry"><dt>SEX (Smile, Eye contact, eXcitement)</dt><dd>The introduction-discipline acronym from Chapter 3.1. The three signals to bring to the door.</dd></div><div class="glossary-entry"><dt>Sky dishes exclusion</dt><dd>Roofbuddy's standard practice of explicitly excluding sky dishes and TV aerials from all roofing scopes.</dd></div><div class="glossary-entry"><dt>Soffit to soffit measurement</dt><dd>The correct way to measure roof span. Differs from wall to wall, which overstates the area.</dd></div><div class="glossary-entry"><dt>SPIN</dt><dd>Situation, Problem, Implication, Need-payoff. The questioning discipline used in the Presentation step to identify client needs before recommending solutions.</dd></div><div class="glossary-entry"><dt>SST (Sales Support Team)</dt><dd>Philippines-based support team that handles lead intake, qualification calls, scheduling, CRM updates and a range of administrative tasks. Used by consultants as a leverage tool.</dd></div><div class="glossary-entry"><dt>Step flashing</dt><dd>Specialist flashing used up the sides of brick chimneys.</dd></div><div class="glossary-entry"><dt>Substrate</dt><dd>Base metal layer beneath the coating in a pre-painted steel product.</dd></div><div class="glossary-entry"><dt>Super 6</dt><dd>Asbestos cement corrugated roofing sheet. Identifiable by golf-ball dimpling. Pre-1984 material requiring specialist removal.</dd></div></dl></div>
+      <div class="az-section" id="az-T"><div class="az-heading">T</div><dl><div class="glossary-entry"><dt>TPO</dt><dd>Thermoplastic polyolefin. A type of flat-roof membrane. Can be overcoated with Guardian Seal Pro.</dd></div><div class="glossary-entry"><dt>TSR</dt><dd>Total Solar Reflectance. Higher values indicate less heat absorption into the building.</dd></div></dl></div>
+      <div class="az-section" id="az-V"><div class="az-heading">V</div><dl><div class="glossary-entry"><dt>VLUX (Velux)</dt><dd>The dominant skylight brand in NZ. Every skylight specification must include exact Velux model number or equivalent specification.</dd></div></dl></div>
+      <div class="az-section" id="az-W"><div class="az-heading">W</div><dl><div class="glossary-entry"><dt>WorkSafe</dt><dd>The New Zealand regulator for workplace health and safety, including asbestos work licensing.</dd></div></dl></div>
+    </div>
+  </div>
+</section>
 
     <section id="team" class="team-section" style="display:none;">
       <div class="team-hero">
@@ -951,6 +1024,7 @@
     var sections = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
     var welcomeSec = document.getElementById('welcome');
     var teamSec    = document.getElementById('team');
+    var glossarySec = document.getElementById('glossary');
     var root     = document.documentElement;
 
     function colorOf(el){ return getComputedStyle(el).getPropertyValue('--c').trim(); }
@@ -1038,14 +1112,15 @@
     function activate(target){
       var sec = document.getElementById(target);
       if(!sec){ return; }
-      if(welcomeSec){ welcomeSec.classList.remove('visible'); }
+      if(welcomeSec){ welcomeSec.classList.remove('visible'); welcomeSec.style.display = ''; }
       if(teamSec){ teamSec.style.display = 'none'; }
+      if(glossarySec){ glossarySec.style.display = 'none'; }
       root.style.setProperty('--active', colorOf(sec));
-      sections.forEach(function(s){ s.classList.toggle('visible', s === sec); });
+      sections.forEach(function(s){ s.style.display = ''; s.classList.toggle('visible', s === sec); });
 
       navLinks.forEach(function(l){
-        if(l.dataset.nav === 'chapters'){ l.classList.toggle('active', target !== 'glossary'); }
-        else if(l.dataset.nav === 'glossary'){ l.classList.toggle('active', target === 'glossary'); }
+        if(l.dataset.nav === 'chapters'){ l.classList.add('active'); }
+        else if(l.dataset.nav === 'glossary'){ l.classList.remove('active'); }
         else if(l.dataset.nav === 'welcome'){ l.classList.remove('active'); }
         else if(l.dataset.nav === 'team'){ l.classList.remove('active'); }
       });
@@ -1054,9 +1129,10 @@
     }
 
     function showWelcome(){
-      if(welcomeSec){ welcomeSec.classList.add('visible'); }
+      if(welcomeSec){ welcomeSec.style.display = ''; welcomeSec.classList.add('visible'); }
       if(teamSec){ teamSec.style.display = 'none'; }
-      sections.forEach(function(s){ s.classList.remove('visible'); });
+      if(glossarySec){ glossarySec.style.display = 'none'; }
+      sections.forEach(function(s){ s.style.display = ''; s.classList.remove('visible'); });
       navLinks.forEach(function(l){
         l.classList.toggle('active', l.dataset.nav === 'welcome');
       });
@@ -1066,10 +1142,23 @@
 
     function showTeam(){
       if(teamSec){ teamSec.style.display = 'block'; }
-      if(welcomeSec){ welcomeSec.classList.remove('visible'); }
-      sections.forEach(function(s){ s.classList.remove('visible'); });
+      if(welcomeSec){ welcomeSec.classList.remove('visible'); welcomeSec.style.display = ''; }
+      if(glossarySec){ glossarySec.style.display = 'none'; }
+      sections.forEach(function(s){ s.style.display = ''; s.classList.remove('visible'); });
       navLinks.forEach(function(l){
         l.classList.toggle('active', l.dataset.nav === 'team');
+      });
+      closePanel();
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    function showGlossary(){
+      if(glossarySec){ glossarySec.style.display = 'block'; }
+      if(welcomeSec){ welcomeSec.classList.remove('visible'); welcomeSec.style.display = ''; }
+      if(teamSec){ teamSec.style.display = 'none'; }
+      sections.forEach(function(s){ s.style.display = ''; s.classList.remove('visible'); });
+      navLinks.forEach(function(l){
+        l.classList.toggle('active', l.dataset.nav === 'glossary');
       });
       closePanel();
       window.scrollTo({ top: 0, behavior: 'auto' });
@@ -1085,7 +1174,7 @@
         var which = l.dataset.nav;
         if(which === 'welcome'){ e.preventDefault(); closePanel(); showWelcome(); }
         else if(which === 'chapters'){ togglePanel(); }
-        else if(which === 'glossary'){ closePanel(); activate('glossary'); }
+        else if(which === 'glossary'){ closePanel(); showGlossary(); }
         else if(which === 'team'){ closePanel(); showTeam(); }
       });
     });
@@ -1213,19 +1302,43 @@ const CHAPTER_TITLES = {
 // Build search index from existing content
 const miniSearch = new MiniSearch({
   fields: ['title','content'],
-  storeFields: ['title','content','chapterNum','sectionNum','anchorId'],
+  storeFields: ['title','content','chapterNum','sectionNum','anchorId','section'],
   searchOptions: { fuzzy:0.2, prefix:true, boost:{title:2} }
 });
 
+function jumpToLetter(letter) {
+  const id = letter === '#' ? 'az-hash' : 'az-' + letter;
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.az-letter').forEach(l => {
+    l.classList.remove('az-active');
+    if (l.textContent.trim() === letter) l.classList.add('az-active');
+  });
+}
+
+function filterGlossary(val) {
+  val = val.toLowerCase().trim();
+  document.querySelectorAll('.glossary-entry').forEach(e => {
+    const term = e.querySelector('dt').textContent.toLowerCase();
+    const def = e.querySelector('dd').textContent.toLowerCase();
+    e.style.display = (!val || term.includes(val) || def.includes(val)) ? '' : 'none';
+  });
+  document.querySelectorAll('.az-section').forEach(s => {
+    const visible = [...s.querySelectorAll('.glossary-entry')].some(e => e.style.display !== 'none');
+    s.style.display = visible ? '' : 'none';
+  });
+}
+
 function buildIndex() {
   const docs = [];
+
+  // INDEX CHAPTERS
   document.querySelectorAll('.sec-h').forEach(heading => {
     const sectionNum = heading.querySelector('.sec-num')?.textContent?.trim() || '';
     const chapterNum = parseInt(sectionNum.split('.')[0]) || 0;
-    const title = heading.textContent.replace(sectionNum,'').trim();
-    const anchorId = heading.id || ('sec-'+sectionNum.replace('.','-'));
+    const title = heading.textContent.replace(sectionNum, '').trim();
+    const anchorId = heading.id || ('sec-' + sectionNum.replace('.', '-'));
     if (!heading.id) heading.id = anchorId;
-    // Collect paragraph text following this heading
     let content = '';
     let el = heading.nextElementSibling;
     let count = 0;
@@ -1234,8 +1347,54 @@ function buildIndex() {
       el = el.nextElementSibling;
       count++;
     }
-    docs.push({ id: anchorId, title, content: content.slice(0,400), chapterNum, sectionNum, anchorId });
+    docs.push({ id: anchorId, title, content: content.slice(0, 400), chapterNum, sectionNum, anchorId, section: 'chapter' });
   });
+
+  // INDEX WELCOME PAGE
+  const welcomeLetter = document.querySelector('.welcome-letter');
+  if (welcomeLetter) {
+    docs.push({
+      id: 'welcome-founder',
+      title: 'Welcome from the founder',
+      content: (welcomeLetter.textContent || '').slice(0, 800),
+      chapterNum: 0,
+      sectionNum: '',
+      anchorId: 'welcome',
+      section: 'welcome'
+    });
+  }
+
+  // INDEX GLOSSARY ENTRIES
+  document.querySelectorAll('.glossary-entry').forEach((entry, i) => {
+    const term = entry.querySelector('dt')?.textContent?.trim() || '';
+    const def = entry.querySelector('dd')?.textContent?.trim() || '';
+    const entryId = 'glossary-entry-' + i;
+    entry.id = entryId;
+    docs.push({
+      id: entryId,
+      title: term,
+      content: def,
+      chapterNum: 0,
+      sectionNum: '',
+      anchorId: 'glossary',
+      section: 'glossary'
+    });
+  });
+
+  // INDEX TEAM PAGE
+  const teamIntro = document.querySelector('.team-intro');
+  if (teamIntro) {
+    docs.push({
+      id: 'team-page',
+      title: 'Our team — Roofbuddy Group org chart',
+      content: (teamIntro.textContent || '').slice(0, 400),
+      chapterNum: 0,
+      sectionNum: '',
+      anchorId: 'team',
+      section: 'team'
+    });
+  }
+
   miniSearch.addAll(docs);
 }
 
@@ -1277,6 +1436,13 @@ function renderResults(results, query) {
   let html = '';
   let total = 0;
   Object.keys(groups).sort((a,b)=>a-b).forEach(ch => {
+    if (parseInt(ch) === 0) {
+      html += `<div class="rg" style="margin-bottom:2px;">
+      <div style="height:40px;padding:0 14px;display:flex;align-items:center;position:relative;overflow:hidden;background:#161823;">
+        <div style="font-size:11px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:82%;position:relative;z-index:1;font-family:Poppins,sans-serif;">Handbook</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:rgba(255,255,255,0.13);position:absolute;right:10px;bottom:-2px;line-height:1;">RB</div>
+      </div>`;
+    } else {
     const colour = CHAPTER_COLOURS[ch] || '#40BB6A';
     const chTitle = CHAPTER_TITLES[ch] || 'Chapter '+ch;
     const num = String(ch).padStart(2,'0');
@@ -1285,10 +1451,11 @@ function renderResults(results, query) {
         <div style="font-size:11px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:82%;position:relative;z-index:1;font-family:Poppins,sans-serif;">${chTitle}</div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:rgba(255,255,255,0.13);position:absolute;right:10px;bottom:-2px;line-height:1;">${num}</div>
       </div>`;
+    }
     groups[ch].forEach(r => {
       const snippet = highlight(getSnippet(r.content, query), query);
       const titleH = highlight(r.title, query);
-      html += `<div class="ri" data-anchor="${r.anchorId}" style="padding:9px 14px;cursor:pointer;border-left:3px solid transparent;display:flex;flex-direction:column;gap:3px;" onmouseenter="this.style.background='#F7F7F5'" onmouseleave="this.style.background=''">
+      html += `<div class="ri" data-section="${r.section}" data-anchor="${r.anchorId}" style="padding:9px 14px;cursor:pointer;border-left:3px solid transparent;display:flex;flex-direction:column;gap:3px;" onmouseenter="this.style.background='#F7F7F5'" onmouseleave="this.style.background=''">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:10px;font-weight:700;color:#999;letter-spacing:0.06em;font-family:Poppins,sans-serif;">${r.sectionNum}</span>
           <span style="font-size:12px;font-weight:500;color:#1A1A1A;font-family:Poppins,sans-serif;">${titleH}</span>
@@ -1314,8 +1481,22 @@ function renderResults(results, query) {
   container.querySelectorAll('.ri').forEach(el => {
     el.addEventListener('click', () => {
       closeSearch();
-      const target = document.getElementById(el.dataset.anchor);
-      if (target) { target.scrollIntoView({behavior:'smooth',block:'start'}); }
+      const section = el.dataset.section;
+      const anchor = el.dataset.anchor;
+      if (section && section !== 'chapter') {
+        // Navigate to the correct non-chapter section
+        document.querySelectorAll('.chapter').forEach(s => s.classList.remove('visible'));
+        document.querySelectorAll('.welcome-section').forEach(s => s.classList.remove('visible'));
+        document.querySelectorAll('.welcome-section, .team-section, .glossary-section').forEach(s => s.style.display = 'none');
+        const targetSection = document.getElementById(anchor);
+        if (targetSection) targetSection.style.display = 'block';
+        // Update active nav item
+        document.querySelectorAll('.nav-link, .nav-item').forEach(n => n.classList.remove('active'));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const target = document.getElementById(anchor);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   });
 }
