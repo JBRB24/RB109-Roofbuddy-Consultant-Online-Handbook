@@ -1662,38 +1662,59 @@ function filterGlossary(val) {
 
 function buildIndex() {
   const docs = [];
+  const clean = s => (s || '').replace(/\s+/g, ' ').trim();
 
-  // INDEX CHAPTERS
+  // INDEX WELCOME PAGE (whole content block: eyebrow, heading, letter,
+  // sign-off, and the founder's signature name/role — so "James" is found).
+  const welcomeSection = document.getElementById('welcome');
+  if (welcomeSection) {
+    const note = welcomeSection.querySelector('.welcome-letter');
+    if (note && !note.id) note.id = 'welcome-note';
+    const wc = welcomeSection.querySelector('.welcome-content') || welcomeSection;
+    docs.push({
+      id: 'welcome-founder',
+      title: 'Welcome from the founder',
+      content: clean(wc.textContent).slice(0, 1200),
+      chapterNum: 0,
+      sectionNum: '',
+      anchorId: (note && note.id) ? note.id : 'welcome',
+      section: 'welcome'
+    });
+  }
+
+  // INDEX CHAPTER TITLES (the hero title of each chapter).
+  document.querySelectorAll('.chapter').forEach(ch => {
+    const heroTitle = ch.querySelector('.hero-title');
+    if (!heroTitle) return;
+    const idx = parseInt(ch.dataset.index, 10) || 0;
+    if (!heroTitle.id) heroTitle.id = ch.id + '-title';
+    docs.push({
+      id: ch.id + '-title',
+      title: clean(heroTitle.textContent),
+      content: clean(heroTitle.textContent),
+      chapterNum: idx,
+      sectionNum: '',
+      anchorId: heroTitle.id,
+      section: 'chapter'
+    });
+  });
+
+  // INDEX CHAPTER SECTIONS (each .sec-h plus ALL of its body up to the next
+  // heading: lead paragraphs, sub-headings, lozenge labels, body text).
   document.querySelectorAll('.sec-h').forEach(heading => {
     const sectionNum = heading.querySelector('.sec-num')?.textContent?.trim() || '';
     const chapterNum = parseInt(sectionNum.split('.')[0]) || 0;
     const title = heading.textContent.replace(sectionNum, '').trim();
-    const anchorId = heading.id || ('sec-' + sectionNum.replace('.', '-'));
+    const anchorId = heading.id || ('sec-' + sectionNum.replace(/[^\w]+/g, '-'));
     if (!heading.id) heading.id = anchorId;
     let content = '';
     let el = heading.nextElementSibling;
-    let count = 0;
-    while (el && !el.classList.contains('sec-h') && count < 4) {
+    while (el && !el.classList.contains('sec-h')) {
       content += ' ' + (el.textContent || '');
       el = el.nextElementSibling;
-      count++;
     }
-    docs.push({ id: anchorId, title, content: content.slice(0, 400), chapterNum, sectionNum, anchorId, section: 'chapter' });
+    docs.push({ id: anchorId, title, content: clean(content).slice(0, 2000), chapterNum, sectionNum, anchorId, section: 'chapter' });
   });
-
-  // INDEX WELCOME PAGE
-  const welcomeLetter = document.querySelector('.welcome-letter');
-  if (welcomeLetter) {
-    docs.push({
-      id: 'welcome-founder',
-      title: 'Welcome from the founder',
-      content: (welcomeLetter.textContent || '').slice(0, 800),
-      chapterNum: 0,
-      sectionNum: '',
-      anchorId: 'welcome',
-      section: 'welcome'
-    });
-  }
 
   // INDEX GLOSSARY ENTRIES
   document.querySelectorAll('.glossary-entry').forEach((entry, i) => {
@@ -1712,13 +1733,20 @@ function buildIndex() {
     });
   });
 
-  // INDEX TEAM PAGE
-  const teamIntro = document.querySelector('.team-intro');
-  if (teamIntro) {
+  // INDEX TEAM PAGE (heading + intro + chart caption; individual names live
+  // inside the org-chart image and are not text-indexable).
+  const teamSection = document.getElementById('team');
+  if (teamSection) {
+    const heading = clean(teamSection.querySelector('.team-heading')?.textContent) || 'Our team';
+    let content = '';
+    ['.team-intro', '.team-chart figcaption'].forEach(sel => {
+      const e = teamSection.querySelector(sel);
+      if (e) content += ' ' + e.textContent;
+    });
     docs.push({
       id: 'team-page',
-      title: 'Our team — Roofbuddy Group org chart',
-      content: (teamIntro.textContent || '').slice(0, 400),
+      title: heading + ' — Roofbuddy Group',
+      content: clean(content),
       chapterNum: 0,
       sectionNum: '',
       anchorId: 'team',
