@@ -1309,7 +1309,11 @@ const miniSearch = new MiniSearch({
 function jumpToLetter(letter) {
   const id = letter === '#' ? 'az-hash' : 'az-' + letter;
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (el) {
+    const offset = 64 + 44 + 16;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  }
   document.querySelectorAll('.az-letter').forEach(l => {
     l.classList.remove('az-active');
     if (l.textContent.trim() === letter) l.classList.add('az-active');
