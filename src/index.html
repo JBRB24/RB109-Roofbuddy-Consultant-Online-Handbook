@@ -515,8 +515,24 @@
   .ch-popup-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; font-family: 'Poppins', sans-serif; }
   .ch-popup-rule { width: 32px; height: 2px; margin: 0 auto 32px; }
   .ch-popup-quote { font-size: 28px; font-weight: 700; color: white; line-height: 1.35; margin-bottom: 40px; font-family: 'Poppins', sans-serif; }
-  .ch-popup-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 500; font-family: 'Poppins', sans-serif; padding: 10px 28px; cursor: pointer; letter-spacing: 0.06em; transition: all 0.2s; }
-  .ch-popup-btn:hover { color: white; }
+  .ch-popup-btn {
+    background: #40BB6A;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    padding: 14px 36px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.02em;
+    transition: background 0.2s;
+  }
+  .ch-popup-btn:hover { background: #27963C; }
+  .ch-popup-label { color: rgba(255,255,255,0.6) !important; }
 
   /* ============================================================
      TEAM SECTION
@@ -1547,7 +1563,7 @@ window.addEventListener('DOMContentLoaded', buildIndex);
     <div class="ch-popup-label" id="chPopupLabel"></div>
     <div class="ch-popup-rule" id="chPopupRule"></div>
     <div class="ch-popup-quote" id="chPopupQuote"></div>
-    <button class="ch-popup-btn" id="chPopupBtn">Enter chapter →</button>
+    <button class="ch-popup-btn" id="chPopupBtn">Let's go</button>
   </div>
 </div>
 
@@ -1588,7 +1604,6 @@ function showChapterPopup(chapterNum, colour) {
   if (seenChapters.has(chapterNum)) return;
   seenChapters.add(chapterNum);
   const popup = document.getElementById('chapterPopup');
-  document.getElementById('chPopupLabel').style.color = colour;
   document.getElementById('chPopupLabel').textContent = CHAPTER_POPUP_TITLES[chapterNum] || '';
   document.getElementById('chPopupRule').style.background = colour;
   document.getElementById('chPopupTint').style.background = colour;
