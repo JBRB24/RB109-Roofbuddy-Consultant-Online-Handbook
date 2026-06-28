@@ -192,6 +192,7 @@
     width:100%;height:100%;
     object-fit:cover;
     object-position:center;
+    filter:brightness(0.6);
   }
   .hero-tint{
     position:absolute;
@@ -199,12 +200,32 @@
     background:var(--c);
     opacity:0.72;
   }
-  /* Chapter 1 hero overlay (image already has the green tint baked in) */
+  /* Hero overlay: solid chapter colour mapped over the photo via blend mode.
+     Image sits underneath at normal blend; this layer keeps the photo's
+     luminosity (highlights/shadows) while remapping hue to the chapter colour. */
   #ch1 .hero-overlay{
     position:absolute;
     inset:0;
-    background:rgba(0,0,0,0.15);
+    background:#40BB6A;
+    mix-blend-mode:color;
+    opacity:1;
   }
+  #ch2 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#009444;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  #ch3 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#1a6e77;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  /* Ch3 photo is bright sky up top — pushed darker than the shared 0.6 */
+  #ch3 .hero-img{ filter:brightness(0.55); }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -442,8 +463,11 @@
 
   .lozenge-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
   .lozenge { display: inline-flex; align-items: center; background: #27963C; color: white; font-size: 13px; font-weight: 600; font-family: 'Poppins', sans-serif; padding: 8px 20px; border-radius: 999px; white-space: nowrap; }
+  #ch3 .lozenge { background: #1a6e77; }
+  #ch3 .chapter-content .run-in { color: #1a6e77; }
 
-  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin: 24px 0; background: #E8E8E6; }
+  .steps-grid-card { background: #ffffff; border-radius: 0; padding: 24px; margin: 24px 0; }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin: 0; background: #E8E8E6; }
   .steps-grid-cell { background: #F7F7F5; padding: 24px 16px; text-align: center; }
   .steps-grid-cell .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: #40BB6A; line-height: 1; margin-bottom: 8px; display: block; }
   .steps-grid-cell .step-label {
@@ -796,7 +820,8 @@
 
     <section class="chapter" id="ch2" data-index="2" style="--c:#27963C">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch2/Works-underway.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">02</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 2</div>
@@ -854,6 +879,7 @@
 
 <h2 class="sec-h" id="sec-2-5"><span class="sec-num">2.5</span>The 8 steps to success.</h2>
 <p><strong>The 8 Steps are the behavioural and attitudinal standards that govern how you operate as a professional. They are:</strong></p>
+<div class="steps-grid-card">
 <div class="steps-grid">
   <div class="steps-grid-cell"><span class="step-num">1</span><span class="step-label">Have a positive attitude</span></div>
   <div class="steps-grid-cell"><span class="step-num">2</span><span class="step-label">Maintain a positive attitude</span></div>
@@ -863,6 +889,7 @@
   <div class="steps-grid-cell"><span class="step-num">6</span><span class="step-label">Work a full day</span></div>
   <div class="steps-grid-cell"><span class="step-num">7</span><span class="step-label">Know why you are here and where you are going</span></div>
   <div class="steps-grid-cell"><span class="step-num">8</span><span class="step-label">Take control</span></div>
+</div>
 </div>
 <div class="steps-annotated">
   <div class="step-annotation"><span class="step-annotation-num">1-2</span><div class="step-annotation-body"><strong>Notice that two of the eight steps are about attitude.</strong> Not because attitude is a soft concept, but because it is the hardest thing to maintain consistently. It is easy to have a positive attitude on a Monday morning or the day after a big close. It is harder after three back-to-back rejections or a cancelled appointment. Step 2 exists because Step 1 is not enough - having a positive attitude is a starting position, maintaining it is the professional discipline.</div></div>
@@ -885,9 +912,10 @@
       </div>
     </section>
 
-    <section class="chapter" id="ch3" data-index="3" style="--c:#2C6C76">
+    <section class="chapter" id="ch3" data-index="3" style="--c:#1a6e77">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch3/Image_2.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">03</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 3</div>
@@ -896,7 +924,123 @@
       </div>
       <div class="content-area">
         <div class="chapter-content">
-          <p class="awaiting">Awaiting content from Tango.</p>
+<p><strong>This is the deepest chapter in the manual. The 5 Steps are the architecture every appointment follows. Read it carefully then read it again. Come back to it after every appointment that didn’t go the way you wanted, because the answer to what went wrong is almost always somewhere in these pages.</strong></p>
+
+<h2 class="sec-h" id="sec-3-1"><span class="sec-num">3.1</span>Step 1: Introduction - Build rapport and set the agenda.</h2>
+<p><strong>The Introduction begins two blocks out from the house. That is not a figure of speech or theoretical, it is operational. The block before you arrive is where you decide what kind of consultant is about to walk up to that door. The client doesn’t see that decision being made. They see its consequence: the energy, the calm, the warmth, the focus you carry when they open the door.</strong></p>
+<h3 class="sub-h">The first 10 seconds.</h3>
+<p>The first impression is being made before you’ve finished introducing yourself. The client is reading you against expectations they had before you arrived: did you turn up on time, are you presentable, do you sound like a professional or do you sound like a salesperson? The first 10 seconds set the frame. Lose them and the whole appointment is uphill. Win them and the rest is much easier.</p>
+<p>Specifically: arrive a few minutes early but knock at the agreed time. Stand back from the door so you don’t crowd it. Smile genuinely, not performatively. Introduce yourself by name, name the company, name the reason you’re there and wait to be invited in.</p>
+<h3 class="sub-h">SEX - Smile, Eye contact, eXcitement.</h3>
+<p>The internal training acronym for what you bring through the door. Smile, eye contact, excitement. The deliberately memorable framing: we want to have sex with all our customers as soon as we meet them, 100% of the time. Crude, intentionally unforgettable, and exactly accurate to what is being asked of you in the first 23 seconds - a genuine smile, present eye contact and visible enthusiasm.</p>
+<p>Get all three right and the appointment is half won before you have said anything substantive. Miss any of the three and the client is reading reluctance, distance, or disinterest before the conversation even starts. The three are not difficult individually but the discipline is doing all three on the worst day of your week as well as the best.</p>
+<h3 class="sub-h">Who you are, what you’re doing here, why we’re talking.</h3>
+<p>Three pieces of information the client needs in the first 60 seconds, in plain language. Who you are (your name, Roofbuddy). What you’re doing here (the appointment context - they enquired about a roof and you are here to walk through it with them). Why we’re talking (a brief framing of the next 30 to 45 minutes so they know what to expect). Get all three on the table cleanly and move on.</p>
+<h3 class="sub-h">Finding common ground.</h3>
+<p>Before any business conversation, find something genuine to connect on. The car in the driveway, the dog you can hear, the view from the front door, the renovation work obviously in progress, the artwork in the entryway. This is not a tactic. It’s the basic act of acknowledging the human being in front of you before you start talking about their roof.</p>
+<p>Take a beat and don’t rush this, enjoy it - meeting new people should be fun. The client is also calibrating to you and if you barrel into the business conversation in the first 30 seconds you have communicated that you’re here to extract, not to help and connect.</p>
+<h3 class="sub-h">Sell yourself - talk about something other than the product.</h3>
+<p>Spend a minute on you, the person, not the product. Where you’re from and how long you’ve been doing this. Something authentic that gives the client a sense of who they are dealing with as a human being. The client is not just buying a roofing service - they are buying you, the consultant, as their guide through the process so make yourself visible early. Then the rest of the appointment runs through a trust relationship rather than a transactional posture.</p>
+<h3 class="sub-h">Mindset prep.</h3>
+<p>Walk in believing you are here to solve their problem. Not to make a sale - to solve a problem and help navigate a complex purchasing decision. The two are aligned but the mental frame matters. If your mental frame is “close this client”, the client feels it. If your mental frame is “understand this client’s situation and figure out the right answer for them”, the client also feels it so lead with the second one.</p>
+<h3 class="sub-h">Common introduction mistakes.</h3>
+<p>Talking too much. The client is the one who lives in this house so let them tell you about it. Asking the right questions in the first ten minutes signals competence. Telling them what their problem is, before you’ve heard them out, signals arrogance. You’ve got two ears and one mouth, that’s about the right ratio.</p>
+<p>Rushing past the rapport step because the day is busy. There’s always a temptation to compress the Introduction because you’re running late or because you’ve got three more appointments. Don’t. The Introduction is the foundation. Compromise it and everything else takes longer or fails entirely.</p>
+<p>Treating the Introduction as small talk to get through - it’s not that. It’s the moment trust is built or not built so be completely present and attentive.</p>
+
+<h2 class="sec-h" id="sec-3-2"><span class="sec-num">3.2</span>Presentation - Collect information and educate to motivate.</h2>
+<h3 class="sub-h">SPIN questioning.</h3>
+<p>The Presentation is structured: you cover the Roofbuddy process, you identify the client’s specific needs, you connect features to their benefits, and you set up the close that’s coming. SPIN is the questioning discipline that drives the needs-identification work: Situation, Problem, Implication, Need-payoff. You ask questions that establish the Situation (how long they’ve been in the house, what the roof has been like, what’s prompted this conversation), surface the Problem (what specifically is bothering them, what they have noticed, what they are worried about), draw out the Implication (what happens if this is not addressed - costs, risks, disruption, lost time), and lead them to articulate the Need-payoff (what they would want from a good outcome).</p>
+<p>Done well, SPIN feels like a conversation, not an interrogation. The client is doing most of the talking. You are doing most of the listening. By the time you have asked through Situation, Problem, Implication, and Need-payoff, the client has effectively told you why they should buy from you - and just as importantly, has said it out loud to themselves.</p>
+<p>The questions you ask in the Presentation are doing work even when they feel like ordinary conversation. Each one is gathering intel and qualifying. “How long have you been in this house?” tells you about their attachment and their timeline. “Have you had any roofing work done before?” tells you about their experience and any baggage they’re carrying. “What made you reach out now?” tells you what’s driving the inquiry - leak, sale, insurance, deterioration, neighbour’s roof going up. Each answer shapes the rest of the appointment.</p>
+<h3 class="sub-h">Building value.</h3>
+<p>The value of the Roofbuddy process can be communicated through five words, use them:</p>
+<div class="lozenge-row">
+  <span class="lozenge">Multiple</span>
+  <span class="lozenge">Comparable</span>
+  <span class="lozenge">Competitive</span>
+  <span class="lozenge">Specific</span>
+  <span class="lozenge">Vetted</span>
+</div>
+<p><strong class="run-in">Multiple:</strong> You’ll get three to four quotes, not one. You can’t make this decision with one quote - there’s too much variance in roofing pricing and product specification.</p>
+<p><strong class="run-in">Comparable:</strong> Every quote is built off the same spec, so you’re comparing like for like. Without that, comparing quotes is impossible.</p>
+<p><strong class="run-in">Competitive:</strong> The roofers know they’re competing. That changes the pricing they put forward.</p>
+<p><strong class="run-in">Specific:</strong> The quotes are specific to this property, this scope, this condition. Not generic estimates.</p>
+<p><strong class="run-in">Vetted:</strong> Every roofer in the network has been checked for LBP certification, public liability insurance, solvency, and on-going performance through the work they’ve done for us.</p>
+<p>Walk through those five words and the client understands why Roofbuddy exists and what they’re getting.</p>
+<h3 class="sub-h">Identifying needs.</h3>
+<p>The Presentation is also where you identify what this specific client actually needs. Sometimes the inquiry says “reroof” but the real need is a repair followed by a coating. Sometimes the inquiry says “leak” but the roof is past its life and a reroof is the right answer. Listen carefully. The client may not know what they need, and they’re relying on you to figure it out.</p>
+<h3 class="sub-h">Setting up the close.</h3>
+<p>The Presentation is where the close starts being built. Every “yes”, every nod, every agreement on a feature or a benefit is a minor close. You’re building the pattern that ends in the formal close. By the end of the Presentation, the client should have agreed, explicitly or implicitly, that the problem you’re describing is their problem, and that the process you’re describing is the right way to solve it.</p>
+<h3 class="sub-h">Creating comfort.</h3>
+<p>The Presentation must leave the client feeling comfortable about what happens next. A client who understands the process is a client who can say yes to it. Confusion produces hesitation and FUD (Fear, Uncertainty and Doubt). Clarity produces movement and moves people to a decision promptly.</p>
+<p>Walk them through the next steps explicitly. What happens after this appointment. When they’ll hear from roofers. What the quotes will look like. How the QA works. When the warranty kicks in. Remove every uncertainty you can remove, because every uncertainty is a reason to pause.</p>
+
+<h2 class="sec-h" id="sec-3-3"><span class="sec-num">3.3</span>Step 3: Short story - make it real.</h2>
+<p><strong>The Short Story deploys after you have received clear positive signals in the Presentation. The client has engaged. They’ve answered your questions. They’ve agreed, explicitly or implicitly, that the problem you’re describing is their problem. Now you give them proof that the solution has worked for real people in situations they recognise.</strong></p>
+<p>The purpose of the Short Story is to build credibility and emotional connection simultaneously. The credibility comes from the fact that a real person had a real outcome through Roofbuddy. The emotional connection comes from the similarity between that person’s situation and this client’s situation. When the client sees themselves in the story, they don’t just hear about a solution. They imagine themselves experiencing it.</p>
+<p>The verbatim definition from training: “A short story is just expanding beyond anything that you’ve seen in the presentation. It’s really congealing what you’ve said and giving them an example of how this service, this product, this offering has worked for somebody in particular.”</p>
+<p>The word “congealing” is precise. The story takes everything fluid from the Presentation, the features, the benefits, the needs you’ve identified, and solidifies it into a single human example. After a good Short Story, the client’s question is no longer “will this work?” It’s “which roofers am I going to get?”</p>
+<h3 class="sub-h">Story structure.</h3>
+<p>A Short Story has three parts. The client in the story had a problem similar to this client’s problem. The Roofbuddy process addressed that problem with a specific outcome. The client in the story is now satisfied.</p>
+<p>The structure is simple because the story needs to be easy to follow and emotionally resonant. Complexity undermines both goals. Keep the story specific, keep it human, and land clearly on the outcome.</p>
+<h3 class="sub-h">The core story bank.</h3>
+<p><strong class="run-in">Mrs Wiggins:</strong> A client who had the same type of roof issue as the person you’re now sitting with. She went through the Roofbuddy process, received three competitive quotes, selected an excellent company at a strong price, had the roof replaced and is now entirely satisfied. The Mrs Wiggins story is a clean positive example, appropriate for clients whose primary concern is whether they’ll actually get quality roofers at competitive prices.</p>
+<p><strong class="run-in">Mount Eden Road, Rene:</strong> A client who went through the full Roofbuddy process from beginning to end, with the same result. This story is useful when the client is familiar with Mount Eden Road or similar established Auckland suburbs, because it grounds the story geographically and makes the social proof more proximate.</p>
+<p><strong class="run-in">Annalese:</strong> A client who came to us and went through the process, receiving four quotes including one from Mac Roofing. The competitive comparison made the decision easy and the job was completed well. The Annalese story is useful when a client is wondering whether the quote process actually delivers competitive options.</p>
+<p><strong class="run-in">The Laken Wahene case (warranty activated):</strong> This is the most important story for clients whose primary concern is risk. Laken Wahene was a roofer in the Roofbuddy network who went out of business mid-job. Most clients, when you describe this scenario, will immediately imagine what that means: a half-finished roof, money spent, no recourse, a dispute that drags on for months or longer. But that’s not what happened - Roofbuddy activated the Customer Warranty and new roofers were brought in from the network. The jobs were completed and the client’s outcome was protected.</p>
+<p>The Laken Wahene case is proof that the warranty is not a marketing line. It has been used in exactly the circumstances it was designed for. Clients who are risk-averse respond powerfully to this story because it takes the worst-case scenario they’re imagining and demonstrates that Roofbuddy had already planned for it.</p>
+<p><strong class="run-in">The Mr Walton case (the cost of delay):</strong> Mr Walton is a client in Cambridge who intended to go ahead with a reroof but delayed too long. Six months later the entire roof collapsed and the remediation cost over $100,000. This story is the consequence of not acting - a decision to wait has consequences too. It is not told to frighten the client, it is told to make the stakes real. Use it when the client is leaning toward proceeding but is suggesting they’ll “think about it for a few months” - the cost of that delay is what Mr Walton paid.</p>
+<p><strong class="run-in">The Bonnie case (cautionary tale about going around Roofbuddy):</strong> A client decided to deal directly with a roofer they had met through Roofbuddy. The roofer had completed many jobs for us over time but had recently been showing signs of overload - communication slipping, lead times stretching. We had stopped feeding them new jobs as a result. The client went around the network anyway, paid a 50% deposit direct and the roofer didn’t deliver. They were left without a roof and without their deposit. This story is for the client who is wondering why they need Roofbuddy at all if the roofers are reliable. The answer: the discipline of the network is the whole reason the outcomes are reliable.</p>
+<h3 class="sub-h">Jones theory in practice.</h3>
+<p>The Jones impulse (keeping up with the neighbours) is directly activated by Short Stories, particularly stories that reference recognisable areas or social contexts similar to the client’s. “Your neighbours are getting roofers interested” is the explicit language, but it runs through every story you tell about someone in a similar situation.</p>
+<p>When you’re telling the Mrs Wiggins story to a client in an established suburb, you are implicitly saying: people like you, in houses like this, in streets like yours, have already used this service. You are not the first. The process is known and trusted. The Jones impulse responds to normalisation: if people like me have done this, it’s safe to do it too.</p>
+<p>This is why specificity in your stories matters. A vague story about “a client” activates nothing. A story about a specific person with a specific situation activates recognition and resonance. Use names. Use locations where appropriate. Make the person in the story real.</p>
+<h3 class="sub-h">Common mistakes with the short story.</h3>
+<p>Deploying it too early. The Short Story is designed to consolidate positive momentum that already exists. If you tell a story before the client has engaged with the Presentation, before they’ve agreed that their problem is real and the solution is relevant, the story lands in neutral. You’ve told an anecdote. You haven’t moved anything.</p>
+<p>Using the wrong story for the client’s concern. A client whose primary concern is price should hear the Mrs Wiggins or Annalese story with emphasis on the competitive quotes. A client whose primary concern is risk should hear the Laken Wahene case. A client wondering whether they should just deal direct should hear the Bonnie story. A client leaning toward delay should hear the Mr Walton case. Read the client correctly and select accordingly.</p>
+<p>Telling the story without connecting it back to the client’s specific situation. Every story needs a bridge: “And actually, your situation is very similar to hers.” Without the bridge, it’s just a story. With the bridge, it’s proof that this process will work for this client.</p>
+<p>Making the story too long. “Short” is in the name. The story should be compressed and targeted. If you’re still telling the Laken Wahene case five minutes later, you’ve lost the momentum the story was supposed to create.</p>
+
+<h2 class="sec-h" id="sec-3-4"><span class="sec-num">3.4</span>Step 4: The close - Obtain agreement.</h2>
+<p><strong>The close is not a moment at the end of the appointment. That is the most important thing to understand about Step 4 - the close is a posture. It runs from the Introduction through the Rehash. Every minor agreement you build, every affirmation you receive, every question the client answers in a way that confirms their need is a close. By the time you arrive at the formal close, the sale has already happened. The ‘green light’ is the confirmation, not the event.</strong></p>
+<h3 class="sub-h">The mechanics of minor closes.</h3>
+<p>A minor close is any small agreement, spoken or unspoken, between you and the client. A nod. A “yes.” A “that makes sense.” An “exactly.” Every one of these is a yes in the pattern of yeses that leads to the final yes. The goal, stated in the training material, is fifteen or more minor closes built through the Introduction, Presentation, and Short Story before the formal close arrives.</p>
+<p>The verbatim training language on this: “If we’ve gone through three steps here, introduction, presentation, short story, and we’ve used 15 minor closes where they’ve agreed and we’ve agreed on a point in the positive, in the affirmative, four qualifications, don’t they? Roofbuddy’s QA service after we’ve finished installing the roof would give you a good level of assurance that the job’s been done correctly, wouldn’t it?”</p>
+<p>The structure of the minor close is always a question that invites an affirmative answer. “Doesn’t it?” “Wouldn’t it?” “Don’t they?” These are not high-pressure devices. They are gentle invitations to confirm something that’s already true. The client agrees because they agree. You’re surfacing the agreement that’s already there.</p>
+<h3 class="sub-h">The money conversation.</h3>
+<p>Be comfortable with money. Every consultant who is uncomfortable talking about price communicates that discomfort to the client, and the client mirrors it. Their question becomes “is this too expensive?” when your nervousness suggests it might be.</p>
+<p>Be matter-of-fact. Roofing is expensive. A reroof is a significant investment. The client knows this before you arrive. Pretending otherwise undermines your credibility. The professional move is to acknowledge the cost directly and explain the value clearly.</p>
+<p>When the price comes up, slow down rather than speed up. Speeding up signals you’re trying to push past the price. Slowing down signals you’re confident in it. Walk the client through what they get for the money - the multiple quotes, the vetting, the QA, the warranty, the support - and let the price settle into context.</p>
+<h3 class="sub-h">Final close mechanics.</h3>
+<p>The formal close is the natural conclusion of the pattern you’ve built. It’s not a high-pressure ask. It’s an invitation to confirm what’s already been agreed.</p>
+<p>The assumptive close is the clearest expression of this. Rather than “would you like to proceed?” - which invites the answer no - you ask something that assumes proceeding and offers a choice within it. “Are Tuesday or Thursday better for the install team to come and measure up?” “Will you be making the deposit tonight or tomorrow?” The client picks one. The sale is closed.</p>
+<p>Multiple closes inside the same close moment. The training language: “How does that sound? You happy with that? Should we go ahead and get that locked in for you? Shall we get the wheels on that for you?” Each of those is a minor close that becomes the actual close as it accumulates.</p>
+<h3 class="sub-h">Buddy Pay: The finance close mechanic.</h3>
+<p>Buddy Pay is the company’s interest-free finance product. It appears on every quote the client receives. The client can toggle between three terms - 6 months, 12 months, or 18 months interest-free - and the system calculates weekly, fortnightly, and monthly repayments on the screen in real time. There is also a more-info button that takes them to the full terms.</p>
+<p>Knowing how to introduce Buddy Pay turns a category of clients you would have lost into clients who proceed. The clean alternative close that Buddy Pay creates: “Do you have the money for this, or would you like to take advantage of the interest-free finance?” That question reframes the conversation. The client is no longer choosing between yes and no. They are choosing between two ways of saying yes.</p>
+<p>How to present it: do not lead with finance. Quote the cash price and explain what they get. Then offer Buddy Pay as the second path if the signals suggest it may be well received. “The cash price for this is X. If you’d prefer to spread it over 6, 12, or 18 months interest-free, we can do that too. Have a look at the repayment numbers and tell me which works for you.” The client interacts with the calculator on the quote page themselves and the numbers tell the story.</p>
+<p>The legal nuance to understand and respect: the cash price and the finance price are the same price. You cannot offer a discount on the cash version after the client has accepted the finance version. That breaks the interest-free framework and creates legal exposure. If a client asks for a cash discount because they’ve seen the finance option, the answer is that the price is the price; the finance is genuinely free, paid for by the credit provider. You can offer a small discount only as a separate negotiation, on the actual transaction price, and then the financing recalculates from that adjusted base. Be careful with this conversation. People will try to extract a discount and the finance offer at the same time.</p>
+<p>Why take every Buddy Pay deal you can: once the finance is approved, Roofbuddy gets paid the full amount immediately. There is no sticky final invoice. There is no chasing a client three months after install for the closing balance. The credit provider handles all of that. From a cashflow and risk perspective, a Buddy Pay deal is the strongest version of a close.</p>
+<p>Buddy Pay is also useful as a way to break the perception barrier on a large purchase. A $48,000 reroof feels like one number. The same job at $620 a month for 18 months feels different. You’re not changing the price. You’re changing the frame the client uses to evaluate the price. Some clients will see the monthly number and proceed who would have hesitated on the lump sum.</p>
+<h3 class="sub-h">Indifference at the close.</h3>
+<p>Closing with indifference is one of the most counterintuitive but powerful techniques in the toolkit. Once you’ve made your case, asked your questions, told your stories, presented your options, the close is just an invitation. You don’t need this client but you would like to find out what it takes to earn their business. You care about their outcome, you’d love to work with them, but you don’t need them. That posture, communicated through your body language and language choices, creates a vacuum that the client often steps into.</p>
+<p>The phrase that captures this: “Look, it’s entirely up to you. I just wouldn’t want you to miss out on that March slot because they do go fast this time of year. But really, whatever works for you.” Indifference wraps the Fear of Loss. The client gets the information and they feel the weight of potentially missing out. But they do not feel pushed and the decision feels like theirs.</p>
+
+<h2 class="sec-h" id="sec-3-5"><span class="sec-num">3.5</span>Step 5: Rehash - Stick the landing.</h2>
+<p><strong>Rehash is the consolidation step. Tell them what you told them - emphasising the key points. Outline next steps with specific timelines and repeat the most important commitments.</strong></p>
+<p>This step matters more than it looks. The Rehash prevents buyer’s remorse and cognitive dissonance - the cooling-off feeling that hits a client between deciding to proceed and the work starting. A clear Rehash with specific commitments locks the decision in place and buttons up the sale.</p>
+<p>The structure: “So just to confirm what we’ve agreed: you’re going to receive three to four quotes by [day]. They’ll all be on the same spec so you can compare directly. You’ll have me as your single point of contact. Once you choose a roofer, the deposit is X. The work starts roughly Y weeks after that. The QA happens on completion. The warranty kicks in. Is there anything that’s still unclear for you?”</p>
+<h3 class="sub-h">Ask for the reference site.</h3>
+<p>While the client is fresh on the decision and feeling positive, ask if you can use their property as a reference site once the job is complete. “Once your roof is on and you are happy with it, would you be open to us taking some drone shots to see the finished result?” Most clients say yes. A small number say no. Both answers are useful information.</p>
+<p>A reference site is a real, visible, recent installation in a recognisable neighbourhood that you can point future clients toward, it is one of the most powerful pieces of social proof available to a consultant. Over a 12-month period, asking this question of every closed client builds an asset bank of reference sites across the regions you work. Future Short Stories become more concrete. Future Jones-impulse moments become more credible. The client also feels good about being asked - it signals that you expect their outcome to be excellent.</p>
+<h3 class="sub-h">Close on a high.</h3>
+<p>End the appointment with energy and confidence, not relief. “Brilliant. I’ll get those quotes coming through to you. Speak soon.” The last impression matters as much as the first. Leave them looking forward to the next step.</p>
+
+<h2 class="sec-h" id="sec-3-6"><span class="sec-num">3.6</span>Putting the 5 steps together.</h2>
+<p><strong>The 5 Steps are sequential but they’re not separate compartments. A skilled consultant moves through them smoothly, with the client barely noticing the structure. The structure is doing the work underneath the conversation.</strong></p>
+<p>As a new consultant, focus on getting the structure right at first. Hit every step and don’t skip the Short Story because you think the client is already convinced or the Rehash because you’re running out of time. The structure is what produces consistent outcomes and as you get more reps, the structure becomes invisible. It becomes how you talk and communicate in all areas of life.</p>
+<p>Re-read this chapter when an appointment doesn’t go the way you wanted. The diagnostic is almost always somewhere in here: you compressed the Introduction, you skipped questions in the Presentation, you used the wrong story, you got tentative at the close, you rushed the Rehash. Find the step that broke and rebuild the muscle for next time.</p>
         </div>
       </div>
     </section>
