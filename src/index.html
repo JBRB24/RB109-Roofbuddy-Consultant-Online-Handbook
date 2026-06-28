@@ -1529,6 +1529,66 @@
       });
     }
 
+    // ----------------------------------------------------------------
+    // Search result click-through. Exposed so the (top-level) search
+    // code can reuse the real chapter-switch logic that lives in here.
+    // ----------------------------------------------------------------
+    function hexToRgba(hex, a){
+      hex = (hex || '').replace('#','').trim();
+      if(hex.length === 3){ hex = hex.split('').map(function(x){ return x+x; }).join(''); }
+      if(hex.length !== 6){ return 'rgba(64,187,106,' + a + ')'; }
+      var r = parseInt(hex.slice(0,2),16), g = parseInt(hex.slice(2,4),16), b = parseInt(hex.slice(4,6),16);
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+    }
+
+    function flashMatch(el){
+      var chap = el.closest('.chapter');
+      var c = (chap ? getComputedStyle(chap).getPropertyValue('--c').trim() : '') || '#40BB6A';
+      el.style.transition = 'none';
+      el.style.backgroundColor = hexToRgba(c, 0.18);
+      // force reflow so the fade-out animates from the tint
+      void el.offsetWidth;
+      el.style.transition = 'background-color 1.6s ease-out';
+      el.style.backgroundColor = 'transparent';
+      window.setTimeout(function(){
+        el.style.transition = '';
+        el.style.backgroundColor = '';
+      }, 1800);
+    }
+
+    function scrollToMatch(el){
+      var offset = 64 + 12;
+      var chap = el.closest('.chapter');
+      if(chap){
+        var nav = chap.querySelector('.section-nav');
+        offset = 64 + (nav ? nav.offsetHeight : 0) + 12;
+      } else if(el.closest('#glossary')){
+        var strip = document.querySelector('.az-strip');
+        offset = 64 + (strip ? strip.offsetHeight : 44) + 12;
+      }
+      var y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
+
+    window.goToSearchResult = function(section, chapterId, targetId){
+      // 1. Activate the top-level section that holds the match.
+      if(section === 'chapter'){ activate(chapterId); }
+      else if(section === 'glossary'){ showGlossary(); }
+      else if(section === 'team'){ showTeam(); }
+      else { showWelcome(); }
+      closePanel();
+      // 2. Only after the section is actually painted, scroll + highlight.
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          var el = targetId && document.getElementById(targetId);
+          if(!el){ return; }
+          scrollToMatch(el);
+          setActiveSecPill(el.id);
+          flashMatch(el);
+        });
+      });
+    };
+
     // Initial state.
     showWelcome();
   })();
@@ -1647,7 +1707,7 @@ function buildIndex() {
       content: def,
       chapterNum: 0,
       sectionNum: '',
-      anchorId: 'glossary',
+      anchorId: entryId,
       section: 'glossary'
     });
   });
@@ -1726,7 +1786,7 @@ function renderResults(results, query) {
     groups[ch].forEach(r => {
       const snippet = highlight(getSnippet(r.content, query), query);
       const titleH = highlight(r.title, query);
-      html += `<div class="ri" data-section="${r.section}" data-anchor="${r.anchorId}" style="padding:9px 14px;cursor:pointer;border-left:3px solid transparent;display:flex;flex-direction:column;gap:3px;" onmouseenter="this.style.background='#F7F7F5'" onmouseleave="this.style.background=''">
+      html += `<div class="ri" data-section="${r.section}" data-target="${r.anchorId}" data-chapter="ch${r.chapterNum}" style="padding:9px 14px;cursor:pointer;border-left:3px solid transparent;display:flex;flex-direction:column;gap:3px;" onmouseenter="this.style.background='#F7F7F5'" onmouseleave="this.style.background=''">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:10px;font-weight:700;color:#999;letter-spacing:0.06em;font-family:Poppins,sans-serif;">${r.sectionNum}</span>
           <span style="font-size:12px;font-weight:500;color:#1A1A1A;font-family:Poppins,sans-serif;">${titleH}</span>
@@ -1753,20 +1813,12 @@ function renderResults(results, query) {
     el.addEventListener('click', () => {
       closeSearch();
       const section = el.dataset.section;
-      const anchor = el.dataset.anchor;
-      if (section && section !== 'chapter') {
-        // Navigate to the correct non-chapter section
-        document.querySelectorAll('.chapter').forEach(s => s.classList.remove('visible'));
-        document.querySelectorAll('.welcome-section').forEach(s => s.classList.remove('visible'));
-        document.querySelectorAll('.welcome-section, .team-section, .glossary-section').forEach(s => s.style.display = 'none');
-        const targetSection = document.getElementById(anchor);
-        if (targetSection) targetSection.style.display = 'block';
-        // Update active nav item
-        document.querySelectorAll('.nav-link, .nav-item').forEach(n => n.classList.remove('active'));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        const target = document.getElementById(anchor);
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = el.dataset.target;
+      const chapter = el.dataset.chapter;
+      // Reuse the page's own chapter-switch logic, then scroll + highlight
+      // once the section is actually visible (handled inside the helper).
+      if (window.goToSearchResult) {
+        window.goToSearchResult(section, chapter, target);
       }
     });
   });
