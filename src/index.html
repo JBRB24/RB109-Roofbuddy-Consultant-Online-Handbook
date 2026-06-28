@@ -1310,7 +1310,7 @@ function jumpToLetter(letter) {
   const id = letter === '#' ? 'az-hash' : 'az-' + letter;
   const el = document.getElementById(id);
   if (el) {
-    const offset = 64 + 44 + 16;
+    const offset = 140;
     const top = el.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top: top, behavior: 'smooth' });
   }
