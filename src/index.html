@@ -122,53 +122,108 @@
   }
   .burger span{display:block;width:18px;height:2px;background:#fff;}
 
-  /* ---------- CHAPTERS DROPDOWN ---------- */
-  .chapters-panel{
+  /* ---------- CHAPTER INDEX OVERLAY ---------- */
+  .ch-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:#161823;
     display:none;
-    position:absolute;
-    top:64px;left:0;
-    width:100%;
-    background:#0d0f18;
-    padding:2px;
-    z-index:999;
-    grid-template-columns:repeat(3,1fr);
-    grid-auto-rows:minmax(72px,auto);
-    gap:2px;
+    flex-direction:column;
+    opacity:0;
+    transition:opacity .15s ease;
   }
-  .chapters-panel.open{display:grid;}
+  .ch-overlay.open{opacity:1;}
+  .ch-overlay-nav{
+    flex:0 0 64px;
+    height:64px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .ch-overlay-nav-inner{
+    max-width:1100px;
+    margin:0 auto;
+    height:64px;
+    display:flex;
+    align-items:center;
+    padding:0 24px;
+  }
+  .ch-overlay-links{
+    display:flex;
+    align-items:center;
+    gap:26px;
+    margin-left:auto;
+    height:100%;
+  }
+  .ch-overlay .nav-link.active{
+    color:#40BB6A;
+    border-bottom-color:#40BB6A;
+  }
+  .ch-overlay-icon{
+    width:42px;height:42px;
+    display:flex;align-items:center;justify-content:center;
+    background:none;border:none;cursor:pointer;
+    color:rgba(255,255,255,0.7);
+    transition:color .15s ease;
+  }
+  .ch-overlay-icon:hover{color:#fff;}
 
-  .tile{
+  .ch-grid{
+    flex:1 1 auto;
+    overflow-y:auto;
+    width:100%;
+    max-width:768px;
+    margin:0 auto;
+    box-sizing:border-box;
+    padding:8px 24px 32px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:8px;
+    align-content:start;
+  }
+  .ch-tile{
     position:relative;
     overflow:hidden;
-    min-height:72px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    padding:14px 16px;
+    min-height:150px;
     border:none;
+    border-radius:0;
     cursor:pointer;
     text-align:left;
-    transition:filter .15s ease;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    transition:transform .15s ease;
   }
-  .tile:hover{filter:brightness(1.15);}
-  .tile-title{
+  .ch-tile:hover{transform:translateY(-2px);}
+  .ch-tile-label{
     position:relative;
     z-index:1;
     font-family:'Poppins',sans-serif;
-    font-weight:600;
-    font-size:13px;
-    line-height:1.3;
-    color:#fff;
-    max-width:85%;
+    font-weight:500;
+    font-size:9.5px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:rgba(255,255,255,0.72);
   }
-  .tile-ghost{
+  .ch-tile-title{
+    position:relative;
+    z-index:1;
+    font-family:'Poppins',sans-serif;
+    font-weight:500;
+    font-size:14px;
+    line-height:1.2;
+    color:#fff;
+    max-width:90%;
+  }
+  .ch-tile-ghost{
     position:absolute;
-    right:10px;bottom:4px;
-    font-family:'Bebas Neue',sans-serif;
-    font-size:40px;
-    line-height:1;
-    color:rgba(255,255,255,0.15);
+    right:-4px;
+    bottom:-26px;
     z-index:0;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:96px;
+    line-height:1;
+    color:rgba(255,255,255,0.16);
     pointer-events:none;
   }
 
@@ -637,15 +692,7 @@
     .nav-links{display:none;}
     .burger{display:flex;}
 
-    .chapters-panel{
-      position:fixed;
-      top:64px;left:0;
-      width:100%;
-      height:calc(100vh - 64px);
-      grid-template-columns:repeat(2,1fr);
-      grid-auto-rows:96px;
-      overflow-y:auto;
-    }
+    .ch-overlay-links{gap:16px;}
 
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
@@ -686,8 +733,29 @@
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="chapters-panel" id="chaptersPanel"></div>
   </header>
+
+  <!-- CHAPTER INDEX OVERLAY -->
+  <div class="ch-overlay" id="chaptersOverlay" role="dialog" aria-modal="true" aria-label="Chapter index" aria-hidden="true" style="display:none;">
+    <div class="ch-overlay-nav">
+      <div class="ch-overlay-nav-inner">
+        <img src="../assets/logo-lh.png" alt="Roofbuddy" class="topnav-logo">
+        <nav class="ch-overlay-links">
+          <button class="nav-link" data-nav="welcome">Welcome</button>
+          <button class="nav-link active" data-nav="chapters">Chapters</button>
+          <button class="nav-link" data-nav="glossary">Glossary</button>
+          <button class="nav-link" data-nav="team">Team</button>
+          <button class="ch-overlay-icon" id="chOverlaySearch" aria-label="Search">
+            <svg width="21" height="21" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </button>
+          <button class="ch-overlay-icon" id="chOverlayClose" aria-label="Close chapter index">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </button>
+        </nav>
+      </div>
+    </div>
+    <div class="ch-grid" id="chGrid"></div>
+  </div>
 
   <!-- CONTENT -->
   <main class="content">
@@ -1376,7 +1444,9 @@
 <script>
   (function(){
     var topnav   = document.querySelector('.topnav');
-    var panel    = document.getElementById('chaptersPanel');
+    var overlay  = document.getElementById('chaptersOverlay');
+    var grid     = document.getElementById('chGrid');
+    var lastFocus = null;
     var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
     var burger   = document.querySelector('.burger');
     var sections = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
@@ -1388,7 +1458,8 @@
     function colorOf(el){ return getComputedStyle(el).getPropertyValue('--c').trim(); }
 
     // ----------------------------------------------------------------
-    // Build the Chapters dropdown (12 chapter tiles, 3 x 4 grid).
+    // Build the full-page chapter index (12 colour tiles, 1-12).
+    // Tile colour is pulled from each chapter's --c (single source).
     // ----------------------------------------------------------------
     sections.forEach(function(sec){
       if(sec.id === 'glossary'){ return; }
@@ -1397,15 +1468,16 @@
       var num   = (idx < 10 ? '0' : '') + idx;
 
       var tile = document.createElement('button');
-      tile.className = 'tile';
+      tile.className = 'ch-tile';
       tile.dataset.target = sec.id;
       tile.dataset.chapter = idx;
       tile.style.background = colorOf(sec);
       tile.innerHTML =
-        '<span class="tile-title">' + title + '</span>' +
-        '<span class="tile-ghost" aria-hidden="true">' + num + '</span>';
-      tile.addEventListener('click', function(){ activate(sec.id); closePanel(); });
-      panel.appendChild(tile);
+        '<span class="ch-tile-label">Chapter ' + num + '</span>' +
+        '<span class="ch-tile-title">' + title + '</span>' +
+        '<span class="ch-tile-ghost" aria-hidden="true">' + num + '</span>';
+      tile.addEventListener('click', function(){ activate(sec.id); closeOverlay(); });
+      grid.appendChild(tile);
     });
 
     // ----------------------------------------------------------------
@@ -1499,7 +1571,7 @@
       navLinks.forEach(function(l){
         l.classList.toggle('active', l.dataset.nav === 'welcome');
       });
-      closePanel();
+      closeOverlay();
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
@@ -1511,7 +1583,7 @@
       navLinks.forEach(function(l){
         l.classList.toggle('active', l.dataset.nav === 'team');
       });
-      closePanel();
+      closeOverlay();
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
@@ -1523,30 +1595,65 @@
       navLinks.forEach(function(l){
         l.classList.toggle('active', l.dataset.nav === 'glossary');
       });
-      closePanel();
+      closeOverlay();
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
-    function openPanel(){ panel.classList.add('open'); burger.setAttribute('aria-expanded','true'); }
-    function closePanel(){ panel.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
-    function togglePanel(){ if(panel.classList.contains('open')){ closePanel(); } else { openPanel(); } }
+    function openOverlay(){
+      if(overlay.classList.contains('open')){ return; }
+      lastFocus = document.activeElement;
+      overlay.style.display = 'flex';
+      requestAnimationFrame(function(){ overlay.classList.add('open'); });
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      burger.setAttribute('aria-expanded', 'true');
+      var firstTile = grid.querySelector('.ch-tile');
+      (firstTile || overlay.querySelector('#chOverlayClose')).focus();
+    }
+    function closeOverlay(){
+      if(!overlay.classList.contains('open') && overlay.style.display === 'none'){ return; }
+      overlay.classList.remove('open');
+      overlay.style.display = 'none';
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      burger.setAttribute('aria-expanded', 'false');
+      if(lastFocus && lastFocus.focus){ lastFocus.focus(); }
+      lastFocus = null;
+    }
+    function toggleOverlay(){ if(overlay.classList.contains('open')){ closeOverlay(); } else { openOverlay(); } }
 
     navLinks.forEach(function(l){
       l.addEventListener('click', function(e){
         e.stopPropagation();
         var which = l.dataset.nav;
-        if(which === 'welcome'){ e.preventDefault(); closePanel(); showWelcome(); }
-        else if(which === 'chapters'){ togglePanel(); }
-        else if(which === 'glossary'){ closePanel(); showGlossary(); }
-        else if(which === 'team'){ closePanel(); showTeam(); }
+        if(which === 'welcome'){ e.preventDefault(); closeOverlay(); showWelcome(); }
+        else if(which === 'chapters'){ toggleOverlay(); }
+        else if(which === 'glossary'){ closeOverlay(); showGlossary(); }
+        else if(which === 'team'){ closeOverlay(); showTeam(); }
       });
     });
 
-    burger.addEventListener('click', function(e){ e.stopPropagation(); togglePanel(); });
+    burger.addEventListener('click', function(e){ e.stopPropagation(); toggleOverlay(); });
 
-    // Close dropdown on click outside.
-    document.addEventListener('click', function(e){
-      if(panel.classList.contains('open') && !topnav.contains(e.target)){ closePanel(); }
+    // Overlay controls: close X, and search (closes overlay, opens search modal).
+    overlay.querySelector('#chOverlayClose').addEventListener('click', closeOverlay);
+    overlay.querySelector('#chOverlaySearch').addEventListener('click', function(){
+      closeOverlay();
+      if(typeof openSearch === 'function'){ openSearch(); }
+    });
+
+    // Esc closes; Tab is trapped within the overlay while it is open.
+    overlay.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ e.preventDefault(); closeOverlay(); return; }
+      if(e.key !== 'Tab'){ return; }
+      var f = Array.prototype.filter.call(
+        overlay.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])'),
+        function(el){ return el.offsetParent !== null; }
+      );
+      if(!f.length){ return; }
+      var first = f[0], last = f[f.length - 1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
     });
 
     // ----------------------------------------------------------------
@@ -1672,7 +1779,7 @@
       else if(section === 'glossary'){ showGlossary(); }
       else if(section === 'team'){ showTeam(); }
       else { showWelcome(); }
-      closePanel();
+      closeOverlay();
       // 2. Only after the section is actually painted, scroll + highlight.
       requestAnimationFrame(function(){
         requestAnimationFrame(function(){
