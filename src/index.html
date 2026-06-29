@@ -226,6 +226,14 @@
   }
   /* Ch3 photo is bright sky up top — pushed darker than the shared 0.6 */
   #ch3 .hero-img{ filter:brightness(0.55); }
+  #ch4 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#33586b;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  #ch4 .hero-img{ filter:brightness(0.6); }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -1049,7 +1057,8 @@
 
     <section class="chapter" id="ch4" data-index="4" style="--c:#33586b">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch4/Image_1.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">04</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 4</div>
@@ -1700,7 +1709,7 @@
 
 <script>
 const CHAPTER_COLOURS = {
-  1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#425D74',5:'#51ABE4',
+  1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#33586b',5:'#51ABE4',
   6:'#383960',7:'#68386B',8:'#EE255E',9:'#7E2237',10:'#D75936',
   11:'#D38B5E',12:'#D79E2D'
 };
