@@ -305,6 +305,14 @@
     opacity:1;
   }
   #ch6 .hero-img{ filter:brightness(0.6); object-position:center 30%; }
+  #ch7 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#6f446d;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  #ch7 .hero-img{ filter:brightness(0.6); }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -569,6 +577,9 @@
   .stage-row__media{ grid-column:2; grid-row:1; }
   .stage-row__media img{ width:100%; height:auto; display:block; }
 
+  /* Profile dimension diagrams (Ch7 7.2): 60% of full width (40% smaller) */
+  .doc-figure.profile-dim img{ max-width:60%; }
+
   /* Roofbuddy vs Industry comparison table (Ch7) */
   .compare-wrap{ margin:16px 0 8px; overflow-x:auto; }
   .compare-table{ width:100%; border-collapse:collapse; font-family:'Poppins',sans-serif; }
@@ -822,6 +833,10 @@
     .ch-overlay-links{gap:16px;}
 
     .kit-grid{grid-template-columns:1fr;}
+
+    .stage-row{grid-template-columns:1fr;}
+    .stage-row__media{grid-column:1;grid-row:1;}
+    .stage-row__body{grid-column:1;grid-row:2;}
 
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
@@ -1619,7 +1634,8 @@
 
     <section class="chapter" id="ch7" data-index="7" style="--c:#6f446d">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch7/Hero.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">07</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 7</div>
@@ -1687,9 +1703,9 @@
 <h2 class="sec-h" id="sec-7-2"><span class="sec-num">7.2</span>Guardian Steel (colour and coil GS).</h2>
 <h3 class="sub-h">Profiles available.</h3>
 <p>Guardian Wave: Corrugate. 762mm effective cover, 76.02mm pitch dimensions.</p>
-<figure class="doc-figure"><img src="../assets/ch7/Guardian_Wave_Corrugate_spec_P89.png" alt="Guardian Wave Corrugate profile dimension diagram"></figure>
+<figure class="doc-figure profile-dim"><img class="lb" src="../assets/ch7/Guardian_Wave_Corrugate_spec_P89.png" alt="Guardian Wave Corrugate profile dimension diagram"></figure>
 <p>Guardian Span: Trapezoidal. 755mm effective cover, 188.8mm x 29mm dimensions.</p>
-<figure class="doc-figure"><img src="../assets/ch7/Guardian_Span_Trapezoidal_spec_P89.png" alt="Guardian Span Trapezoidal profile dimension diagram"></figure>
+<figure class="doc-figure profile-dim"><img class="lb" src="../assets/ch7/Guardian_Span_Trapezoidal_spec_P89.png" alt="Guardian Span Trapezoidal profile dimension diagram"></figure>
 <p>Know these numbers as they are great to rattle off when discussing profiles.</p>
 <h3 class="sub-h">Core technical specifications</h3>
 <figure class="doc-figure"><img src="../assets/ch7/core_technical_specifications_P91.jpg" alt="Guardian Steel core technical specifications comparison"></figure>
@@ -1703,6 +1719,7 @@
 <p><strong class="run-in">Marine grading:</strong> C1 through C5 per ISO9223.</p>
 <h3 class="sub-h">The flagship colour range.</h3>
 <figure class="doc-figure"><img src="../assets/ch7/Flagship_colour_Range_P93.jpg" alt="Guardian Steel flagship colour range with TSR and LVR values"></figure>
+<p class="stats-caption">Colours are a representation only. Please refer to the actual paint or product sample.</p>
 <p><strong class="run-in">Grey Friars</strong> TSR 26%, LVR 10%. This is the current bestseller in the range.</p>
 <p><strong class="run-in">Ironsand</strong> TSR 25%, LVR 8%.</p>
 <p><strong class="run-in">Ebony</strong> TSR 5%, LVR 5%.</p>
@@ -1710,7 +1727,6 @@
 <p><strong class="run-in">Gull Grey</strong> TSR 57%, LVR 51%. Highest reflectance in the popular range. Relevant for clients concerned about heat transfer into the building.</p>
 <p><strong class="run-in">Nightfall</strong> TSR 25%, LVR 8%.</p>
 <p><strong class="run-in">Karaka</strong> TSR 24%, LVR 8%.</p>
-<p class="stats-caption">Colours are a representation only. Please refer to the actual paint or product sample.</p>
 <p>TSR is Total Solar Reflectance. LVR is Light Value Reflectance. Higher values mean less heat absorption. When a client asks about energy efficiency or cooling, lead with Gull Grey.</p>
 <h3 class="sub-h">Warranty by environmental zone.</h3>
 <p>Mild, ISO C1 to C2: 50 years perforation warranty, 18 years paint and fade warranty.</p>
