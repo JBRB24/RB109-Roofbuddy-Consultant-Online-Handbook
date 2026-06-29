@@ -289,6 +289,14 @@
     opacity:1;
   }
   #ch4 .hero-img{ filter:brightness(0.6); }
+  #ch5 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#2aa8e0;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  #ch5 .hero-img{ filter:brightness(0.55); }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -1272,7 +1280,8 @@
 
     <section class="chapter" id="ch5" data-index="5" style="--c:#2aa8e0">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch5/Hero_Image.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">05</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 5</div>
