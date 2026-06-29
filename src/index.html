@@ -548,6 +548,54 @@
   #ch4 .chapter-content .run-in { color: #33586b; }
   #ch5 .chapter-content .run-in { color: #2aa8e0; }
   #ch6 .chapter-content .run-in { color: #3d3f63; }
+  #ch7 .chapter-content .run-in { color: #6f446d; }
+
+  /* Regular-weight bullet list (overrides the default bold list items) */
+  .chapter-content ul.bullets-plain li{ font-weight:400; color:#3D3D3D; }
+
+  /* Lightbox-enabled images that sit outside a .doc-figure */
+  .lb{ cursor:zoom-in; }
+
+  /* Stage row (Ch7 rust stages): text + image side by side on desktop;
+     image stacks ABOVE the text on mobile. */
+  .stage-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    align-items:center;
+    margin:24px 0;
+  }
+  .stage-row__body{ grid-column:1; grid-row:1; }
+  .stage-row__media{ grid-column:2; grid-row:1; }
+  .stage-row__media img{ width:100%; height:auto; display:block; }
+
+  /* Roofbuddy vs Industry comparison table (Ch7) */
+  .compare-wrap{ margin:16px 0 8px; overflow-x:auto; }
+  .compare-table{ width:100%; border-collapse:collapse; font-family:'Poppins',sans-serif; }
+  .compare-table th{
+    background:var(--c);
+    color:#fff;
+    font-weight:600;
+    font-size:12px;
+    text-align:left;
+    padding:12px 14px;
+    border:1px solid var(--c);
+  }
+  .compare-table td{
+    font-size:13px;
+    color:#3D3D3D;
+    line-height:1.6;
+    padding:12px 14px;
+    border:1px solid #E8E8E6;
+    vertical-align:top;
+    width:50%;
+  }
+  .compare-table tr.aspect td{
+    font-weight:700;
+    color:#1A1A1A;
+    background:#F4F2F5;
+    width:auto;
+  }
 
   /* DISC reference chart (Chapter 6) */
   .disc-panel{
@@ -1569,7 +1617,7 @@
       </div>
     </section>
 
-    <section class="chapter" id="ch7" data-index="7" style="--c:#68386B">
+    <section class="chapter" id="ch7" data-index="7" style="--c:#6f446d">
       <div class="hero">
         <div class="hero-tint"></div>
         <div class="hero-inner">
@@ -1580,7 +1628,200 @@
       </div>
       <div class="content-area">
         <div class="chapter-content">
-          <p class="awaiting">Awaiting content from Tango.</p>
+<p><strong>You cannot sell what you do not understand - that is not a motivational line it is a practical fact. Homeowners have lived in their houses for 20, 30, sometimes 50 years and know their roof better than you ever will in a 45-minute site visit. What they do not know is what the products mean, what the specifications guarantee, and what the right solution is for their situation; that is where you come in. This chapter gives you the foundation to do it.</strong></p>
+<p>Do not skim this chapter or treat it as background reading. Every section here will come up in a sales conversation - guaranteed. When it does, you will either know the answer, or you will not and the homeowner will notice either way. This knowledge was obtained painfully over years of trial and error and more deals getting blown than you could ever imagine - learn vicariously rather than failing 1000 times yourself, it’s much more efficient.</p>
+
+<h2 class="sec-h" id="sec-7-1"><span class="sec-num">7.1</span>Guardian Seal.</h2>
+<h3 class="sub-h">What it is.</h3>
+<p><strong>Guardian Seal is a membrane coating system. That is the precise definition, use it.</strong></p>
+<p>It is a water-based polyurethane coating with pure acrylic resin. The pigments are iron oxide, which serve two purposes: they provide UV protection and they fortify the product and provide elastomeric properties. The film thickness target is approximately 750 microns, though this varies by application and surface condition. It is applied in multiple coats to build up that thickness and to achieve the durability the product is rated for.</p>
+<p>Warranties on product efficacy are 10 years stating that the coating will not blister or fail or fail to adhere. Those are the two performance commitments that matter most in a roof coating context and note this warranty does NOT extend to waterproofing - the roof may still leak for mechanical reasons and this will not be covered under the coating warranty and must be fixed at the home owners cost.</p>
+<h3 class="sub-h">Why iron oxide pigments matter.</h3>
+<p>New Zealand has some of the harshest UV exposure in the world. The ozone layer over New Zealand is thinner than over comparable latitudes in the northern hemisphere, which means UV radiation reaches the surface at higher intensity and does more damage to building materials faster. Standard paint formulations are not built for this environment, Guardian Seal is.</p>
+<p>The iron oxide pigments in the formulation block UV penetration into the coating, this protects both the film itself and the metal substrate underneath. The membrane’s flexibility is the other key property: as a roof heats and cools through the daily cycle, the metal expands and contracts. A rigid coating cracks under that movement but a membrane coating moves with the roof with its elastomeric properties. This is why Guardian Seal is superior to standard paint for a roof in New Zealand conditions.</p>
+<h3 class="sub-h">What roofs are suitable.</h3>
+<p>Roofs between 20 and 40 years old that are in fair overall mechanical condition. Isolated rust issues are fine; intact structure is the key requirement.</p>
+<p>Not heavily perforated roofs with severe structural decay or multiple through-rust points; these are roofs that require complete replacement. Applying a membrane to a structurally failed roof is not a solution, it is a delay tactic that will create a warranty dispute and a dissatisfied client.</p>
+<p>Maybe: Aging roofs where the cost-benefit calculation is not clear. In some cases Guardian Seal is a legitimate temporary solution, buying the homeowner five to ten years before the roof requires full replacement but be honest about this and discuss with your colleagues. A client who understands what they are buying and agrees to it is not a problem, a client who expected a miracle solution and got a ‘dud’ is a refund request.</p>
+<h3 class="sub-h">Understanding the rust deterioration timeline.</h3>
+<p>Your job on-site is to assess where a roof sits on this scale, so know it thoroughly.</p>
+<div class="stage-row">
+  <div class="stage-row__body">
+    <h3 class="sub-h">Stage 1 - Chalking.</h3>
+    <p>The earliest sign of surface deterioration. The coating is breaking down but no structural compromise yet - Guardian Seal is an ideal intervention at this stage.</p>
+  </div>
+  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage1-chalking.jpg" alt="Stage 1 - Chalking"></div>
+</div>
+<div class="stage-row">
+  <div class="stage-row__body">
+    <h3 class="sub-h">Stage 2 - Surface Rust.</h3>
+    <p>The beginning of structural compromise. The protective layer has failed and oxidation has started on the metal itself, Guardian Seal can still work here and prep work is most important step to reinforce the structure before the coating goes down.</p>
+  </div>
+  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage2-surface-rust.jpg" alt="Stage 2 - Surface Rust"></div>
+</div>
+<div class="stage-row">
+  <div class="stage-row__body">
+    <h3 class="sub-h">Stage 3 - Bubbling Rust.</h3>
+    <p>Subsurface oxidation. The rust is forming beneath the surface and pushing upward - this is the range where a careful cost-benefit conversation is needed. A membrane may perform well over bubbling rust in isolated areas, but if bubbling rust is extensive, replacement may be the better investment.</p>
+  </div>
+  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage3-bubbling-rust.jpg" alt="Stage 3 - Bubbling Rust"></div>
+</div>
+<div class="stage-row">
+  <div class="stage-row__body">
+    <h3 class="sub-h">Stage 4 - Perforation.</h3>
+    <p>Significant structural compromise where the metal has holes through it. Guardian Seal is not the right product for a perforated roof as a membrane cannot bridge a perforation reliably. Recommend replacement.</p>
+  </div>
+  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage4-perforation.jpg" alt="Stage 4 - Perforation"></div>
+</div>
+<h3 class="sub-h">On leaks: The principle every consultant must know.</h3>
+<p>This is critical - adding a membrane does not guarantee solving a leak.</p>
+<p>Sell Guardian Seal for protecting the metal and prolonging the life of the roof. There is a genuine chance it solves a leak, because a membrane over a metal surface can seal minor surface imperfections. But a leak is often a mechanical problem: a failed ridge cap, a failed back tray, a degraded internal gutter and no membrane fixes a mechanical failure.</p>
+<p>Do not quote the membrane as a leak solution in isolation. If a client comes to you specifically because of a leak, scope the mechanical repair separately and the membrane and the mechanical repair may both be in the same quote, but they are separate line items with separate outcomes. Never guarantee in the initial quote that the membrane will solve the leak.</p>
+<h3 class="sub-h">Asbestos encapsulation: The commercial opportunity most consultants miss.</h3>
+<p>Guardian Seal can encapsulate asbestos cement roofing so the client doesn’t have to deal with asbestos removal and re-roofing. It’s a great solution.</p>
+<p>Encapsulation means: clean the surface thoroughly, prepare it, seal it, apply two coats of Guardian Seal. The asbestos is sealed beneath the membrane and is no longer a friable hazard as long as the membrane is intact. Renewal is required every ten years, which creates recurring revenue so a commercial client who accepts an encapsulation scope is, in practical terms, our client for life.</p>
+<p>The reference case is instructive a 800 square meter commercial building required re-roofing. The cost of full asbestos removal and re-roof was prohibitive and the businesses operating in the building could not shut down for the duration of a full removal project. The Guardian Seal encapsulation solution cost $68,000 a small fraction of the full replacement cost, it kept the businesses operational and it created a ten-year recurring contract.</p>
+<p>The target clients for asbestos encapsulation are commercial landlords, facilities managers and property developers but asbestos can be encapsulated on residential homes too. Mostly these customers are making commercial decisions based on cost, operational continuity and liability management so lead with those three points in a commercial context.</p>
+<figure class="doc-figure"><img src="../assets/ch7/p87_1_1793x981.jpg" alt="Guardian Seal"></figure>
+
+<h2 class="sec-h" id="sec-7-2"><span class="sec-num">7.2</span>Guardian Steel (colour and coil GS).</h2>
+<h3 class="sub-h">Profiles available.</h3>
+<p>Guardian Wave: Corrugate. 762mm effective cover, 76.02mm pitch dimensions.</p>
+<figure class="doc-figure"><img src="../assets/ch7/Guardian_Wave_Corrugate_spec_P89.png" alt="Guardian Wave Corrugate profile dimension diagram"></figure>
+<p>Guardian Span: Trapezoidal. 755mm effective cover, 188.8mm x 29mm dimensions.</p>
+<figure class="doc-figure"><img src="../assets/ch7/Guardian_Span_Trapezoidal_spec_P89.png" alt="Guardian Span Trapezoidal profile dimension diagram"></figure>
+<p>Know these numbers as they are great to rattle off when discussing profiles.</p>
+<h3 class="sub-h">Core technical specifications</h3>
+<figure class="doc-figure"><img src="../assets/ch7/core_technical_specifications_P91.jpg" alt="Guardian Steel core technical specifications comparison"></figure>
+<p><strong class="run-in">Steel base thickness:</strong> 0.55mm or 0.4mm.</p>
+<p><strong class="run-in">Metallic protection:</strong> 150g/m2 galvanisation.</p>
+<p><strong class="run-in">Paint resin:</strong> High-end polyester.</p>
+<p><strong class="run-in">Primer coating:</strong> 5 microns.</p>
+<p><strong class="run-in">Topcoat coating:</strong> 20 microns.</p>
+<p><strong class="run-in">Heat resistance:</strong> Up to 100 degrees Celsius continuous service.</p>
+<p><strong class="run-in">Building code compliance:</strong> B1, B2, E2, F2 per AS/NZS2728:2013.</p>
+<p><strong class="run-in">Marine grading:</strong> C1 through C5 per ISO9223.</p>
+<h3 class="sub-h">The flagship colour range.</h3>
+<figure class="doc-figure"><img src="../assets/ch7/Flagship_colour_Range_P93.jpg" alt="Guardian Steel flagship colour range with TSR and LVR values"></figure>
+<p><strong class="run-in">Grey Friars</strong> TSR 26%, LVR 10%. This is the current bestseller in the range.</p>
+<p><strong class="run-in">Ironsand</strong> TSR 25%, LVR 8%.</p>
+<p><strong class="run-in">Ebony</strong> TSR 5%, LVR 5%.</p>
+<p><strong class="run-in">New Denim Blue</strong> TSR 24%, LVR 11%.</p>
+<p><strong class="run-in">Gull Grey</strong> TSR 57%, LVR 51%. Highest reflectance in the popular range. Relevant for clients concerned about heat transfer into the building.</p>
+<p><strong class="run-in">Nightfall</strong> TSR 25%, LVR 8%.</p>
+<p><strong class="run-in">Karaka</strong> TSR 24%, LVR 8%.</p>
+<p class="stats-caption">Colours are a representation only. Please refer to the actual paint or product sample.</p>
+<p>TSR is Total Solar Reflectance. LVR is Light Value Reflectance. Higher values mean less heat absorption. When a client asks about energy efficiency or cooling, lead with Gull Grey.</p>
+<h3 class="sub-h">Warranty by environmental zone.</h3>
+<p>Mild, ISO C1 to C2: 50 years perforation warranty, 18 years paint and fade warranty.</p>
+<p>Moderate, ISO C3: 40 years perforation warranty, 18 years paint and fade warranty.</p>
+<p>Severe, ISO C4: 30 years perforation warranty, 15 years paint and fade warranty.</p>
+<p>Very Severe, ISO C5: 20 years perforation warranty, 15 years paint and fade warranty.</p>
+<p>Maintenance requirement: Rain washing provides sufficient maintenance in most locations. For protected areas not exposed to natural rainfall, manual washing every six months is required to maintain warranty.</p>
+<h3 class="sub-h">Environmental zone classification: what you must know before quoting.</h3>
+<p>The environmental zone you assign to a property determines the warranty the client receives. Misclassifying a property in a milder zone than the actual conditions voids the manufacturer warranty. This is not a technicality, it is a liability.</p>
+<p><strong class="run-in">Mild, ISO C1 to C2:</strong> More than 5,000 metres from breaking surf. More than 1,000 metres from calm saltwater. No salt deposits visible on surfaces.</p>
+<p><strong class="run-in">Moderate, ISO C3:</strong> Within 1,000 metres of breaking surf. Calm saltwater estuaries nearby. Occasional salt smell detectable.</p>
+<p><strong class="run-in">Severe, ISO C4:</strong> Within 500 metres of breaking surf. Light salt deposits visible. Frequent salt smell.</p>
+<p><strong class="run-in">Very Severe, ISO C5:</strong> Within 30 to 60 metres of the high-water mark. Heavy salt deposits. Near-constant salt spray present.</p>
+<p><strong>The coastal rule is absolute: any property within 50 metres of the beach requires COLORSTEEL Altimate for the manufacturer’s warranty to remain valid. Guardian Steel standard grades cannot be specified for these properties. Do not quote standard Guardian Steel within 50 metres of the beach.</strong></p>
+<figure class="doc-figure"><img src="../assets/ch7/P95.jpg" alt="Guardian Steel"></figure>
+
+<h2 class="sec-h" id="sec-7-3"><span class="sec-num">7.3</span>Empower Em-One (Pre-painted steel).</h2>
+<figure class="doc-figure"><img src="../assets/ch7/Empower_P97.jpg" alt="Empower Em-One marketing spread"></figure>
+<figure class="doc-figure"><img src="../assets/ch7/Empower2_P97.jpg" alt="Empower Em-One marketing spread"></figure>
+<h3 class="sub-h">Manufacturing standards.</h3>
+<p>Em-One is produced on a fully integrated production line extending more than 800 metres. The line uses IoT systems with computerised equipment throughout. Real-time digital monitoring tracks quality at every stage, this is advanced manufacturing. The precision-engineered machinery is not incidental to the product quality it is why the coating tolerances can be held consistently.</p>
+<h3 class="sub-h">SADP coating technology.</h3>
+<p>SADP stands for Super Advance Durability Polyester. This is the coating system applied to Em-One product.</p>
+<p>Key formulation facts for client conversations:</p>
+<ul class="bullets-plain">
+  <li>Lead-free, mercury-free, cadmium-free. These are the three heavy metals most commonly associated with industrial coating environmental concerns. Em-One does not contain them.</li>
+  <li>Low-VOC formulations. Volatile organic compound emissions during application and curing are minimised.</li>
+  <li>Pigments derived from natural minerals. This is relevant to clients asking about environmental credentials.</li>
+</ul>
+<h3 class="sub-h">Em-One product features.</h3>
+<p><strong class="run-in">Auto-clean technology:</strong> Advanced additives in the coating resist dirt and dust build-up. Contaminants wash away more easily in rain events. The roof maintains its appearance for longer without maintenance intervention. This is a genuine functional benefit, not a marketing description.</p>
+<p><strong class="run-in">Solar reflectance technology:</strong> Specially formulated pigments enhance the reflection of solar radiation. Less heat is absorbed into the metal. Less heat transfers into the building beneath. The thermal load on the building’s interior is reduced. For commercial clients managing energy costs, this is quantifiable in terms of cooling load reduction.</p>
+<h3 class="sub-h">Substrate options.</h3>
+<p>Em-One is available on four substrates: Galvalume Steel (AM150), Galvanized Steel, Stainless Steel, and Aluminium.</p>
+<p>Material grades available: G550 and G300.</p>
+<h3 class="sub-h">Coating specifications (full stack)</h3>
+<p><strong class="run-in">Pre-treatment:</strong> Corrosion resistant conversion coating applied to the substrate before any paint layers.</p>
+<p><strong class="run-in">Top coat:</strong> SADP paint at 20 microns, over corrosion inhibitive primer at 5 microns.</p>
+<p><strong class="run-in">Backing coat:</strong> Modified polyester at 5 microns, over corrosion inhibitive primer at 5 microns.</p>
+<p><strong class="run-in">Strippable film:</strong> Em-Strip applied to the finished surface. This protects against scratches during processing, transportation, and installation. It is removed once installation is complete.</p>
+<p><strong class="run-in">Base metal thickness:</strong> 0.40mm or 0.55mm.</p>
+
+<h2 class="sec-h" id="sec-7-4"><span class="sec-num">7.4</span>The full product range.</h2>
+<p><strong>Roofbuddy does not sell one thing, it sells a full suite of services. Knowing where each product sits, when to offer it, and how to upsell from one into another is how the best consultants build larger average job values and generate referrals.</strong></p>
+<p>Here is the complete range.</p>
+<h3 class="sub-h">Reroof.</h3>
+<p>The core product and service - existing homes with deteriorated roofing requiring replacement. This is the majority of Roofbuddy’s volume so a consultant who masters the reroof conversation masters the business.</p>
+<h3 class="sub-h">New build roof.</h3>
+<p>Drawn straight from architectural plans. A rare enquiry but high value and high quality work that our roofing network can service easily and profitably.</p>
+<h3 class="sub-h">Cladding.</h3>
+<p>Roofing iron applied to the sides of a house rather than the roof surface, the specification is identical to the roof surface product but laid horizontally. Clients sometimes do not know this is a service Roofbuddy offers. Mostly applied in a new build application.</p>
+<h3 class="sub-h">Guardian Seal.</h3>
+<p>Spray-on liquid rubber membrane that carries a 10-year guarantee. Best suited to roofs in the 20 to 40 year age range that do not yet warrant full replacement but need surface protection. Position it as the entry point for clients whose roof is too good to replace but too deteriorated to leave as is.</p>
+<h3 class="sub-h">Guardian Seal Pro.</h3>
+<p>The thicker version of Guardian Seal, designed for permanently wet surfaces including gutters and flat sections. If a client has ponding water issues on a low-pitch section or a gutter with cracks, Guardian Seal Pro is the appropriate product. Overcoating TPO, internal gutters, flat roof’s in general - this is your go to.</p>
+<h3 class="sub-h">House roof report.</h3>
+<p>A detailed condition assessment with photographs documenting the current state of the roof. Suitable for property purchasers conducting due diligence, homeowners preparing for insurance renewals, and property managers maintaining asset records. This product has referral potential through property managers and real estate agents.</p>
+<h3 class="sub-h">Custom commercial report.</h3>
+<p>Large commercial buildings requiring detailed condition assessments. The scope and pricing are determined by building size and complexity. This is the entry point for commercial accounts.</p>
+<h3 class="sub-h">Guttering and downpipes.</h3>
+<p>Gutters and downpipes can be quoted and replaced independently of the roof. When specifying gutters, measure lineal metres of gutter run and count the number of downpipes. These are the two inputs required for an accurate quote, clients often do not know gutter replacement is available as a standalone service.</p>
+<h3 class="sub-h">Asbestos removal.</h3>
+<p>Asbestos removal must be completed by a Licensed Building Practitioner licensed for asbestos work. The standard process is sequential: one section of the roof is removed by the asbestos specialist, the roofer immediately follows to install the new material on that section, then the specialist moves to the next section. This approach keeps the roof weathertight at all times. Do not attempt to coordinate this as a simultaneous full-roof strip. It creates an unweathertight roof during the process.</p>
+<h3 class="sub-h">Asbestos test.</h3>
+<p>Cost is $80 to $250. Roofbuddy covers this cost as a sales facilitation tool. The logic is straightforward: if a homeowner suspects asbestos but is not certain, covering the test cost removes the barrier to finding out. Once the test confirms asbestos, the conversation about removal and replacement has a concrete starting point. The act of covering the test cost also creates goodwill - when someone does something for us, we feel an obligation to give something back. Cover the cost, facilitate the close.</p>
+<p>Testing laboratory: Focus Analytics, Unit C1, 4 Pacific Rise, Mount Wellington, Auckland 1060.</p>
+<h3 class="sub-h">Gutter protection.</h3>
+<p>Leaf guard products that prevent debris accumulation in gutters. The preferred supplier is Four Seasons. The reason this matters: gutter protection products from some other manufacturers involve contact between two dissimilar metals, which creates a galvanic corrosion risk. Four Seasons product avoids this. Approximate installed cost is $3,500 to $5,000 depending on gutter run length.</p>
+<h3 class="sub-h">Solar.</h3>
+<p>A specialist service requiring a separate process. One important point for consultants to know: when solar installation occurs at the same time as a reroof, the client may qualify for a one-percent bank loan rate. This is a financial incentive that can be decisive for clients who are on the fence. Raise it when solar comes up in a reroof conversation.</p>
+<h3 class="sub-h">Roof cleaning.</h3>
+<p>Delivered through specialist suppliers. Roofbuddy facilitates this service rather than performing it directly. If a client’s roof is in good structural condition but covered in lichen, moss, or staining, cleaning may extend the roof’s serviceable life before a membrane or replacement is needed.</p>
+<h3 class="sub-h">Internal gutter conversion.</h3>
+<p>Converting internal box gutters to external gutters. Box gutters (internal gutters built into the roof structure) are a common source of leak and maintenance problems because failure of the internal waterproofing leads directly to water ingress into the building structure. Converting to an external gutter eliminates this failure mode. This is a structural job: a builder is required alongside the roofer. Quote this carefully and ensure the builder is engaged in the scope from the outset.</p>
+
+<h2 class="sec-h" id="sec-7-5"><span class="sec-num">7.5</span>Competitive differentiation.</h2>
+<h3 class="sub-h">The language rule.</h3>
+<p>Never use the words “competitors” or “competition” in a client conversation. The phrase is “friends in the industry.” This is not a nicety; it is a positioning decision. Disparaging other roofing companies makes Roofbuddy sound defensive where describing them as friends in the industry makes Roofbuddy sound confident and established.</p>
+<h3 class="sub-h">The 10-point comparison.</h3>
+<p>When a client asks why they should choose Roofbuddy, or when a client has received a lower quote from a friend in the industry, this framework is how you respond. Do not memorize the words but understand the substance and the words will follow.</p>
+<div class="compare-wrap">
+<table class="compare-table">
+  <thead><tr><th>Roofbuddy</th><th>Industry</th></tr></thead>
+  <tbody>
+    <tr class="aspect"><td colspan="2">Initial contact</td></tr>
+    <tr><td>Call within 24 hours.</td><td>Three days or more, if they call at all.</td></tr>
+    <tr class="aspect"><td colspan="2">Website</td></tr>
+    <tr><td>High-value, design-optimised, with Q and A dropdowns, professional service hierarchy and a clear value proposition.</td><td>Generic family-owned boilerplate where the website looks like it was built ten years ago and has not been touched since.</td></tr>
+    <tr class="aspect"><td colspan="2">Service offering</td></tr>
+    <tr><td>Full suite including membrane, repairs, reroof, new build, asbestos services, and all material types.</td><td>Usually one service type maximum and if your roof needs something outside their specialty, they cannot help you.</td></tr>
+    <tr class="aspect"><td colspan="2">Sales team training</td></tr>
+    <tr><td>Elite level, two weekly training meetings. Comprehensive onboarding documented in this manual.</td><td>No meetings or structured onboarding - ‘vibe selling’.</td></tr>
+    <tr class="aspect"><td colspan="2">Measurement</td></tr>
+    <tr><td>3D aerial measurement tools, Nearmap, PropertyValue, drone capability.</td><td>Tape measure and notepad.</td></tr>
+    <tr class="aspect"><td colspan="2">Quote delivery</td></tr>
+    <tr><td>Consolidated dashboard, 90% mobile-optimised. Includes images, measurements, and explicit exclusions.</td><td>Email plus PDF attachment. Text-heavy with no images and exclusions often absent so what’s being offered is obfuscated.</td></tr>
+    <tr class="aspect"><td colspan="2">Quote turnaround</td></tr>
+    <tr><td>One hour to two days - 90% of quotes delivered within two days.</td><td>Three days to one and a half weeks, if they quote at all.</td></tr>
+    <tr class="aspect"><td colspan="2">Multiple quotes</td></tr>
+    <tr><td>Multiple comparable quotes on the same specification, same day, so the client can compare options.</td><td>One quote, weeks of waiting.</td></tr>
+    <tr class="aspect"><td colspan="2">Follow-up</td></tr>
+    <tr><td>80 to 100% proactive follow-up rate.</td><td>Under 10% but typically under 2%. Send a quote and pray to hear back.</td></tr>
+    <tr class="aspect"><td colspan="2">Post-sale support</td></tr>
+    <tr><td>QA processes, dispute resolution, mediation capability, Customer Warranty.</td><td>Workmanship warranty from a company that may not exist when the warranty claim arises.</td></tr>
+  </tbody>
+</table>
+</div>
+<h3 class="sub-h">The sky dishes exclusion.</h3>
+<p>This is the single biggest operational innovation in Roofbuddy’s process and it solves a problem that every roofing company encounters. Here is what happens without the exclusion: a roofer removes a sky dish to access the roof, reinstalls it after the job, and the homeowner discovers their satellite reception has changed. The dispute that follows is about who is responsible for the reception problem. It consumes time, damages relationships, and sometimes costs money.</p>
+<p>The solution is explicit exclusion. Every Roofbuddy specification excludes sky dishes and TV aerials from the scope of work. The client is told at the quoting stage that the roofer will reposition the dish to access the roof and will reinstall it, but cannot guarantee reception quality after reinstallation because that depends on precise alignment that requires specialist equipment. The client is advised to contact Sky directly after the job to have the dish realigned if needed.</p>
+<p>This single change eliminated a major category of post-installation disputes. It works because the client knows in advance. If there is no surprise, there is no disagreement or misunderstanding and thus no dispute. The exclusion is not a way of avoiding responsibility, it is a way of being honest about what a roofer can and cannot guarantee. The specification templates have been iterated on thousands of times to adopt these type of learnings.</p>
         </div>
       </div>
     </section>
@@ -2039,7 +2280,7 @@
 
     if(lightbox && lightboxImg){
       document.addEventListener('click', function(e){
-        var fig = e.target.closest('.doc-figure img');
+        var fig = e.target.closest('.doc-figure img, img.lb');
         if(fig){ openLightbox(fig.currentSrc || fig.src, fig.alt); return; }
         if(lightbox.classList.contains('open') && (e.target === lightbox || e.target === lightboxImg)){
           closeLightbox();
@@ -2135,7 +2376,7 @@
 <script>
 const CHAPTER_COLOURS = {
   1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#33586b',5:'#2aa8e0',
-  6:'#3d3f63',7:'#68386B',8:'#EE255E',9:'#7E2237',10:'#D75936',
+  6:'#3d3f63',7:'#6f446d',8:'#EE255E',9:'#7E2237',10:'#D75936',
   11:'#D38B5E',12:'#D79E2D'
 };
 const CHAPTER_TITLES = {
