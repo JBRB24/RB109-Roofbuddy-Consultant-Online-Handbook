@@ -619,6 +619,10 @@
     gap:16px;
     margin:20px 0 32px;
   }
+  /* Fixed 4-across variant (e.g. an ordered progression in one row) */
+  .image-grid--four{ grid-template-columns:repeat(4, 1fr); }
+  @media (max-width:767px){ .image-grid--four{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:460px){ .image-grid--four{ grid-template-columns:1fr; } }
   .ig-tile{
     cursor:zoom-in;
     transform-origin:center;
@@ -1751,33 +1755,31 @@
 <p>Maybe: Aging roofs where the cost-benefit calculation is not clear. In some cases Guardian Seal is a legitimate temporary solution, buying the homeowner five to ten years before the roof requires full replacement but be honest about this and discuss with your colleagues. A client who understands what they are buying and agrees to it is not a problem, a client who expected a miracle solution and got a ‘dud’ is a refund request.</p>
 <h3 class="sub-h">Understanding the rust deterioration timeline.</h3>
 <p>Your job on-site is to assess where a roof sits on this scale, so know it thoroughly.</p>
-<div class="stage-row">
-  <div class="stage-row__body">
-    <h3 class="sub-h">Stage 1 - Chalking.</h3>
-    <p>The earliest sign of surface deterioration. The coating is breaking down but no structural compromise yet - Guardian Seal is an ideal intervention at this stage.</p>
-  </div>
-  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage1-chalking.jpg" alt="Stage 1 - Chalking"></div>
+<div class="image-grid image-grid--four">
+<div class="ig-tile" tabindex="0" role="button" aria-label="Stage 1 - Chalking">
+  <div class="ig-tile__media"><img src="../assets/ch7/stage1-chalking.jpg" alt="Stage 1 - Chalking"></div>
+  <div class="ig-tile__term">Stage 1 - Chalking.</div>
+  <div class="ig-tile__id">Earliest surface breakdown.</div>
+  <div class="ig-tile__full" hidden><p>The earliest sign of surface deterioration. The coating is breaking down but no structural compromise yet - Guardian Seal is an ideal intervention at this stage.</p></div>
 </div>
-<div class="stage-row">
-  <div class="stage-row__body">
-    <h3 class="sub-h">Stage 2 - Surface Rust.</h3>
-    <p>The beginning of structural compromise. The protective layer has failed and oxidation has started on the metal itself, Guardian Seal can still work here and prep work is most important step to reinforce the structure before the coating goes down.</p>
-  </div>
-  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage2-surface-rust.jpg" alt="Stage 2 - Surface Rust"></div>
+<div class="ig-tile" tabindex="0" role="button" aria-label="Stage 2 - Surface Rust">
+  <div class="ig-tile__media"><img src="../assets/ch7/stage2-surface-rust.jpg" alt="Stage 2 - Surface Rust"></div>
+  <div class="ig-tile__term">Stage 2 - Surface Rust.</div>
+  <div class="ig-tile__id">Oxidation on the metal.</div>
+  <div class="ig-tile__full" hidden><p>The beginning of structural compromise. The protective layer has failed and oxidation has started on the metal itself, Guardian Seal can still work here and prep work is most important step to reinforce the structure before the coating goes down.</p></div>
 </div>
-<div class="stage-row">
-  <div class="stage-row__body">
-    <h3 class="sub-h">Stage 3 - Bubbling Rust.</h3>
-    <p>Subsurface oxidation. The rust is forming beneath the surface and pushing upward - this is the range where a careful cost-benefit conversation is needed. A membrane may perform well over bubbling rust in isolated areas, but if bubbling rust is extensive, replacement may be the better investment.</p>
-  </div>
-  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage3-bubbling-rust.jpg" alt="Stage 3 - Bubbling Rust"></div>
+<div class="ig-tile" tabindex="0" role="button" aria-label="Stage 3 - Bubbling Rust">
+  <div class="ig-tile__media"><img src="../assets/ch7/stage3-bubbling-rust.jpg" alt="Stage 3 - Bubbling Rust"></div>
+  <div class="ig-tile__term">Stage 3 - Bubbling Rust.</div>
+  <div class="ig-tile__id">Subsurface rust pushing up.</div>
+  <div class="ig-tile__full" hidden><p>Subsurface oxidation. The rust is forming beneath the surface and pushing upward - this is the range where a careful cost-benefit conversation is needed. A membrane may perform well over bubbling rust in isolated areas, but if bubbling rust is extensive, replacement may be the better investment.</p></div>
 </div>
-<div class="stage-row">
-  <div class="stage-row__body">
-    <h3 class="sub-h">Stage 4 - Perforation.</h3>
-    <p>Significant structural compromise where the metal has holes through it. Guardian Seal is not the right product for a perforated roof as a membrane cannot bridge a perforation reliably. Recommend replacement.</p>
-  </div>
-  <div class="stage-row__media"><img class="lb" src="../assets/ch7/stage4-perforation.jpg" alt="Stage 4 - Perforation"></div>
+<div class="ig-tile" tabindex="0" role="button" aria-label="Stage 4 - Perforation">
+  <div class="ig-tile__media"><img src="../assets/ch7/stage4-perforation.jpg" alt="Stage 4 - Perforation"></div>
+  <div class="ig-tile__term">Stage 4 - Perforation.</div>
+  <div class="ig-tile__id">Holes through the metal.</div>
+  <div class="ig-tile__full" hidden><p>Significant structural compromise where the metal has holes through it. Guardian Seal is not the right product for a perforated roof as a membrane cannot bridge a perforation reliably. Recommend replacement.</p></div>
+</div>
 </div>
 <h3 class="sub-h">On leaks: The principle every consultant must know.</h3>
 <p>This is critical - adding a membrane does not guarantee solving a leak.</p>
