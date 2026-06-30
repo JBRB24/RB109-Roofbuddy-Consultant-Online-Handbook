@@ -667,6 +667,40 @@
   .lightbox-text p{ margin:0 0 12px; }
   .lightbox-text p:last-child{ margin-bottom:0; }
 
+  /* ---------- Reusable accordion (collapsible rows) ----------
+     Body stays in the DOM (collapsed via grid-rows, never display:none) so it
+     remains fully searchable. Chapter-scoped accent via var(--c). */
+  .accordion{ border-top:0.5px solid var(--line); margin:16px 0 32px; }
+  .acc-item{
+    border-bottom:0.5px solid var(--line);
+    border-left:2px solid transparent;
+    transition:border-color .15s ease;
+  }
+  .acc-item.open{ border-left-color:var(--c); }
+  .acc-header{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 14px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Poppins',sans-serif;
+  }
+  .acc-head-text{ flex:1; min-width:0; }
+  .acc-title{ font-weight:700; font-size:15px; color:#1A1A1A; }
+  .acc-item.open .acc-title{ color:var(--c); }
+  .acc-teaser{ font-weight:400; font-size:13px; color:#8892A4; margin-left:8px; }
+  .acc-chevron{ flex:0 0 auto; display:flex; color:#8892A4; transition:transform .2s ease, color .15s ease; }
+  .acc-item.open .acc-chevron{ transform:rotate(180deg); color:var(--c); }
+  .acc-chevron svg{ width:18px; height:18px; }
+  .acc-body{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease; }
+  .acc-item.open .acc-body{ grid-template-rows:1fr; }
+  .acc-body-inner{ overflow:hidden; min-height:0; }
+  .chapter-content .acc-body-inner p{ margin:0 14px 16px; }
+
   /* Regular-weight bullet list (overrides the default bold list items) */
   .chapter-content ul.bullets-plain li{ font-weight:400; color:#3D3D3D; }
 
@@ -1864,35 +1898,106 @@
 <h2 class="sec-h" id="sec-7-4"><span class="sec-num">7.4</span>The full product range.</h2>
 <p><strong>Roofbuddy does not sell one thing, it sells a full suite of services. Knowing where each product sits, when to offer it, and how to upsell from one into another is how the best consultants build larger average job values and generate referrals.</strong></p>
 <p>Here is the complete range.</p>
-<h3 class="sub-h">Reroof.</h3>
-<p>The core product and service - existing homes with deteriorated roofing requiring replacement. This is the majority of Roofbuddy’s volume so a consultant who masters the reroof conversation masters the business.</p>
-<h3 class="sub-h">New build roof.</h3>
-<p>Drawn straight from architectural plans. A rare enquiry but high value and high quality work that our roofing network can service easily and profitably.</p>
-<h3 class="sub-h">Cladding.</h3>
-<p>Roofing iron applied to the sides of a house rather than the roof surface, the specification is identical to the roof surface product but laid horizontally. Clients sometimes do not know this is a service Roofbuddy offers. Mostly applied in a new build application.</p>
-<h3 class="sub-h">Guardian Seal.</h3>
-<p>Spray-on liquid rubber membrane that carries a 10-year guarantee. Best suited to roofs in the 20 to 40 year age range that do not yet warrant full replacement but need surface protection. Position it as the entry point for clients whose roof is too good to replace but too deteriorated to leave as is.</p>
-<h3 class="sub-h">Guardian Seal Pro.</h3>
-<p>The thicker version of Guardian Seal, designed for permanently wet surfaces including gutters and flat sections. If a client has ponding water issues on a low-pitch section or a gutter with cracks, Guardian Seal Pro is the appropriate product. Overcoating TPO, internal gutters, flat roof’s in general - this is your go to.</p>
-<h3 class="sub-h">House roof report.</h3>
-<p>A detailed condition assessment with photographs documenting the current state of the roof. Suitable for property purchasers conducting due diligence, homeowners preparing for insurance renewals, and property managers maintaining asset records. This product has referral potential through property managers and real estate agents.</p>
-<h3 class="sub-h">Custom commercial report.</h3>
-<p>Large commercial buildings requiring detailed condition assessments. The scope and pricing are determined by building size and complexity. This is the entry point for commercial accounts.</p>
-<h3 class="sub-h">Guttering and downpipes.</h3>
-<p>Gutters and downpipes can be quoted and replaced independently of the roof. When specifying gutters, measure lineal metres of gutter run and count the number of downpipes. These are the two inputs required for an accurate quote, clients often do not know gutter replacement is available as a standalone service.</p>
-<h3 class="sub-h">Asbestos removal.</h3>
-<p>Asbestos removal must be completed by a Licensed Building Practitioner licensed for asbestos work. The standard process is sequential: one section of the roof is removed by the asbestos specialist, the roofer immediately follows to install the new material on that section, then the specialist moves to the next section. This approach keeps the roof weathertight at all times. Do not attempt to coordinate this as a simultaneous full-roof strip. It creates an unweathertight roof during the process.</p>
-<h3 class="sub-h">Asbestos test.</h3>
-<p>Cost is $80 to $250. Roofbuddy covers this cost as a sales facilitation tool. The logic is straightforward: if a homeowner suspects asbestos but is not certain, covering the test cost removes the barrier to finding out. Once the test confirms asbestos, the conversation about removal and replacement has a concrete starting point. The act of covering the test cost also creates goodwill - when someone does something for us, we feel an obligation to give something back. Cover the cost, facilitate the close.</p>
-<p>Testing laboratory: Focus Analytics, Unit C1, 4 Pacific Rise, Mount Wellington, Auckland 1060.</p>
-<h3 class="sub-h">Gutter protection.</h3>
-<p>Leaf guard products that prevent debris accumulation in gutters. The preferred supplier is Four Seasons. The reason this matters: gutter protection products from some other manufacturers involve contact between two dissimilar metals, which creates a galvanic corrosion risk. Four Seasons product avoids this. Approximate installed cost is $3,500 to $5,000 depending on gutter run length.</p>
-<h3 class="sub-h">Solar.</h3>
-<p>A specialist service requiring a separate process. One important point for consultants to know: when solar installation occurs at the same time as a reroof, the client may qualify for a one-percent bank loan rate. This is a financial incentive that can be decisive for clients who are on the fence. Raise it when solar comes up in a reroof conversation.</p>
-<h3 class="sub-h">Roof cleaning.</h3>
-<p>Delivered through specialist suppliers. Roofbuddy facilitates this service rather than performing it directly. If a client’s roof is in good structural condition but covered in lichen, moss, or staining, cleaning may extend the roof’s serviceable life before a membrane or replacement is needed.</p>
-<h3 class="sub-h">Internal gutter conversion.</h3>
-<p>Converting internal box gutters to external gutters. Box gutters (internal gutters built into the roof structure) are a common source of leak and maintenance problems because failure of the internal waterproofing leads directly to water ingress into the building structure. Converting to an external gutter eliminates this failure mode. This is a structural job: a builder is required alongside the roofer. Quote this carefully and ensure the builder is engaged in the scope from the outset.</p>
+<div class="accordion">
+<div class="acc-item" id="prod-reroof">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-reroof">
+    <span class="acc-head-text"><span class="acc-title">Reroof.</span><span class="acc-teaser">Existing deteriorated roof replacement. Core volume.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-reroof" role="region"><div class="acc-body-inner"><p>The core product and service - existing homes with deteriorated roofing requiring replacement. This is the majority of Roofbuddy’s volume so a consultant who masters the reroof conversation masters the business.</p></div></div>
+</div>
+<div class="acc-item" id="prod-new-build">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-new-build">
+    <span class="acc-head-text"><span class="acc-title">New build roof.</span><span class="acc-teaser">From architectural plans. Rare, high value.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-new-build" role="region"><div class="acc-body-inner"><p>Drawn straight from architectural plans. A rare enquiry but high value and high quality work that our roofing network can service easily and profitably.</p></div></div>
+</div>
+<div class="acc-item" id="prod-cladding">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-cladding">
+    <span class="acc-head-text"><span class="acc-title">Cladding.</span><span class="acc-teaser">Roofing iron on walls.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-cladding" role="region"><div class="acc-body-inner"><p>Roofing iron applied to the sides of a house rather than the roof surface, the specification is identical to the roof surface product but laid horizontally. Clients sometimes do not know this is a service Roofbuddy offers. Mostly applied in a new build application.</p></div></div>
+</div>
+<div class="acc-item" id="prod-guardian-seal">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-guardian-seal">
+    <span class="acc-head-text"><span class="acc-title">Guardian Seal.</span><span class="acc-teaser">Membrane for 20-40 year roofs.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-guardian-seal" role="region"><div class="acc-body-inner"><p>Spray-on liquid rubber membrane that carries a 10-year guarantee. Best suited to roofs in the 20 to 40 year age range that do not yet warrant full replacement but need surface protection. Position it as the entry point for clients whose roof is too good to replace but too deteriorated to leave as is.</p></div></div>
+</div>
+<div class="acc-item" id="prod-guardian-seal-pro">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-guardian-seal-pro">
+    <span class="acc-head-text"><span class="acc-title">Guardian Seal Pro.</span><span class="acc-teaser">Thicker, for gutters and flat sections.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-guardian-seal-pro" role="region"><div class="acc-body-inner"><p>The thicker version of Guardian Seal, designed for permanently wet surfaces including gutters and flat sections. If a client has ponding water issues on a low-pitch section or a gutter with cracks, Guardian Seal Pro is the appropriate product. Overcoating TPO, internal gutters, flat roof’s in general - this is your go to.</p></div></div>
+</div>
+<div class="acc-item" id="prod-house-report">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-house-report">
+    <span class="acc-head-text"><span class="acc-title">House roof report.</span><span class="acc-teaser">Condition assessment with photos.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-house-report" role="region"><div class="acc-body-inner"><p>A detailed condition assessment with photographs documenting the current state of the roof. Suitable for property purchasers conducting due diligence, homeowners preparing for insurance renewals, and property managers maintaining asset records. This product has referral potential through property managers and real estate agents.</p></div></div>
+</div>
+<div class="acc-item" id="prod-commercial-report">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-commercial-report">
+    <span class="acc-head-text"><span class="acc-title">Custom commercial report.</span><span class="acc-teaser">Large commercial assessments.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-commercial-report" role="region"><div class="acc-body-inner"><p>Large commercial buildings requiring detailed condition assessments. The scope and pricing are determined by building size and complexity. This is the entry point for commercial accounts.</p></div></div>
+</div>
+<div class="acc-item" id="prod-guttering">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-guttering">
+    <span class="acc-head-text"><span class="acc-title">Guttering and downpipes.</span><span class="acc-teaser">Quoted independently of the roof.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-guttering" role="region"><div class="acc-body-inner"><p>Gutters and downpipes can be quoted and replaced independently of the roof. When specifying gutters, measure lineal metres of gutter run and count the number of downpipes. These are the two inputs required for an accurate quote, clients often do not know gutter replacement is available as a standalone service.</p></div></div>
+</div>
+<div class="acc-item" id="prod-asbestos-removal">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-asbestos-removal">
+    <span class="acc-head-text"><span class="acc-title">Asbestos removal.</span><span class="acc-teaser">Licensed, sequential strip-and-recover.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-asbestos-removal" role="region"><div class="acc-body-inner"><p>Asbestos removal must be completed by a Licensed Building Practitioner licensed for asbestos work. The standard process is sequential: one section of the roof is removed by the asbestos specialist, the roofer immediately follows to install the new material on that section, then the specialist moves to the next section. This approach keeps the roof weathertight at all times. Do not attempt to coordinate this as a simultaneous full-roof strip. It creates an unweathertight roof during the process.</p></div></div>
+</div>
+<div class="acc-item" id="prod-asbestos-test">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-asbestos-test">
+    <span class="acc-head-text"><span class="acc-title">Asbestos test.</span><span class="acc-teaser">$80-250, Roofbuddy covers it.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-asbestos-test" role="region"><div class="acc-body-inner"><p>Cost is $80 to $250. Roofbuddy covers this cost as a sales facilitation tool. The logic is straightforward: if a homeowner suspects asbestos but is not certain, covering the test cost removes the barrier to finding out. Once the test confirms asbestos, the conversation about removal and replacement has a concrete starting point. The act of covering the test cost also creates goodwill - when someone does something for us, we feel an obligation to give something back. Cover the cost, facilitate the close.</p><p>Testing laboratory: Focus Analytics, Unit C1, 4 Pacific Rise, Mount Wellington, Auckland 1060.</p></div></div>
+</div>
+<div class="acc-item" id="prod-gutter-protection">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-gutter-protection">
+    <span class="acc-head-text"><span class="acc-title">Gutter protection.</span><span class="acc-teaser">Leaf guard, Four Seasons.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-gutter-protection" role="region"><div class="acc-body-inner"><p>Leaf guard products that prevent debris accumulation in gutters. The preferred supplier is Four Seasons. The reason this matters: gutter protection products from some other manufacturers involve contact between two dissimilar metals, which creates a galvanic corrosion risk. Four Seasons product avoids this. Approximate installed cost is $3,500 to $5,000 depending on gutter run length.</p></div></div>
+</div>
+<div class="acc-item" id="prod-solar">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-solar">
+    <span class="acc-head-text"><span class="acc-title">Solar.</span><span class="acc-teaser">Specialist; 1% loan with a reroof.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-solar" role="region"><div class="acc-body-inner"><p>A specialist service requiring a separate process. One important point for consultants to know: when solar installation occurs at the same time as a reroof, the client may qualify for a one-percent bank loan rate. This is a financial incentive that can be decisive for clients who are on the fence. Raise it when solar comes up in a reroof conversation.</p></div></div>
+</div>
+<div class="acc-item" id="prod-roof-cleaning">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-roof-cleaning">
+    <span class="acc-head-text"><span class="acc-title">Roof cleaning.</span><span class="acc-teaser">Facilitated via specialists.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-roof-cleaning" role="region"><div class="acc-body-inner"><p>Delivered through specialist suppliers. Roofbuddy facilitates this service rather than performing it directly. If a client’s roof is in good structural condition but covered in lichen, moss, or staining, cleaning may extend the roof’s serviceable life before a membrane or replacement is needed.</p></div></div>
+</div>
+<div class="acc-item" id="prod-internal-gutter">
+  <button class="acc-header" aria-expanded="false" aria-controls="acc-body-internal-gutter">
+    <span class="acc-head-text"><span class="acc-title">Internal gutter conversion.</span><span class="acc-teaser">Box gutter to external; needs a builder.</span></span>
+    <span class="acc-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+  </button>
+  <div class="acc-body" id="acc-body-internal-gutter" role="region"><div class="acc-body-inner"><p>Converting internal box gutters to external gutters. Box gutters (internal gutters built into the roof structure) are a common source of leak and maintenance problems because failure of the internal waterproofing leads directly to water ingress into the building structure. Converting to an external gutter eliminates this failure mode. This is a structural job: a builder is required alongside the roofer. Quote this carefully and ensure the builder is engaged in the scope from the outset.</p></div></div>
+</div>
+</div>
 
 <h2 class="sec-h" id="sec-7-5"><span class="sec-num">7.5</span>Competitive differentiation.</h2>
 <h3 class="sub-h">The language rule.</h3>
@@ -2877,12 +2982,31 @@
         requestAnimationFrame(function(){
           var el = targetId && document.getElementById(targetId);
           if(!el){ return; }
+          // If the match lives inside a collapsed accordion, open it first.
+          var acc = el.closest('.acc-item');
+          if(acc){
+            acc.classList.add('open');
+            var accHdr = acc.querySelector('.acc-header');
+            if(accHdr){ accHdr.setAttribute('aria-expanded', 'true'); }
+          }
           scrollToMatch(el);
           setActiveSecPill(el.id);
           flashMatch(el);
         });
       });
     };
+
+    // ----------------------------------------------------------------
+    // Accordion (collapsible rows) — independently openable.
+    // ----------------------------------------------------------------
+    document.addEventListener('click', function(e){
+      var hdr = e.target.closest('.acc-header');
+      if(!hdr){ return; }
+      var item = hdr.closest('.acc-item');
+      if(!item){ return; }
+      var isOpen = item.classList.toggle('open');
+      hdr.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
 
     // Initial state.
     showWelcome();
@@ -3010,6 +3134,26 @@ function buildIndex() {
       el = el.nextElementSibling;
     }
     docs.push({ id: anchorId, title, content: clean(content).slice(0, 2000), chapterNum, sectionNum, anchorId, section: 'chapter' });
+  });
+
+  // INDEX ACCORDION ITEMS individually (collapsible product rows etc.) so their
+  // full body text is searchable and each hit lands on its own row, not just
+  // the truncated parent section.
+  document.querySelectorAll('.acc-item').forEach(item => {
+    const titleEl = item.querySelector('.acc-title');
+    const teaserEl = item.querySelector('.acc-teaser');
+    const bodyEl = item.querySelector('.acc-body-inner');
+    const chapEl = item.closest('.chapter');
+    const chapterNum = chapEl ? (parseInt(chapEl.dataset.index, 10) || 0) : 0;
+    docs.push({
+      id: item.id,
+      title: titleEl ? titleEl.textContent.trim() : '',
+      content: clean((teaserEl ? teaserEl.textContent : '') + ' ' + (bodyEl ? bodyEl.textContent : '')),
+      chapterNum,
+      sectionNum: '',
+      anchorId: item.id,
+      section: 'chapter'
+    });
   });
 
   // INDEX GLOSSARY ENTRIES
