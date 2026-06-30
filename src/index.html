@@ -61,7 +61,7 @@
     z-index:1000;
   }
   .topnav-inner{
-    max-width:1000px;
+    max-width:1500px;
     margin:0 auto;
     padding:0 24px;
     height:100%;
@@ -140,7 +140,7 @@
     border-bottom:1px solid rgba(255,255,255,0.08);
   }
   .ch-overlay-nav-inner{
-    max-width:1000px;
+    max-width:1500px;
     margin:0 auto;
     height:64px;
     display:flex;
@@ -171,27 +171,31 @@
     flex:1 1 auto;
     overflow-y:auto;
     width:100%;
-    max-width:1000px;
+    max-width:1500px;
     margin:0 auto;
     box-sizing:border-box;
     padding:8px 24px 32px;
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns:repeat(4, 1fr);
     gap:8px;
     align-content:start;
   }
+  /* Keep 4-across on laptop/desktop (1fr columns shrink to fit, never reflow to
+     3/5); only collapse on tablet/mobile. */
+  @media (max-width:767px){ .ch-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:480px){ .ch-grid{ grid-template-columns:1fr; } }
   .ch-tile{
     position:relative;
     overflow:hidden;
-    min-height:176px;
+    min-height:280px;
     border:none;
     border-radius:0;
     cursor:pointer;
     text-align:left;
-    padding:16px;
+    padding:26px;
     display:flex;
     flex-direction:column;
-    gap:6px;
+    gap:10px;
     transition:transform .15s ease;
   }
   .ch-tile:hover{transform:translateY(-2px);}
@@ -200,7 +204,7 @@
     z-index:1;
     font-family:'Poppins',sans-serif;
     font-weight:500;
-    font-size:10.5px;
+    font-size:17px;
     text-transform:uppercase;
     letter-spacing:0.14em;
     color:rgba(255,255,255,0.72);
@@ -210,18 +214,18 @@
     z-index:1;
     font-family:'Poppins',sans-serif;
     font-weight:700;
-    font-size:16px;
+    font-size:26px;
     line-height:1.2;
     color:#fff;
     max-width:90%;
   }
   .ch-tile-ghost{
     position:absolute;
-    right:-6px;
-    bottom:-40px;
+    right:-10px;
+    bottom:-64px;
     z-index:0;
     font-family:'Bebas Neue',sans-serif;
-    font-size:144px;
+    font-size:230px;
     line-height:1;
     color:rgba(255,255,255,0.16);
     pointer-events:none;
