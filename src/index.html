@@ -420,10 +420,17 @@
     transition:background-color .15s ease;
   }
   .section-nav .sec-pill:last-child{border-right:none;}
-  /* Hover + active: same chapter colour, ~10% darker. Text stays white. */
-  .sec-pill:hover,
-  .sec-pill.active{
+  /* Current section (resting) + press feedback: same chapter colour, ~10%
+     darker. Text stays white. Applies on touch and desktop. */
+  .sec-pill.active,
+  .sec-pill:active{
     background-color:color-mix(in srgb, var(--c) 90%, #000);
+  }
+  /* Subtle hover only on devices that actually hover (no touch darkening). */
+  @media (hover: hover){
+    .sec-pill:hover{
+      background-color:color-mix(in srgb, var(--c) 90%, #000);
+    }
   }
 
   /* Tooltip */
@@ -1042,8 +1049,8 @@
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
 
-    .section-nav{overflow-x:auto;flex-wrap:nowrap;}
-    .sec-pill{flex:0 0 auto;min-width:64px;}
+    .section-nav{flex-wrap:wrap;overflow:visible;}
+    .sec-pill{flex:1 1 150px;min-width:0;}
 
     .content-area{padding:44px 20px 36px;}
     .stats-card{flex-direction:column;align-items:flex-start;gap:16px;}
