@@ -1020,9 +1020,6 @@
           <button class="ch-overlay-icon" id="chOverlaySearch" aria-label="Search">
             <svg width="21" height="21" viewBox="0 0 18 18" fill="none"><circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </button>
-          <button class="ch-overlay-icon" id="chOverlayClose" aria-label="Close chapter index">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-          </button>
         </nav>
       </div>
     </div>
@@ -2631,7 +2628,7 @@
         '<span class="ch-tile-label">Chapter ' + num + '</span>' +
         '<span class="ch-tile-title">' + title + '</span>' +
         '<span class="ch-tile-ghost" aria-hidden="true">' + num + '</span>';
-      tile.addEventListener('click', function(){ activate(sec.id); closeOverlay(); });
+      tile.addEventListener('click', function(e){ e.stopPropagation(); closeOverlay(); activate(sec.id); });
       grid.appendChild(tile);
     });
 
@@ -2755,16 +2752,24 @@
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
+    var prevOverlayNav = 'welcome';
+    function setActiveNav(which){
+      navLinks.forEach(function(l){ l.classList.toggle('active', l.dataset.nav === which); });
+    }
     function openOverlay(){
       if(overlay.classList.contains('open')){ return; }
       lastFocus = document.activeElement;
+      // Remember the underlying view, then highlight Chapters while open.
+      var cur = navLinks.filter(function(l){ return l.classList.contains('active'); })[0];
+      prevOverlayNav = cur ? cur.dataset.nav : 'welcome';
+      setActiveNav('chapters');
       overlay.style.display = 'flex';
       requestAnimationFrame(function(){ overlay.classList.add('open'); });
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       burger.setAttribute('aria-expanded', 'true');
       var firstTile = grid.querySelector('.ch-tile');
-      (firstTile || overlay.querySelector('#chOverlayClose')).focus();
+      if(firstTile){ firstTile.focus(); }
     }
     function closeOverlay(){
       if(!overlay.classList.contains('open') && overlay.style.display === 'none'){ return; }
@@ -2773,6 +2778,9 @@
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       burger.setAttribute('aria-expanded', 'false');
+      // Restore the underlying view's active nav (a following show*/activate
+      // call, e.g. from a tile or nav click, will override this as needed).
+      setActiveNav(prevOverlayNav);
       if(lastFocus && lastFocus.focus){ lastFocus.focus(); }
       lastFocus = null;
     }
@@ -2791,11 +2799,16 @@
 
     burger.addEventListener('click', function(e){ e.stopPropagation(); toggleOverlay(); });
 
-    // Overlay controls: close X, and search (closes overlay, opens search modal).
-    overlay.querySelector('#chOverlayClose').addEventListener('click', closeOverlay);
+    // Search icon in the overlay nav: close the overlay, open the search modal.
     overlay.querySelector('#chOverlaySearch').addEventListener('click', function(){
       closeOverlay();
       if(typeof openSearch === 'function'){ openSearch(); }
+    });
+
+    // Click the dark backdrop (anything that is not the nav or a tile) to close.
+    overlay.addEventListener('click', function(e){
+      if(e.target.closest('.ch-overlay-nav') || e.target.closest('.ch-tile')){ return; }
+      closeOverlay();
     });
 
     // Esc closes; Tab is trapped within the overlay while it is open.
