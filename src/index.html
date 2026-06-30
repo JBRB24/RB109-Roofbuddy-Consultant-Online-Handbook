@@ -120,7 +120,54 @@
     justify-content:center;
     gap:4px;
   }
-  .burger span{display:block;width:18px;height:2px;background:#fff;}
+  .burger span{display:block;width:18px;height:2px;background:#fff;transition:transform .2s ease, opacity .2s ease;}
+  /* Burger morphs to an X while the mobile menu is open. */
+  .burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+  /* ---------- MOBILE MENU OVERLAY (mobile only) ---------- */
+  .mobile-menu{
+    position:fixed;
+    inset:0;
+    z-index:1100;
+    background:#161823;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    padding:88px 24px 44px;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu-logo{width:150px;height:auto;display:block;cursor:pointer;flex:0 0 auto;}
+  .mobile-menu-nav{
+    flex:1;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:36px;
+  }
+  .mobile-menu-nav .nav-link{
+    height:auto;
+    font-size:30px;
+    font-weight:600;
+    color:#fff;
+    border-bottom:none;
+  }
+  #mobileMenu .nav-link.active{color:#40BB6A;border-bottom:none;}
+  .mobile-menu-search{
+    background:none;border:none;cursor:pointer;
+    color:#fff;
+    width:52px;height:52px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mobile-menu-search svg{width:28px;height:28px;}
+  /* While open: lift the burger (X) above the menu and hide the top-nav logo. */
+  body.mobile-menu-open .topnav{z-index:1101;}
+  body.mobile-menu-open .topnav-logo{visibility:hidden;}
+  /* Never show the mobile menu on desktop. */
+  @media (min-width:768px){ .mobile-menu, .mobile-menu.open{display:none;} }
 
   /* ---------- CHAPTER INDEX OVERLAY ---------- */
   .ch-overlay{
@@ -1104,6 +1151,20 @@
       </div>
     </div>
     <div class="ch-grid" id="chGrid"></div>
+  </div>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true" style="display:none;">
+    <img src="../assets/logo-lh.png" alt="Roofbuddy" class="mobile-menu-logo" id="mobileMenuLogo">
+    <nav class="mobile-menu-nav">
+      <button class="nav-link" data-nav="welcome">Welcome</button>
+      <button class="nav-link" data-nav="chapters">Chapters</button>
+      <button class="nav-link" data-nav="glossary">Glossary</button>
+      <button class="nav-link" data-nav="team">Team</button>
+      <button class="mobile-menu-search" id="mobileMenuSearch" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg>
+      </button>
+    </nav>
   </div>
 
   <!-- CONTENT -->
@@ -3103,7 +3164,6 @@
       requestAnimationFrame(function(){ overlay.classList.add('open'); });
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      burger.setAttribute('aria-expanded', 'true');
       var firstTile = grid.querySelector('.ch-tile');
       if(firstTile){ firstTile.focus(); }
     }
@@ -3113,7 +3173,6 @@
       overlay.style.display = 'none';
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
-      burger.setAttribute('aria-expanded', 'false');
       // Restore the underlying view's active nav (a following show*/activate
       // call, e.g. from a tile or nav click, will override this as needed).
       setActiveNav(prevOverlayNav);
@@ -3122,9 +3181,37 @@
     }
     function toggleOverlay(){ if(overlay.classList.contains('open')){ closeOverlay(); } else { openOverlay(); } }
 
+    // ---- Full-screen mobile menu (driven by the burger) ----
+    var mobileMenu = document.getElementById('mobileMenu');
+    function openMobileMenu(){
+      if(!mobileMenu){ return; }
+      lastFocus = document.activeElement;
+      mobileMenu.style.display = 'flex';
+      requestAnimationFrame(function(){ mobileMenu.classList.add('open'); });
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('mobile-menu-open');
+      burger.classList.add('open');
+      burger.setAttribute('aria-expanded', 'true');
+      var first = mobileMenu.querySelector('.nav-link');
+      if(first){ first.focus(); }
+    }
+    function closeMobileMenu(){
+      if(!mobileMenu || (!mobileMenu.classList.contains('open') && mobileMenu.style.display === 'none')){ return; }
+      mobileMenu.classList.remove('open');
+      mobileMenu.style.display = 'none';
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      document.body.classList.remove('mobile-menu-open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+    function toggleMobileMenu(){ if(mobileMenu && mobileMenu.classList.contains('open')){ closeMobileMenu(); } else { openMobileMenu(); } }
+
     navLinks.forEach(function(l){
       l.addEventListener('click', function(e){
         e.stopPropagation();
+        closeMobileMenu();
         var which = l.dataset.nav;
         if(which === 'welcome'){ e.preventDefault(); closeOverlay(); showWelcome(); }
         else if(which === 'chapters'){ toggleOverlay(); }
@@ -3133,7 +3220,28 @@
       });
     });
 
-    burger.addEventListener('click', function(e){ e.stopPropagation(); toggleOverlay(); });
+    burger.addEventListener('click', function(e){ e.stopPropagation(); toggleMobileMenu(); });
+
+    // Mobile menu controls: logo -> Welcome, search -> search modal; Esc closes,
+    // Tab is trapped within the menu while open.
+    if(mobileMenu){
+      var mmLogo = document.getElementById('mobileMenuLogo');
+      if(mmLogo){ mmLogo.addEventListener('click', function(){ closeMobileMenu(); showWelcome(); }); }
+      var mmSearch = document.getElementById('mobileMenuSearch');
+      if(mmSearch){ mmSearch.addEventListener('click', function(){ closeMobileMenu(); if(typeof openSearch === 'function'){ openSearch(); } }); }
+      mobileMenu.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){ e.preventDefault(); closeMobileMenu(); if(burger){ burger.focus(); } return; }
+        if(e.key !== 'Tab'){ return; }
+        var f = Array.prototype.filter.call(
+          mobileMenu.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])'),
+          function(el){ return el.offsetParent !== null; }
+        );
+        if(!f.length){ return; }
+        var first = f[0], last = f[f.length - 1];
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      });
+    }
 
     // Search icon in the overlay nav: close the overlay, open the search modal.
     overlay.querySelector('#chOverlaySearch').addEventListener('click', function(){
