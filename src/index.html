@@ -557,6 +557,39 @@
   #ch5 .chapter-content .run-in { color: #2aa8e0; }
   #ch6 .chapter-content .run-in { color: #3d3f63; }
   #ch7 .chapter-content .run-in { color: #6f446d; }
+  #ch8 .chapter-content .run-in { color: #ed1456; }
+
+  /* Glossary row (Ch8): navy bold term + definition on the left, paired image
+     on the right; on mobile stacks to term+definition then image below. */
+  .glossary-term{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    line-height:1.3;
+    color:#1A1A1A;
+    margin:0 0 8px;
+  }
+  .glossary-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    align-items:start;
+    margin:22px 0;
+  }
+  .glossary-row__media img{ width:100%; height:auto; display:block; }
+
+  /* Roof anatomy diagram panel + numbered key (Ch8) */
+  .anatomy-panel{ background:#fff; border:1px solid #E8E8E6; padding:16px; margin:8px 0 16px; }
+  .anatomy-panel img{ width:100%; height:auto; display:block; }
+  .anatomy-key{
+    list-style:none;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px 20px;
+    margin:4px 0 24px;
+  }
+  .anatomy-key li{ font-family:'Poppins',sans-serif; font-size:13px; line-height:1.5; color:#3D3D3D; }
+  .anatomy-key .num{ color:var(--c); font-weight:700; }
 
   /* Regular-weight bullet list (overrides the default bold list items) */
   .chapter-content ul.bullets-plain li{ font-weight:400; color:#3D3D3D; }
@@ -837,6 +870,9 @@
     .stage-row{grid-template-columns:1fr;}
     .stage-row__media{grid-column:1;grid-row:1;}
     .stage-row__body{grid-column:1;grid-row:2;}
+
+    .glossary-row{grid-template-columns:1fr;}
+    .anatomy-key{grid-template-columns:repeat(2,1fr);}
 
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
@@ -1842,7 +1878,7 @@
       </div>
     </section>
 
-    <section class="chapter" id="ch8" data-index="8" style="--c:#EE255E">
+    <section class="chapter" id="ch8" data-index="8" style="--c:#ed1456">
       <div class="hero">
         <div class="hero-tint"></div>
         <div class="hero-inner">
@@ -1853,7 +1889,413 @@
       </div>
       <div class="content-area">
         <div class="chapter-content">
-          <p class="awaiting">Awaiting content from Tango.</p>
+<h2 class="sec-h" id="sec-8-1"><span class="sec-num">8.1</span>Roofing domain knowledge.</h2>
+<p><strong>This chapter exists so you can speak the language of roofing competently in front of any client. A consultant who fumbles the names of roof components, who cannot tell a hip from a ridge, who does not know what a back tray does, is a consultant the client will not trust with their $50,000 decision. The vocabulary in this chapter is not optional.</strong></p>
+<p>Read it. Refer back to it. Practise pointing to a roof on the street and naming what you see. The first 30 days in the field are when this knowledge has to lock in.</p>
+<h2 class="sec-h" id="ch8-anatomy">Anatomy of a roof.</h2>
+<div class="anatomy-panel"><img class="lb" src="../assets/ch8/Roof-anatomy_1.jpg" alt="Labelled roof anatomy diagram"></div>
+<ul class="anatomy-key">
+  <li><span class="num">1.</span> Decking</li>
+  <li><span class="num">2.</span> Underlayment</li>
+  <li><span class="num">3.</span> Attic</li>
+  <li><span class="num">4.</span> Vents</li>
+  <li><span class="num">5.</span> Rafter</li>
+  <li><span class="num">6.</span> Ridge</li>
+  <li><span class="num">7.</span> Collar beam</li>
+  <li><span class="num">8.</span> Battens</li>
+  <li><span class="num">9.</span> Joists</li>
+  <li><span class="num">10.</span> Soffits</li>
+  <li><span class="num">11.</span> Fascia</li>
+  <li><span class="num">12.</span> Rake</li>
+  <li><span class="num">13.</span> Hip</li>
+  <li><span class="num">14.</span> Eaves</li>
+  <li><span class="num">15.</span> Valley</li>
+  <li><span class="num">16.</span> Dormer</li>
+  <li><span class="num">17.</span> Chimney</li>
+  <li><span class="num">18.</span> Flashing</li>
+  <li><span class="num">19.</span> Drip edge</li>
+  <li><span class="num">20.</span> Gutters and downspouts</li>
+  <li><span class="num">21.</span> Covering</li>
+</ul>
+<h2 class="sec-h" id="ch8-materials">Roof material types.</h2>
+<p><strong>Identifying the material on an existing roof is the first thing you do on every site visit. Material determines what is possible. Recommend the wrong intervention because you misread the material and you have wasted everyone’s time at best, or created a warranty problem at worst.</strong></p>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Corrugated steel (long-run iron).</h3>
+    <p>Metal sheet roll-formed into wave-form panels and fixed to the roof with exposed screws. The most common metal roof profile in New Zealand. The traditional shape is rounded and wavy.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Corrugated.jpg" alt="Corrugated steel (long-run iron)"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Trapezoidal steel.</h3>
+    <p>Steel sheet with a ribbed trapezoidal cross-section - a quadrilateral with one pair of parallel sides. Can be run to a 3-degree pitch. Sometimes mistakenly referred to as corrugated. The two profiles are different. Know the difference.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Trapezoidal.jpg" alt="Trapezoidal steel"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Tray roof.</h3>
+    <p>Standing-seam concealed-fix steel. Approximately 2.5 times the cost of trapezoidal or corrugated due to extra labour, even though the raw steel content is comparable. Visually identifiable by the vertical seams between flat panels and the absence of visible fasteners.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Tray.jpg" alt="Standing-seam tray roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Marine grade iron (COLORSTEEL Altimate).</h3>
+    <p>Specialist coastal-grade steel for properties within 50 metres of breaking surf. Standard COLORSTEEL grades are not warranty-compliant in those zones. If a property is on the beach, you specify Altimate only. The coastal rule from Chapter 7 applies here in operational form.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/marine_grade.jpg" alt="Marine grade iron (COLORSTEEL Altimate)"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Decramastic (stone-chip tile).</h3>
+    <p>Stone-chip coated metal tile, produced from the 1960s onwards. Tiles produced from the late 1960s to mid-1970s often contain asbestos chips in the coating. Later versions may be smooth without the asbestos. You cannot tell visually whether a decramastic roof contains asbestos. Testing is required.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Decromastic.jpg" alt="Decramastic stone-chip tile"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Super 6 (asbestos cement).</h3>
+    <p>Corrugated cement sheet, white to grey in colour, sometimes painted. Hard and brittle. Distinguishable by golf-ball dimpling on one face. If you see Super 6, asbestos is present. Treat with appropriate caution: do not break or sample the sheet without protective gear, and follow the testing process in section 8.6.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Super-6.jpg" alt="Super 6 asbestos cement sheet"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Concrete tile.</h3>
+    <p>Generally found on homes that are 50 years or older. Concrete tiles are heavy relative to metal roofing. They have a flat ridge profile (important for identification, covered in the shapes and penetrations sections). By the time a concrete tile roof needs attention, it usually needs full replacement because individual tile replacement is difficult and ageing concrete becomes porous and brittle. If you are on a concrete tile property, the conversation is typically a full reroof.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Concrete-tile.jpg" alt="Concrete tile roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Terracotta tile.</h3>
+    <p>Fired clay tile, often used on heritage and Mediterranean-style properties. Distinguishable from concrete by the raised, curved ridge profile. Concrete tiles have flat ridges; terracotta has rounded.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Terracotta.jpg" alt="Terracotta tile roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Asphalt tile.</h3>
+    <p>Bituminous shingle, layered overlapping. Common in North American construction, less common in New Zealand. Where present, replacement typically follows the same patterns as metal roofing - full strip and recover.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Ashphalt-tile.jpg" alt="Asphalt shingle roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Cedar tile.</h3>
+    <p>Wooden shingle tile. Uncommon in New Zealand residential. Where present, often requires complete replacement rather than refurbishment.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/cedar-tile.jpg" alt="Cedar shingle roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Onduline.</h3>
+    <p>Corrugated bitumen-saturated organic fibre sheet, originally manufactured in Europe in the 1950s. Came to New Zealand in the early 1990s and was withdrawn mid-2000s. Common issues include delamination, fading, colour leeching, sagging, cracking, and disintegration. Identification: visibly thicker than corrugated iron, with a fibrous surface texture, and trough size much larger than a corrugated iron sheet.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Onduline.jpg" alt="Onduline bitumen sheet roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Bullnose roof (decorative).</h3>
+    <p>A rounded or curved architectural feature at the edge of a roof, softening the transition between the roof and the exterior walls. Adds a decorative element. More common on heritage homes.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Bullnose.jpg" alt="Bullnose roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Aluminium tile.</h3>
+    <p>0.9mm aluminium roofing product. Does not corrode from water exposure but is sensitive to galvanic corrosion if the wrong fasteners are used. Expensive and difficult to install - cannot be drilled in place, must be marked, removed, drilled, and reinstalled. A specialist product.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Aluminum-Tile.jpg" alt="Aluminium tile roof"></div>
+</div>
+
+<h2 class="sec-h" id="sec-8-2"><span class="sec-num">8.2</span>Roof shapes.</h2>
+<p>The shape of the roof determines how it sheds water, how complex the flashing requirements are, and how the roof is measured. Eight shapes you need to identify on sight.</p>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Gable.</h3>
+    <p>The triangular portion of a wall formed by the intersection of two sloping roof surfaces. A gable roof has two sloping planes meeting at a ridge with vertical triangular ends.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Gable-roof.jpg" alt="Gable roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Hip.</h3>
+    <p>A roof with sloping sides that meet at hips - angled external junctions where two sloping sections meet, creating ridges that run diagonally across the structure.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Hip.jpg" alt="Hip roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Dormer.</h3>
+    <p>A structural element protruding from a sloped roof, featuring a window or set of windows with its own roof. Dormers are designed to provide additional light, ventilation, and space to the attic or upper floor. They create complex flashing requirements at all junctions.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Dormer.jpg" alt="Dormer roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Butterfly.</h3>
+    <p>Two inward-sloping planes meeting at a central valley. Uncommon in New Zealand residential. The central valley is a high-risk water collection point and must be flashed and drained carefully.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Butterfly.jpg" alt="Butterfly roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Skillion.</h3>
+    <p>Slanted on one side with one side wall taller than the other. A simple single-plane sloping roof.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Skillion.jpg" alt="Skillion roof"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Draped.</h3>
+    <p>A flat roof with a curved ridge in the middle. The iron is pinned down on either side to create a 1-2 degree fall so water falls off either side of the ridge into gutters. For warranty compliance the roof must have at least a 3-degree pitch. To fix a banana roof, build in the new pitch by adding substructure under a new roof. This is a Roofbuddy term, not an industry term.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Draper-roof.jpg" alt="Draped roof"></div>
+</div>
+<h3 class="glossary-term">Mansard / Bullnose / Curved.</h3>
+<p>Various decorative shapes. Where you see one of these, document carefully - they require specialist flashing approaches and the quote needs to reflect the extra labour.</p>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Flat (low-pitch).</h3>
+    <p>Anything under 3 degrees of pitch. Membrane is generally the right answer for very low pitch surfaces; metal needs at least 3 degrees for warranty compliance.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/low-pitch-flat.jpg" alt="Flat low-pitch roof"></div>
+</div>
+
+<h2 class="sec-h" id="sec-8-3"><span class="sec-num">8.3</span>Roof components - The vocabulary.</h2>
+<p>These are the words you will use every day on every site visit. Learn them. Be able to point at any of these on a roof and name them correctly.</p>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Ridge.</h3>
+    <p>The highest point along the apex where two sloping sides of a roof meet, forming a horizontal line. The ridge is a critical structural element and the ridge capping is one of the most important flashing components.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/ridge.jpg" alt="Roof ridge"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Hip.</h3>
+    <p>The angled external junction where two sloping sections of a roof meet, creating a ridge that runs diagonally across the structure.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Hip.jpg" alt="Roof hip"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Soffit.</h3>
+    <p>The underside or eave of a roof overhang. The soffit provides a finishing touch to the roof structure while concealing and protecting the rafters and other elements.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Soffit.jpg" alt="Roof soffit"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Gable.</h3>
+    <p>The triangular-shaped section of a wall between the edges of intersecting roof pitches. Forms the end of a pitched roof, extending from the eaves to the ridge.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Gable-roof.jpg" alt="Gable end"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Fascia.</h3>
+    <p>The vertical, forward-facing board that runs along the lower edge of a roof, connecting the edges of the rafters or trusses. Positioned just beneath the roofline. The fascia supports the gutter. Fascia condition is assessed during the site inspection.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Fascia.jpg" alt="Fascia board"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Purlins.</h3>
+    <p>Horizontal structural members in a roof framework, typically placed perpendicular to the rafters. Positioned between the main roof supports such as trusses or rafters. Purlins provide additional support and help distribute the load of the roof covering evenly. On steeper pitch roofs, thicker steel is used so that the purlins do not show through visually.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Purlns.jpg" alt="Purlins"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Flashing.</h3>
+    <p>Any metal or membrane component used to waterproof a junction between the roof and another surface: walls, penetrations, ridges, valleys, or edges. Correct flashing installation is the primary determinant of roof performance over time.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/flashing.jpg" alt="Roof flashing"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Apron flashing.</h3>
+    <p>A narrow strip of material, typically metal, installed along the edges of a roof. Positioned under the roofing material, the apron extends beyond the roof’s edge and facilitates proper water runoff. One of the most common leak points on lean-to roofs and dormers.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Apron-flashing.jpg" alt="Apron flashing"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Back tray.</h3>
+    <p>A horizontal flashing component at the rear section of a roof where it meets a wall or vertical surface. Directs water away from the wall junction and onto the roof surface. Critical to correct flashing installation. A failing back tray is a common cause of internal water ingress.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/back-tray.jpg" alt="Back tray flashing"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Sleeving (electrical).</h3>
+    <p>Protective covering for electrical cables where they exit through the roof. Identifiable by a bolted connection at the soffit - the bolt holds the sleeving in place where the cable passes through. Note it in the penetration count and photograph the bolted soffit connection. The roofer needs to work around the sleeving without disturbing the cable inside.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/electrical-sleeving.jpg" alt="Electrical sleeving at soffit"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Dektite.</h3>
+    <p>A brand name (used generically) for a flexible rubber boot flashing used around round pipe penetrations. Available in standard and square profiles. Where existing dektites are present, assess their condition - aged rubber splits and loses its seal.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Dektite.jpg" alt="Dektite pipe boot"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Building paper / underlay.</h3>
+    <p>Secondary waterproofing layer installed between the roof structure and the metal roofing material. Specified on every reroof.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Building-paper.jpg" alt="Building paper underlay"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Lead-headed nails (specialist fixings).</h3>
+    <p>Specialist fixings used in certain roofing applications. Note carefully when specifying as incorrect fixings can void warranties.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/lead-head-nail.jpg" alt="Lead-headed nails"></div>
+</div>
+
+<h2 class="sec-h" id="sec-8-4"><span class="sec-num">8.4</span>Pitch rules of thumb.</h2>
+<p>Pitch is the angle of the roof surface. It determines what products are warranty-compliant.</p>
+<p>Under 3 degrees: metal is not warranty-compliant. Membrane (Guardian Seal or Guardian Seal Pro) is the right intervention. If the client wants a metal roof on a low-pitch section, the pitch must be built up structurally before metal can be specified.</p>
+<p><strong class="run-in">3 to 8 degrees:</strong> low pitch. Metal works but flashing requirements are higher. Trapezoidal is preferred over corrugated at the very low end of this range as it is warrantable down to 3 degrees.</p>
+<p>8 degrees and above: standard pitch. All metal profiles work, the shallower end of this range still benefits from careful flashing detail.</p>
+<p><strong class="run-in">Repitching a roof:</strong> changing the pitch can solve water pooling, debris traps, and degradation issues. It requires removing the existing roof and building substructure to raise the ridge. Quote this carefully - a builder is required, not just a roofer and this may be restricted building works and require a consent.</p>
+
+<h2 class="sec-h" id="sec-8-5"><span class="sec-num">8.5</span>Roof penetrations.</h2>
+<p>A penetration is anything that goes through the roof surface. Every penetration is a potential leak point. Every penetration must be documented in the quote with measurements and photographs. Nine common types follow.</p>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Plumbing vent.</h3>
+    <p>Bathroom and toilet sump plumbing vent. On the outside of the building. Short and stubby. Sealed at the roof with a dektite.</p>
+    <h3 class="glossary-term">Hot water cylinder overflow</h3>
+    <p>Tall and thin pipe penetration. Often near the eave above the cylinder location.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Plumbing-vent.jpg" alt="Plumbing vent"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Chimney.</h3>
+    <p>Attached to the fireplace structure inside the house. May be brick masonry or metal flue. Brick chimneys require step flashing up the sides and apron flashing at the base. Metal flue chimneys use a collar flashing; both require explicit specification. A chimney that is present but not included in the scope will create an on-site dispute.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Chimney.jpg" alt="Chimney"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Sky dish and TV aerial.</h3>
+    <p>As covered in Chapter 7: the roofer will reposition the dish to access the roof and will reinstall it after the job. Roofbuddy explicitly excludes sky dishes and TV aerials from the scope of work in every specification. The client is told in advance that reception cannot be guaranteed after repositioning and is advised to contact Sky for realignment if needed so don’t deviate from this exclusion.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Sky-dish.jpg" alt="Sky dish"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Skylight.</h3>
+    <p>The most complex penetration to specify correctly. Every skylight specification must include the exact Velux model number or equivalent specification, the measured dimensions, photographs of the current installation, a clear statement of what is included (removal, flashing, reinstallation), and a clear statement of what is excluded so do not guess at skylight specifications. Measure and photograph on site; incorrect skylight specification leads to the most expensive on-site variations.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/skylight.jpg" alt="Skylight"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Spouting.</h3>
+    <p>Internal spouting or downpipe penetrations through the roof surface where downpipe connects to internal drainage. Note location and condition.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/spouting.jpg" alt="Spouting penetration"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Electrical sleeving.</h3>
+    <p>As described in section 8.3: identified by a bolted connection at the soffit. The sleeving protects electrical cables where they exit the roof structure. Note it in the penetration count and photograph the bolted soffit connection.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/electrical-sleeving.jpg" alt="Electrical sleeving"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Dektite (existing).</h3>
+    <p>Pipe flashing boots already in place from previous roofing work. Where existing dektites are present, assess their condition. Aged rubber splits and loses its seal. Include replacement dektites in the specification unless you have confirmed they are in good condition.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Dektite.jpg" alt="Existing dektite"></div>
+</div>
+<h2 class="sec-h" id="ch8-other-pen">Any other visible penetration.</h2>
+<p>If you can see it and it goes through the roof, photograph it and note it. This is not a category for judgment calls. If there is something on the roof that you cannot categorise, it goes in the notes with a photograph. The roofer will know what it is. Your job is to make sure it is documented and photographed so they are aware of it when they quote the job.</p>
+
+<h2 class="sec-h" id="sec-8-6"><span class="sec-num">8.6</span>Asbestos: Knowledge and process.</h2>
+<p>Asbestos was widely used in New Zealand building materials before 1980. It is predominantly a pre-1980 material risk, though the import of raw blue and brown asbestos was not prohibited until 1984. Any property built before 1984 should be assessed for asbestos potential.</p>
+<h2 class="sec-h" id="ch8-asb-where">Where you will find it on roofs.</h2>
+<p><strong class="run-in">Super 6:</strong> Visually identifiable as described in section 8.1. White to grey corrugated cement sheet with a golf-ball dimpled surface. If you see Super 6, asbestos is present.</p>
+<p><strong class="run-in">Decramastic tiles:</strong> Asbestos chips were mixed into the surface coating of decramastic tiles produced from the late 1960s through to the mid-1970s. Later versions may not contain asbestos. You cannot make this determination visually. Testing is required.</p>
+<h2 class="sec-h" id="ch8-asb-testing">The testing process.</h2>
+<p>Testing cost is $80 to $250 depending on the number of samples required.</p>
+<p>The laboratory Roofbuddy uses is Focus Analytics, at Unit C1, 4 Pacific Rise, Mount Wellington, Auckland 1060.</p>
+<p>Roofbuddy covers the test cost as a sales facilitation tool. Covering the test cost creates goodwill and removes the financial barrier to finding out. Once the test result confirms asbestos, the conversation about removal and replacement is straightforward and the client already has a positive experience of dealing with Roofbuddy.</p>
+<h2 class="sec-h" id="ch8-asb-removal">The removal process.</h2>
+<p>Asbestos removal is a specialist job requiring a licensed asbestos removal contractor. The process runs sequentially alongside the roofer: one section of the old roof is removed by the asbestos contractor, the roofer immediately follows to install new material on that section, then the process repeats for the next section. This keeps the roof weathertight throughout the job.</p>
+<h2 class="sec-h" id="ch8-asb-client">Client instructions during asbestos removal.</h2>
+<p>Clients can remain in the house during an asbestos removal job. They should follow these instructions to minimise any exposure risk:</p>
+<ul class="bullets-plain">
+  <li>Shut and lock all windows.</li>
+  <li>Keep all washing inside for the duration of the work.</li>
+  <li>Keep all animals inside.</li>
+  <li>Turn off all ventilation systems including heat pumps and extractor fans.</li>
+  <li>Bring in any outdoor furniture, children’s toys, or items that could collect dust.</li>
+</ul>
+<p>Communicate these instructions clearly and in writing before the job begins. Clients who do not know the process may be anxious. Clients who have been briefed are confident.</p>
+<h2 class="sec-h" id="ch8-asb-encap">The encapsulation alternative for commercial properties.</h2>
+<p>As covered in section 7.1: Guardian Seal can encapsulate asbestos on commercial roofs where removal is not viable. The ten-year renewal cycle creates a recurring revenue relationship. This is a commercial opportunity and a genuine solution for facilities where full asbestos removal would require shutting down business operations.</p>
+
+<h2 class="sec-h" id="sec-8-7"><span class="sec-num">8.7</span>Gutters, internal gutter conversion, and leaf guards.</h2>
+<h2 class="sec-h" id="ch8-gutter-types">Gutter types.</h2>
+<p>The two primary gutter profiles used in New Zealand residential and commercial roofing are half-round and square-line (fascia gutter). Half-round gutters have been used for over a century and are common on older homes. Square-line or fascia gutters are the current standard for new installations and reroofs, as they attach directly to the fascia board and present a clean line.</p>
+<p>Gutter sizing is specified in lineal metres. Downpipes are specified by count; both figures are required for an accurate quote.</p>
+<h2 class="sec-h" id="ch8-box-gutters">Box gutters (internal gutters).</h2>
+<p>A box gutter is a gutter built into the roof structure itself, concealed within the roofline rather than attached externally. Box gutters were widely used in commercial and some residential construction from the mid-20th century. They are an ongoing maintenance liability because the waterproofing membrane inside the box gutter degrades over time. When it fails, water enters the building structure directly. Repair is difficult because the gutter is internal to the structure; box gutter failure is expensive so they either need to be immaculately maintained and upkept or the client will be up for replacement.</p>
+<h2 class="sec-h" id="ch8-gutter-conversion">Internal gutter conversion.</h2>
+<p>The permanent solution to a box gutter problem is conversion to an external gutter system. This involves building out the roofline to accommodate an external gutter, which eliminates the internal waterproofing risk entirely. This is a structural job: a builder must be engaged alongside the roofer. The builder handles the structural element of building out the fascia and soffit. The roofer handles the roofing material and gutter installation. Coordinate these two trades before the job begins.</p>
+<h2 class="sec-h" id="ch8-leaf-guard">Gutter protection (leaf guard).</h2>
+<p>Leaf guard products fit over the top of the gutter and prevent debris from entering. The preferred Roofbuddy supplier is Four Seasons.</p>
+<p>The reason Four Seasons is preferred over other brands is a material compatibility issue: some leaf guard products involve contact between two dissimilar metals, which creates a galvanic corrosion cell. Where two dissimilar metals are in electrical contact in the presence of moisture, the less noble metal corrodes preferentially and at an accelerated rate. This can damage both the leaf guard product and the gutter beneath it. Four Seasons product design avoids this contact issue.</p>
+<p>Installed cost for gutter protection is approximately $3,500 to $5,000 depending on the total lineal metres of gutter run. When you are on a site with significant tree coverage over the roofline, raise gutter protection as part of the conversation. It is a natural add-on to any gutter replacement or reroof scope.</p>
+
+<h2 class="sec-h" id="sec-8-8"><span class="sec-num">8.8</span>Cladding types.</h2>
+<p>Roofing iron applied to walls (cladding) is a real Roofbuddy service. Recognising the existing cladding type on a site visit lets you have an informed conversation when a client mentions exterior work.</p>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Weatherboard.</h3>
+    <p>Thin horizontal timber boards overlapped. Thinner than hardiplank. Common on older NZ homes.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/weatherboard.jpg" alt="Weatherboard cladding"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Cedar.</h3>
+    <p>Cedar cladding is the most expensive and most difficult to work with. If you are unsure of the cladding type, default to identifying cedar - it is the hardest case to handle.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Cedar.jpg" alt="Cedar cladding"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Brick.</h3>
+    <p>Brick veneer or solid brick. Solid wall, not part of the standard roofing scope but worth identifying for context.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/brick.jpg" alt="Brick cladding"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Plasterboard / Plaster.</h3>
+    <p>Often used on more contemporary builds. Smooth render finish.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Plasterboard.jpg" alt="Plaster cladding"></div>
+</div>
+<div class="glossary-row">
+  <div class="glossary-row__body">
+    <h3 class="glossary-term">Hardiplank.</h3>
+    <p>Cement-based weatherboard, thicker than timber weatherboard, common on mid-to-newer NZ homes.</p>
+  </div>
+  <div class="glossary-row__media"><img class="lb" src="../assets/ch8/Hardiplank.jpg" alt="Hardiplank cladding"></div>
+</div>
         </div>
       </div>
     </section>
@@ -2241,7 +2683,10 @@
           if(en.isIntersecting){ setActiveSecPill(en.target.id); }
         });
       }, { rootMargin: '-120px 0px -65% 0px', threshold: 0 });
-      allSecHs.forEach(function(h){ io.observe(h); });
+      // Only observe headings that are sub-nav tab targets (numbered or
+      // data-tab), so non-tab sub-titles don't clear the active pill.
+      allSecHs.filter(function(h){ return h.dataset.secNum || h.dataset.tab; })
+        .forEach(function(h){ io.observe(h); });
     }
 
     // ----------------------------------------------------------------
@@ -2392,7 +2837,7 @@
 <script>
 const CHAPTER_COLOURS = {
   1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#33586b',5:'#2aa8e0',
-  6:'#3d3f63',7:'#6f446d',8:'#EE255E',9:'#7E2237',10:'#D75936',
+  6:'#3d3f63',7:'#6f446d',8:'#ed1456',9:'#7E2237',10:'#D75936',
   11:'#D38B5E',12:'#D79E2D'
 };
 const CHAPTER_TITLES = {
