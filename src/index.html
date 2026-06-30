@@ -138,7 +138,7 @@
     padding:88px 24px 44px;
   }
   .mobile-menu.open{display:flex;}
-  .mobile-menu-logo{width:150px;height:auto;display:block;cursor:pointer;flex:0 0 auto;}
+  .mobile-menu-logo{width:195px;height:auto;display:block;cursor:pointer;flex:0 0 auto;}
   .mobile-menu-nav{
     flex:1;
     width:100%;
@@ -1087,7 +1087,20 @@
     .nav-links{display:none;}
     .burger{display:flex;}
 
-    .ch-overlay-links{gap:16px;}
+    /* Chapter index overlay on mobile: drop its desktop nav and sit below the
+       fixed top bar, so the site's burger shows (and opens the mobile menu). */
+    .ch-overlay-nav{display:none;}
+    .ch-overlay{top:64px;}
+
+    /* Glossary view: match the horizontal padding of other mobile views. */
+    .glossary-wrap{padding-left:20px;padding-right:20px;}
+    .az-strip-inner{padding-left:20px;padding-right:20px;}
+
+    /* Search on mobile: solid black background, light text. */
+    #searchOverlay{background:#000 !important;padding-top:0 !important;align-items:stretch !important;}
+    #searchModal{background:#000 !important;width:100% !important;max-width:100% !important;}
+    #searchInput{color:#fff !important;}
+    #searchResults .ri > div:nth-child(2){color:#fff !important;}
 
     .kit-grid{grid-template-columns:1fr;}
 
