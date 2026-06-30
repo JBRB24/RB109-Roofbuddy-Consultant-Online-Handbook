@@ -371,24 +371,23 @@
   .sec-pill{
     position:relative;
     flex:1;
-    background:none;
+    background-color:var(--c);
     border:none;
-    border-right:0.5px solid var(--line);
-    border-bottom:2px solid transparent;
+    border-right:1px solid rgba(255,255,255,0.2);
     padding:12px 4px;
     font-family:inherit;
     font-weight:600;
     font-size:11px;
-    color:#999;
+    color:#fff;
     text-align:center;
     cursor:pointer;
-    transition:color .12s ease;
+    transition:background-color .15s ease;
   }
   .section-nav .sec-pill:last-child{border-right:none;}
-  .sec-pill:hover{color:var(--c);}
+  /* Hover + active: same chapter colour, ~10% darker. Text stays white. */
+  .sec-pill:hover,
   .sec-pill.active{
-    color:var(--c);
-    border-bottom-color:var(--c);
+    background-color:color-mix(in srgb, var(--c) 90%, #000);
   }
 
   /* Tooltip */
