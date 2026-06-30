@@ -333,6 +333,14 @@
     opacity:1;
   }
   #ch9 .hero-img{ filter:brightness(0.6); }
+  #ch10 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#d15c31;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  #ch10 .hero-img{ filter:brightness(0.6); }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -578,6 +586,19 @@
   #ch7 .chapter-content .run-in { color: #6f446d; }
   #ch8 .chapter-content .run-in { color: #ed1456; }
   #ch9 .chapter-content .run-in { color: #822c3b; }
+  #ch10 .chapter-content .run-in { color: #d15c31; }
+
+  /* Pull-quote: large design accent with a chapter-colour left rule. */
+  .pullquote{
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    font-size:22px;
+    line-height:1.4;
+    color:#1A1A1A;
+    border-left:3px solid var(--c);
+    padding-left:20px;
+    margin:32px 0;
+  }
 
   /* Subline: bold line with a chapter-colour label (up to the colon) + navy
      bold remainder. */
@@ -2581,9 +2602,10 @@
       </div>
     </section>
 
-    <section class="chapter" id="ch10" data-index="10" style="--c:#D75936">
+    <section class="chapter" id="ch10" data-index="10" style="--c:#d15c31">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch10/Hero.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">10</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 10</div>
@@ -2592,7 +2614,42 @@
       </div>
       <div class="content-area">
         <div class="chapter-content">
-          <p class="awaiting">Awaiting content from Tango.</p>
+<p><strong>Roofbuddy is a tech-enabled service business. The tools you use every day matter - they determine your speed, your accuracy, and how professional you look in front of a client. This chapter walks through the core stack.</strong></p>
+
+<h2 class="sec-h" id="sec-10-1"><span class="sec-num">10.1</span>The CRM.</h2>
+<p>The Roofbuddy CRM is the central operational system. Every lead, every quote, every appointment, every interaction with a client and a roofer lives in there. Get fluent with it in your first two weeks.</p>
+<p><strong class="run-in">Core CRM functions you will use daily:</strong> lead intake and triage, appointment scheduling, quote management, status updates, follow-up tracking, photo and document storage, and the quote diary. Train on each one. If something is not behaving the way you expect, ask a colleague or the support team rather than improvising - a workaround in the CRM is usually a sign that something else is going wrong.</p>
+<p>Save the CRM, the Roofbuddy site, Nearmap, Property Value, Google Maps, and the basemaps LINZ tool to your Chrome favourites on day one.</p>
+
+<h2 class="sec-h" id="sec-10-2"><span class="sec-num">10.2</span>Aerial measurement.</h2>
+<figure class="doc-figure"><img src="../assets/ch10/Aerial-Measurement.jpg" alt="Aerial measurement screenshot: Nearmap roof outline with measured sections, pitch angles and labels"></figure>
+<p>Aerial measurement tools - Nearmap as the primary, with Google Maps and LINZ basemaps as backups - allow you to scope much of the spec work before you set foot on the property. This saves time and improves accuracy. The clients you see at appointments expect you to know their roof in detail when you arrive.</p>
+<p>The discipline: measure soffit to soffit, not wall to wall. Wall to wall overstates the area because it includes the wall framing thickness on both sides. Soffit to soffit measures the actual area the iron will cover. This is one of the most common measurement errors and one of the easiest to fix once you are aware of it.</p>
+<p>For each measured section, record: lineal metres, square metres, pitch, and a clear identifying label (front face, rear face, dormer, garage). The spec the roofer receives must be unambiguous.</p>
+<p class="pullquote">The tools you use every day matter - they determine your speed, your accuracy, and how professional you look in front of a client.</p>
+
+<h2 class="sec-h" id="sec-10-3"><span class="sec-num">10.3</span>Drone protocol.</h2>
+<p>Drones are part of the Roofbuddy toolkit and they materially change the quality of pre-visit information. Used correctly, a drone produces photographs and measurements that a tape measure and a ladder cannot. Drone usage at Roofbuddy follows a strict protocol. Flying a drone in residential areas without consent creates legal exposure. The protocol is non-negotiable. Drone operation is governed by Civil Aviation Authority rules. CAA Part 101 covers the general operation rules; Part 102 covers certified operators.</p>
+<h3 class="sub-h">Before the flight.</h3>
+<p>Obtain verbal client consent before flying. Confirm the property boundary so the flight path does not stray over neighbouring property.</p>
+<p>Check the no-fly conditions: weather (no flight in high winds or rain), airspace (CAA controlled airspace check), powerlines, trees, and any other obstruction risk. If conditions are not safe, the flight does not happen.</p>
+<h3 class="sub-h">During the flight.</h3>
+<p>Keep the drone in line of sight at all times. Maintain altitude appropriate to the property. Capture the four cardinal angle shots, the roof plane shots for each face, close-ups of any visible damage, gutter condition shots, and penetration documentation. The goal is a complete visual record that a remote roofer could use to quote accurately.</p>
+<h3 class="sub-h">After the flight.</h3>
+<p>Upload all images to the CRM against the lead immediately. They belong with the lead so the spec, quotes, and client communications can reference them.</p>
+<p>If you are unsure about any of the legal or operational requirements, talk to Chris before flying. There is no penalty for asking but there are significant concequences for getting it wrong.</p>
+
+<h2 class="sec-h" id="sec-10-4"><span class="sec-num">10.4</span>Other tools in the stack.</h2>
+<h3 class="sub-h">Property Value.</h3>
+<p>Used for property history, ownership confirmation, and pricing context. Particularly useful when a client is buying or selling and the price of the property is part of the decision context for the roof.</p>
+<h3 class="sub-h">Slack.</h3>
+<p>The internal communication tool. Sales team channels, leadership channels, and specialist channels (asbestos, scaffolding, finance, escalations). Be active in the channels relevant to you. The team learns from each other through Slack and the consultant who is not present in those conversations misses a lot.</p>
+<h3 class="sub-h">Gmail with shared templates.</h3>
+<p>All client and roofer communication runs through Gmail with a library of approved templates. Use the templates. They are written for a reason and they have been tested. Do not improvise the language unless you have a specific reason to.</p>
+<h3 class="sub-h">Google Calendar.</h3>
+<p>Your appointment schedule. The CRM pushes appointments into Google Calendar, but if you change something in Google Calendar it does not push back to the CRM. Update the CRM first; let it propagate to your calendar.</p>
+<h3 class="sub-h">WhatsApp.</h3>
+<p>Used as the sales team’s fast communication channel. Slack is the formal record; WhatsApp is the quick check-in. Both have their place.</p>
         </div>
       </div>
     </section>
@@ -3185,7 +3242,7 @@
 <script>
 const CHAPTER_COLOURS = {
   1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#33586b',5:'#2aa8e0',
-  6:'#3d3f63',7:'#6f446d',8:'#ed1456',9:'#822c3b',10:'#D75936',
+  6:'#3d3f63',7:'#6f446d',8:'#ed1456',9:'#822c3b',10:'#d15c31',
   11:'#D38B5E',12:'#D79E2D'
 };
 const CHAPTER_TITLES = {
