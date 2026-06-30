@@ -313,6 +313,14 @@
     opacity:1;
   }
   #ch7 .hero-img{ filter:brightness(0.6); }
+  #ch8 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#ed1456;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  #ch8 .hero-img{ filter:brightness(0.6); }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -592,8 +600,16 @@
     gap:6px 20px;
     margin:4px 0 24px;
   }
-  .anatomy-key li{ font-family:'Poppins',sans-serif; font-size:13px; line-height:1.5; color:#3D3D3D; }
-  .anatomy-key .num{ color:var(--c); font-weight:700; }
+  .chapter-content .anatomy-key li{
+    font-family:'Poppins',sans-serif;
+    font-size:13px;
+    line-height:1.5;
+    font-weight:400;
+    color:#3D3D3D;
+    padding-left:0;
+  }
+  .chapter-content .anatomy-key li::before{ content:none; }
+  .anatomy-key .num{ color:var(--c); font-weight:600; }
 
   /* Regular-weight bullet list (overrides the default bold list items) */
   .chapter-content ul.bullets-plain li{ font-weight:400; color:#3D3D3D; }
@@ -1866,7 +1882,8 @@
 
     <section class="chapter" id="ch8" data-index="8" style="--c:#ed1456">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch8/Hero.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">08</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 8</div>
