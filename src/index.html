@@ -594,9 +594,8 @@
   .anatomy-panel img{ width:100%; height:auto; display:block; }
   .anatomy-key{
     list-style:none;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:6px 20px;
+    column-count:3;
+    column-gap:20px;
     margin:4px 0 24px;
   }
   .chapter-content .anatomy-key li{
@@ -606,6 +605,8 @@
     font-weight:400;
     color:#3D3D3D;
     padding-left:0;
+    margin-bottom:6px;
+    break-inside:avoid;
   }
   .chapter-content .anatomy-key li::before{ content:none; }
   .anatomy-key .num{ color:var(--c); font-weight:600; }
@@ -873,7 +874,7 @@
 
     .kit-grid{grid-template-columns:1fr;}
 
-    .anatomy-key{grid-template-columns:repeat(2,1fr);}
+    .anatomy-key{column-count:2;}
 
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
