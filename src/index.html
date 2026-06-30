@@ -325,6 +325,14 @@
     opacity:1;
   }
   #ch8 .hero-img{ filter:brightness(0.6); }
+  #ch9 .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:#822c3b;
+    mix-blend-mode:color;
+    opacity:1;
+  }
+  #ch9 .hero-img{ filter:brightness(0.6); }
   .hero-ghost{
     position:absolute;
     right:0;bottom:-16px;
@@ -569,6 +577,22 @@
   #ch6 .chapter-content .run-in { color: #3d3f63; }
   #ch7 .chapter-content .run-in { color: #6f446d; }
   #ch8 .chapter-content .run-in { color: #ed1456; }
+  #ch9 .chapter-content .run-in { color: #822c3b; }
+
+  /* Subline: bold line with a chapter-colour label (up to the colon) + navy
+     bold remainder. */
+  .chapter-content .subline{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    line-height:1.4;
+    color:#1A1A1A;
+    margin:24px 0 8px;
+  }
+  .subline-label{ color:var(--c); }
+  /* Bold opening phrase inside a regular bullet (navy). run-in keeps its own
+     chapter colour via the higher-specificity id rule above. */
+  .chapter-content ul.bullets-plain li strong{ color:#1A1A1A; }
 
   /* Glossary row (Ch8): navy bold term + definition on the left, paired image
      on the right; on mobile stacks to term+definition then image below. */
@@ -2430,9 +2454,10 @@
       </div>
     </section>
 
-    <section class="chapter" id="ch9" data-index="9" style="--c:#7E2237">
+    <section class="chapter" id="ch9" data-index="9" style="--c:#822c3b">
       <div class="hero">
-        <div class="hero-tint"></div>
+        <img class="hero-img" src="../assets/ch9/Hero.jpg" alt="">
+        <div class="hero-overlay"></div>
         <div class="hero-inner">
           <span class="hero-ghost" aria-hidden="true">09</span>
           <div class="hero-label">Roofbuddy Consultant Handbook  |  Chapter 9</div>
@@ -2441,7 +2466,117 @@
       </div>
       <div class="content-area">
         <div class="chapter-content">
-          <p class="awaiting">Awaiting content from Tango.</p>
+<p><strong>This is where good consultants and average consultants separate. Appointment quality matters, product knowledge matters, the 5-5-8 framework matters - but the single biggest performance gap between top consultants and middle consultants is not in any of those areas. It is in follow-up discipline.</strong></p>
+<p>A consultant who runs an average appointment and follows up every quote 100% of the time will outperform a consultant who runs a brilliant appointment and follows up 30% of the time. The deals you do not close on the day of the appointment are deals that close in the follow-up - if you do the follow-up. If you do not, those deals close with someone else or they never close.</p>
+<p>This chapter teaches the system. Use it.</p>
+
+<h2 class="sec-h" id="sec-9-1"><span class="sec-num">9.1</span>The baseline turnaround standards.</h2>
+<p><strong>Before the tier system and the follow-up cadence, there are three response-time minima that apply to every lead regardless of quality. These are not aspirational targets - they are the minimum operational expectations of the role, set out in your engagement and tracked at appraisals.</strong></p>
+<ul class="bullets-plain">
+  <li><strong class="run-in">Contact a new enquiry:</strong> within 24 hours of the enquiry landing in the CRM.</li>
+  <li><strong class="run-in">Produce the job spec:</strong> within 24 hours of receiving the required information.</li>
+  <li><strong class="run-in">Follow up a quote:</strong> within 24 hours of the quote being closed for further quotes.</li>
+</ul>
+<p>These three turnarounds are the single biggest competitive advantage Roofbuddy has over friends in the industry. The 10-point comparison in Chapter 7 captures the gap quantitatively - most companies in the industry are quoting at three days to one and a half weeks, with follow-up rates under 10%. The 24-hour standard is what produces the conversion gap.</p>
+<p>Beyond these minima, the expectation is that you continue to pursue every sales enquiry until a definitive decision has been made by the client - yes, no, or genuinely paused with a clear reason and a defined follow-up date.</p>
+
+<h2 class="sec-h" id="sec-9-2"><span class="sec-num">9.2</span>Lead quality tiers.</h2>
+<p><strong>Not every lead is the same. Roofbuddy uses an A through D tier system to categorise lead quality. Knowing the tier of each lead allows you to allocate your time appropriately but you can never pre judge as there are nuggets of gold hiding everywhere.</strong></p>
+<p class="subline"><span class="subline-label">A-tier:</span> Ready buyer, qualified, decision-maker present.</p>
+<p>Property owner with verified need and timeline within 90 days; budget acknowledged. Decision-maker is the person you will be meeting. These are the leads where you focus your energy at the appointment because the conversion potential is highest. A-tier leads should not languish - they go to the top of the calendar and follow up cadence every time.</p>
+<p class="subline"><span class="subline-label">B-tier:</span> Warm, qualified, timeline unclear.</p>
+<p>Real need and decision-maker engaged. Timeline is further out, often because the client is planning around a specific event (sale, insurance renewal, end of summer). These leads need patient follow-up over a longer period. The Step 9.3 sequence is built for B-tier leads.</p>
+<p class="subline"><span class="subline-label">C-tier:</span> Needs nurturing, timeline unclear.</p>
+<p>Real interest but uncertain timing and may not have full decision-making authority yet. Perhaps doing early research. These leads require longer-term cultivation. The follow-up cadence is less frequent than B-tier but more consistent than D-tier. Many C-tier leads convert to A-tier over six to twelve months if you stay in touch professionally.</p>
+<p class="subline"><span class="subline-label">D-tier:</span> Information-gathering only.</p>
+<p>Leads that do not have genuine purchase intent. Curious and researching or comparing for an unrelated project. These leads are not worth significant time investment but they are not zero either: the next paragraph and section 9.6 cover the specific D-tier sub-types you will see and how to handle each one without burning hours or being dismissive of customer enquiry that may in fact convert.</p>
+
+<h2 class="sec-h" id="sec-9-3"><span class="sec-num">9.3</span>D-list lead sub-types: What you will see and how to handle each.</h2>
+<p><strong>D-list leads are not a single thing. They come in recognisable forms, each with a different posture. Triage them at the qualifying call and apply the correct handling. The wrong move with a D-list lead is either to write them off entirely (you miss the small percentage that have hidden value) or to over-invest in them (you burn time you should be spending on A and B-tier work). Calibrated handling is what protects your time and still captures upside.</strong></p>
+<p class="subline"><span class="subline-label">D-list sub-type 1:</span> Gutter only.</p>
+<p>Client wants a quote on gutter replacement, nothing else. Often a small dollar value job. Do not refuse it. Take the quote, but qualify quickly: is there a roof job behind this that should be considered together? Sometimes gutter degradation indicates broader roof issues. Sometimes it does not. If it is genuinely just gutter, deliver a clean quote, deliver it efficiently and move on. A clean small job done well builds a relationship for the next decision - five years from now this client may come back for the reroof.</p>
+<p class="subline"><span class="subline-label">D-list sub-type 2:</span> Building inspection.</p>
+<p>Client wants a roof condition report, often as part of a wider building inspection commissioned by a buyer or for an insurance assessment. Be clear with the client upfront about what they are buying and what they are not: this is a condition report, not a quote. Some of these clients will move on to actual roofing work later so these reports are solid gold. Treat the report as the product and price it accordingly, this is valuable information and insight they are purchasing.</p>
+<p class="subline"><span class="subline-label">D-list sub-type 3:</span> Buying a house.</p>
+<p>Client is considering a property purchase and wants pricing on the roof as part of their negotiation. Key question to ask: what stage of the purchase are they at? If they have not made an offer yet, give them an indicative price range - not a formal quote - so they can factor roofing into their offer. If they have an offer accepted, they will likely use the quote as a negotiating lever with the vendor (current owner) to either reduce the purchase price or have the repairs done before settlement. Either path is legitimate. The roofing work itself may not happen for months and may go to a different consultant if the property is in another region, so calibrate your time investment. Document carefully and refer to the appropriate region if needed.</p>
+<p class="subline"><span class="subline-label">D-list sub-type 4:</span> Selling a house.</p>
+<p>Client is the vendor preparing a property for sale. They want a roof quote as ammunition for negotiation with potential buyers, or to have work done before listing. Selling-side D-list leads sometimes convert quickly because the seller has a hard timeline (listing date or sale date) and wants the work completed or quoted before then. Ask directly: are you planning to do the work before sale, or use the quote in negotiation? If they want to do the work, they are effectively an A-tier or B-tier lead with a real timeline. If they want the quote for negotiation, manage your time accordingly.</p>
+<p class="subline"><span class="subline-label">D-list sub-type 5:</span> New roof, just thinking about it.</p>
+<p>Client is exploring the idea of replacing their roof but has no firm timeline or trigger event. They are early in the consideration process. These leads need the longest cultivation period. The right move is a professional, well-pitched appointment that establishes you as the trusted advisor when the timeline does firm up, plus a long-cadence follow-up sequence that keeps you visible without becoming a nuisance. Some of these clients convert in six months. Some in two years. Some never. Stay in their feed gently and prioritise the leads with firmer timelines for your immediate energy.</p>
+
+<h2 class="sec-h" id="sec-9-4"><span class="sec-num">9.4</span>The 4-step follow-up sequence.</h2>
+<p><strong>This is the proven follow-up cadence for B-tier and warm C-tier leads. It is structured because structure produces consistency. You do not need to invent the right moment to follow up - the cadence tells you when.</strong></p>
+<p class="subline"><span class="subline-label">Step 1:</span> Day-of follow-up (or next day).</p>
+<p>Within 24 hours of the appointment, send a recap. Key points discussed, the scope of the quote, the next steps. This step locks the client into the process while the appointment is still fresh in their memory. A consultant who sends the recap email the same evening is signalling professionalism. A consultant who lets a week pass is signalling indifference.</p>
+<p class="subline"><span class="subline-label">Step 2:</span> Quote delivery follow-up (3 to 5 days after quote sent).</p>
+<p>Once the quotes are in the client’s hands, follow up to walk through them. Many clients will read the quotes without fully understanding them and then go silent because they are unsure how to compare. A brief call where you explain the differences across the quotes brings them back into the process. “Have you had a chance to look through the quotes? Happy to walk through any of them with you.” That is the entire script.</p>
+<p class="subline"><span class="subline-label">Step 3:</span> Decision support (7 to 10 days after quote sent).</p>
+<p>If no decision has been made by this point, the client is hesitating on something so find out what it is. Most hesitation falls into one of three buckets: price (they think it is too expensive), timing (they want to wait), or trust (they are not sure about Roofbuddy or the specific roofer). Each of these has a different conversation, and Chapter 4 (Impulses) and Chapter 3 (Closes) give you the tools. Identify the bucket and address it directly.</p>
+<p class="subline"><span class="subline-label">Step 4:</span> Long-term cadence (every 30 to 60 days thereafter).</p>
+<p>If a deal does not close in the first three steps, it moves to long-cadence follow-up. A brief professional touchpoint every 30 to 60 days keeps you in mind. “Just checking in on the roof project - anything I can help with?” Some of these conversations reopen months later. Some never. The discipline is to maintain the cadence consistently without becoming a pest. The goal is to be the obvious first call when the timing does become right.</p>
+
+<h2 class="sec-h" id="sec-9-5"><span class="sec-num">9.5</span>Network discipline: How we protect your pipeline.</h2>
+<p><strong>You are working a pipeline that depends on the quality of the roofers Roofbuddy puts you in front of. If those roofers underperform, your deals fail at install and your clients leave bad reviews. Pipeline integrity depends on roofer integrity and Roofbuddy maintains the latter, deliberately, on your behalf.</strong></p>
+<h3 class="sub-h">How roofers are vetted.</h3>
+<p><strong>Every roofer in the marketplace has been checked for the following before they ever receive a lead:</strong></p>
+<ul>
+  <li>LBP (Licensed Building Practitioner) certification, valid and current.</li>
+  <li>Public liability insurance, current certificate held on file. Annual renewal verified.</li>
+  <li>Solvency check - the business is not failing under the weight of bad receivables or growing debt that suggests payment risk.</li>
+  <li>Track record and reference work.</li>
+  <li>Two-year minimum trading history, or five years minimum industry experience.</li>
+</ul>
+<p>The vetting is not just a one-time check, it is ongoing. We monitor each roofer’s performance through the platform: quote turnaround speed, communication quality with clients, completion rates, time from deposit to install, post-install QA results, customer reviews. A roofer who passes onboarding but underperforms in any of these areas gets flagged.</p>
+<h3 class="sub-h">The cautionary case - what happens when a client goes around the network.</h3>
+<p>This story underscores why the discipline matters. A roofer in the Roofbuddy network had completed 25 jobs for us over an extended period and the work was good. But over recent months his communication had become inconsistent and his lead times had stretched out significantly - both of which are early warning signs that a business is struggling under load.</p>
+<p>We acted on those signs and stopped sending him new jobs. We did not announce this publicly; it was an internal discipline decision. From the network’s perspective, he was being held back from new work until his service levels recovered.</p>
+<p>A client we had previously connected to this roofer chose to deal with him directly outside Roofbuddy. The roofer took a 50% deposit and The job was never started. The client lost the deposit and was left without a roof.</p>
+<p>That story has two lessons. First: it is the reason your clients should not be encouraged to deal direct with roofers outside the platform, the platform’s discipline is the protection. Without it, the client is dealing with a counterparty whose performance is no longer being monitored. Second: when a client asks why they cannot just “go around” Roofbuddy to save the fee, this is the story that answers them. The fee is paying for the vetting, the monitoring, the warranty, and the protection. The outcome above is what happens when those protections are removed.</p>
+<h3 class="sub-h">How this protects you operationally.</h3>
+<p>If a roofer in your pipeline starts showing the warning signs (communication slipping, lead times stretching, deposit-to-install delays growing), flag it to leadership early. The faster the network responds, the smaller the damage to your active pipeline. Your active deals get rerouted to reliable roofers; the underperformer gets paused while their service recovers or, if it does not, cut entirely.</p>
+<p>This is also why the Customer Warranty up to $50,000 is not theoretical. It exists for the moments when network discipline catches a problem too late, as in the Laken Wahene case. The two systems - proactive vetting and reactive warranty - work together. You do not have to choose between them.</p>
+
+<h2 class="sec-h" id="sec-9-6"><span class="sec-num">9.6</span>Self-generated leads - “Self-gens”.</h2>
+<p><strong>A self-generated lead is any opportunity you bring into the company yourself that did not come through the marketing-generated lead pipeline. They are called “self-gens” internally - pure margin, no acquisition cost, and they tend to be exceptionally high-quality clients who convert at a much higher rate than inbound leads.</strong></p>
+<p>Every senior consultant in this company has a self-gen story and most have dozens. The pattern is consistent: a casual conversation, a favour for someone, a small interaction that turned into a sale, which turned into a referral, which turned into a string of jobs over years.</p>
+<p>Self-gens are not a side activity, they are a core part of building a sustainable consultant career. Read this section carefully and start applying it from your first week.</p>
+<h3 class="sub-h">The mindset: Dig for the gold.</h3>
+<p>The first principle is that you cannot prejudge where a self-gen will come from. The phone calls and conversations that look low-quality on the surface are often the ones that turn into the biggest jobs. A homeowner who rings asking a vague question about their roof, with no apparent budget or timeline, may be the brother-in-law of someone who is about to commission $250,000 of commercial roofing work; you will not know until you have engaged.</p>
+<p>The internal phrase: dig for the gold. Treat every conversation as potentially valuable. Be generous with your time on low-stakes interactions. The return on that generosity, played out over years, is enormous.</p>
+<h3 class="sub-h">Scope creep is your friend.</h3>
+<p>In most sales environments, scope creep is what you try to avoid. In Roofbuddy self-generation, scope creep is what you encourage. The roofing lead that turns into a re-cladding job, the gutter inquiry that turns into a full reroof, the conversation about a leak that becomes a discussion about painting the exterior - each one is a self-gen. The original lead came from Roofbuddy marketing, the additional work did not; That is bona fide self-gen territory.</p>
+<p>Worked example: a senior consultant was visiting a client for a roof job. During the appointment the client mentioned they were planning exterior painting. The consultant asked the right questions, kept the conversation open, and ended up quoting $25,000 of additional painting and cladding work - none of which Roofbuddy had marketed for. That is a textbook self-gen, the marketing did not generate the second job; the consultant did.</p>
+<p>Another worked example, the Tradewinds case: a senior consultant ended up working with a Tradewinds-style commercial client whose original engagement was for a $60,000 roof. Over the course of the relationship the same client commissioned multiple further jobs - eventually exceeding $170,000 in additional roofing work, plus other related scope. The first job came through the platform. Everything that followed came from the consultant maintaining the relationship and being there when the next job came up; that is what a self-gen relationship looks like across time.</p>
+<h3 class="sub-h">Helping without immediate payment: The long game.</h3>
+<p>Some of the highest-value self-gens start as conversations where you provide help without expecting anything in return. The Otahu church story is the best illustration in the company’s training history.</p>
+<p>A consultant spent five or ten minutes on the phone with a homeowner who had a roofing question. The conversation did not produce a spec, a quote, or any obvious commercial outcome. From a metrics perspective it was unproductive time. But the consultant was patient, helpful, and gave the caller useful guidance.</p>
+<p>Several weeks later, the homeowner’s brother-in-law called. He had heard about the consultant from his brother-in-law and wanted to talk about a roofing job. That brother-in-law turned into two roofs in the first month, including significant asbestos removal work, and a third roof bought the morning of the next sales meeting. All from the original five-minute phone call that produced nothing on the day.</p>
+<p>The lesson: the calls that look low-value on the day are often the seeds of much larger relationships. The clients you help generously remember you then they tell people and come back. The pipeline that helping builds is invisible at first and then suddenly very visible. Be the consultant who is generous with their time on low-stakes conversations as the compounding returns are real. Pre judge a lead at your peril, you never know who has money to spend.</p>
+<h3 class="sub-h">Where self-gens most often come from in practice.</h3>
+<p>Three sources account for most self-gens in the Roofbuddy network:</p>
+<ul class="bullets-plain">
+  <li><strong>Existing clients.</strong> Once you have delivered well on a job, the same client comes back for additional work (gutter, cladding, painting, other property) or refers you to their network. This is the largest source by volume.</li>
+  <li><strong>Centres of influence.</strong> Real estate agents, property managers, building inspectors, mortgage brokers, asbestos specialists, painters, builders. Each of these professionals encounters roofing situations regularly. Being the person they call when a roofing question comes up generates a steady, low-effort lead stream over time.</li>
+  <li><strong>Casual conversations.</strong> The neighbour at the school gate, the friend at the rugby club, the conversation at a wedding. The volume here is lower but the conversion is high because there is already a trust relationship.</li>
+</ul>
+<h3 class="sub-h">How to build self-gen flow as a discipline.</h3>
+<p>Be findable, have business cards. Use your email signature and be active in your local networks. Self-gens do not arrive from people who have forgotten you exist.</p>
+<p>Stay in touch with delivered clients, a quick follow-up call six months after install asking how the roof is performing produces two outcomes: it strengthens the relationship and it often surfaces secondary work (a leak somewhere unrelated, a gutter problem, a friend who asked them for a recommendation).</p>
+<p>Invest in centres of influence proactively; take a real estate agent for coffee. Talk to a property manager about the kinds of conditions they encounter on their managed portfolio. Be helpful when those people ask a question, even if no immediate sale is in it.</p>
+<p>Take the conversations you do not have to take. The five-minute phone call you could have brushed off may be the call that produces $250,000 of work over the next two years and you will not know in advance which call that is. Treat them all as potentially valuable.</p>
+<p>The Otahu church lead looked low-quality but it became one of the highest-value relationships any Roofbuddy consultant has built; that is the model.</p>
+<p>The consultants who build great careers at Roofbuddy do not think week to week, they think year to year. The pipeline they are building this month is for the closes coming in three months. The relationships they are seeding now are for the self-gens coming in a year. The reputation they are building today is for the referrals coming in two years. This is a long game played one good appointment at a time - the thirty minutes you spent helping a low-stakes caller, the four hours you invested in a property manager relationship that produced nothing on the day, the careful follow-up sequence on a client who eventually said no - none of it is wasted. It is the soil in which the next two years of work grows.</p>
+
+<h2 class="sec-h" id="sec-9-7"><span class="sec-num">9.7</span>CRM hygiene and quote diary management.</h2>
+<p><strong>All of the above breaks down if the CRM is not clean. Notes have to be current. Statuses have to be accurate. Follow-up dates have to be in the diary. A pipeline that lives in your head is a pipeline that loses deals. A pipeline in the CRM that everyone can see is a pipeline that holds.</strong></p>
+<p><strong class="run-in">Standard expectation:</strong> before you leave the office at the end of the day, every lead you have touched today has updated notes in the CRM and a clear next-action date. Tomorrow morning, your first activity is reviewing the quote diary for follow-ups due today. Hit them in priority order then move to today’s appointments.</p>
+<p>A clean CRM is also what enables senior leadership to support you. When James or Finn looks at your pipeline, they can see what is moving and where you might be stuck. A pipeline they cannot see is a pipeline they cannot help with.</p>
+
+<h2 class="sec-h" id="sec-9-8"><span class="sec-num">9.8</span>Review management - 5-star principle.</h2>
+<p><strong>Reviews are part of the pipeline whether you think of them that way or not. Every client who has a great experience becomes a future referral source and a public credibility point. Every client who has a poor experience becomes a Google review that erodes the credibility of every consultant in the company.</strong></p>
+<p>The current Google review base sits at around 433 reviews at 4.7 stars, that is not a vanity metric. It is one of the most powerful credibility tools you have on a new appointment. When a client says “how do we know you’re legitimate?”, the review base is the public, verifiable, hard-to-fake proof so use it; this is Jones Theory in action.</p>
+<p>The discipline runs in two directions. First, actively ask satisfied clients for a Google review at the end of the job. Many of them will be happy to leave one and just need to be asked. Second, the more important direction: do everything you can to prevent one-star reviews. A single one-star review carries far more weight than a five-star review in the mind of the next prospective client. Dodge one-star reviews. That phrase, dodging one-star reviews, is the operating instruction.</p>
+<p>How you dodge them: do not leave clients in the dark or promise things you cannot deliver. Do not be defensive when something goes wrong - be the person who solves it. If a job has gone sideways, your job is to make the client feel heard, find the path back to a good outcome, and ensure the QA and warranty processes are activated. A client who feels supported through a problem often leaves a five-star review specifically because of how the problem was handled; where A client who feels abandoned mid-problem is where one-star reviews come from.</p>
         </div>
       </div>
     </section>
@@ -3050,7 +3185,7 @@
 <script>
 const CHAPTER_COLOURS = {
   1:'#40BB6A',2:'#27963C',3:'#2C6C76',4:'#33586b',5:'#2aa8e0',
-  6:'#3d3f63',7:'#6f446d',8:'#ed1456',9:'#7E2237',10:'#D75936',
+  6:'#3d3f63',7:'#6f446d',8:'#ed1456',9:'#822c3b',10:'#D75936',
   11:'#D38B5E',12:'#D79E2D'
 };
 const CHAPTER_TITLES = {
