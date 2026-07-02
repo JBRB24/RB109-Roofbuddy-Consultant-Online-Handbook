@@ -528,11 +528,14 @@
      structural blocks (image grids, tables, accordions) opt out to fill the
      width. Collapses to the normal mobile layout since the caps only bite on
      wide viewports. */
-  .chapter.full-width .content-area{ max-width:1200px; }
+  .chapter.full-width .content-area{ max-width:1440px; }
   .chapter.full-width .chapter-content > *{ max-width:760px; }
   .chapter.full-width .chapter-content > .image-grid,
   .chapter.full-width .chapter-content > .compare-wrap,
   .chapter.full-width .chapter-content > .accordion{ max-width:none; }
+  /* Wider tile min so full-width grids land a clean 4-up (~1200px) and reach
+     5-up on very wide screens — scoped so non-full-width chapters keep 3-up. */
+  .chapter.full-width .chapter-content > .image-grid{ grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); }
 
   /* ---------- STATS WIDGET (Chapter 1 only) ---------- */
   .stats-card{
