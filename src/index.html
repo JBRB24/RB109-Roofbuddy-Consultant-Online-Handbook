@@ -3595,14 +3595,15 @@
 </script>
 
 <div id="searchOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center; padding:16px;">
-  <div id="searchModal" style="width:580px; max-width:calc(100vw - 32px); background:#FFFFFF;">
+  <!-- Transparent container: the pill floats directly on the backdrop, no panel/box behind it. The white surface lives on the pill and (when populated) the results/footer only. -->
+  <div id="searchModal" style="width:580px; max-width:calc(100vw - 32px);">
     <!-- Search field styled as a full pill (border-radius:999px). Intentional exception to the radius-0 design system, on record in the commit. Green magnifier is the only field indicator; placeholder removed. -->
-    <div style="display:flex; align-items:center; gap:10px; margin:16px 16px 8px; padding:8px 20px; border:1px solid var(--line); border-radius:999px;">
+    <div style="display:flex; align-items:center; gap:10px; margin:0 16px 8px; padding:8px 20px; background:#FFFFFF; border:1px solid var(--line); border-radius:999px;">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:0 0 auto;"><circle cx="7.5" cy="7.5" r="5" stroke="#40BB6A" stroke-width="1.5"/><path d="M11.5 11.5L15 15" stroke="#40BB6A" stroke-width="1.5" stroke-linecap="square"/></svg>
       <input id="searchInput" type="text" autocomplete="off" style="background:transparent; border:none; outline:none; color:#1A1A1A; font-family:'Poppins',sans-serif; font-size:15px; padding:8px 0; flex:1;">
     </div>
-    <div id="searchResults" style="max-height:380px; overflow-y:auto;"></div>
-    <div style="padding:8px 16px; background:#F7F7F5; border-top:1px solid #E8E8E6; display:flex; align-items:center;">
+    <div id="searchResults" style="max-height:380px; overflow-y:auto; background:#FFFFFF;"></div>
+    <div id="searchFooter" style="padding:8px 16px; background:#F7F7F5; border-top:1px solid #E8E8E6; display:none; align-items:center;">
       <span id="searchCount" style="margin-left:auto; font-size:11px; color:#888; font-family:'Poppins',sans-serif;"></span>
     </div>
   </div>
@@ -3855,9 +3856,11 @@ function getSnippet(content, query) {
 function renderResults(results, query) {
   const container = document.getElementById('searchResults');
   const count = document.getElementById('searchCount');
+  const footer = document.getElementById('searchFooter');
   if (!results.length) {
     container.innerHTML = '<div style="padding:24px 16px; color:#999; font-size:13px; font-family:Poppins,sans-serif;">No results found.</div>';
     count.textContent = '';
+    footer.style.display = 'none';
     return;
   }
   // Group by chapter
@@ -3900,6 +3903,7 @@ function renderResults(results, query) {
   });
   container.innerHTML = html;
   count.textContent = total + ' result' + (total!==1?'s':'');
+  footer.style.display = 'flex';
   // Highlight spans
   container.querySelectorAll('.sh').forEach(el => {
     const ch = el.closest('.rg')?.querySelector('[style*="background:"]');
@@ -3934,6 +3938,7 @@ function openSearch() {
   document.getElementById('searchInput').value = '';
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('searchCount').textContent = '';
+  document.getElementById('searchFooter').style.display = 'none';
 }
 function closeSearch() {
   document.getElementById('searchOverlay').style.display = 'none';
@@ -3959,6 +3964,7 @@ document.getElementById('searchInput').addEventListener('input', e => {
     if (q.length < 2) {
       document.getElementById('searchResults').innerHTML = '';
       document.getElementById('searchCount').textContent = '';
+      document.getElementById('searchFooter').style.display = 'none';
       return;
     }
     const results = miniSearch.search(q, { fuzzy:0.2, prefix:true });
