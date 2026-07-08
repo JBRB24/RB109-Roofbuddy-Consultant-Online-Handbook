@@ -216,33 +216,45 @@
 
   .ch-grid{
     flex:1 1 auto;
-    overflow-y:auto;
+    min-height:0;            /* let the grid shrink inside the overlay so all 3 rows fit the viewport */
+    overflow:hidden;         /* desktop: no scroll; tiles scale to fill the height budget under the header */
     width:100%;
     max-width:1500px;
     margin:0 auto;
     box-sizing:border-box;
-    padding:8px 24px 32px;
+    padding:8px 24px 24px;
     display:grid;
     grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:repeat(3, minmax(0, 1fr));  /* 3 rows share whatever height is left below the header */
     gap:8px;
-    align-content:start;
   }
   /* Keep 4-across on laptop/desktop (1fr columns shrink to fit, never reflow to
-     3/5); only collapse on tablet/mobile. */
-  @media (max-width:767px){ .ch-grid{ grid-template-columns:repeat(2, 1fr); } }
-  @media (max-width:480px){ .ch-grid{ grid-template-columns:1fr; } }
+     3/5). On tablet/mobile the tiles are tall relative to width, so forcing every
+     row into the viewport would squash them: allow scroll with a comfortable
+     minimum row height instead. */
+  @media (max-width:767px){
+    .ch-grid{
+      grid-template-columns:repeat(2, 1fr);
+      grid-template-rows:none;
+      grid-auto-rows:minmax(200px, auto);
+      overflow-y:auto;
+    }
+  }
+  @media (max-width:480px){
+    .ch-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(180px, auto); }
+  }
   .ch-tile{
     position:relative;
     overflow:hidden;
-    min-height:280px;
+    min-height:0;            /* fluid: tile height comes from the grid row, not a fixed px value */
     border:none;
     border-radius:0;
     cursor:pointer;
     text-align:left;
-    padding:26px;
+    padding:clamp(14px, 2.4vh, 26px);
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:clamp(4px, 1vh, 10px);
     transition:transform .15s ease;
   }
   .ch-tile:hover{transform:translateY(-2px);}
@@ -251,7 +263,7 @@
     z-index:1;
     font-family:'Poppins',sans-serif;
     font-weight:500;
-    font-size:10.5px;
+    font-size:clamp(9px, 1.4vh, 10.5px);
     text-transform:uppercase;
     letter-spacing:0.14em;
     color:rgba(255,255,255,0.72);
@@ -261,18 +273,19 @@
     z-index:1;
     font-family:'Poppins',sans-serif;
     font-weight:700;
-    font-size:16px;
+    font-size:clamp(13px, 2.2vh, 16px);
     line-height:1.2;
     color:#fff;
     max-width:90%;
   }
   .ch-tile-ghost{
     position:absolute;
-    right:-10px;
-    bottom:-64px;
+    /* em offsets so the numeral keeps the same corner bleed as it scales with the tile */
+    right:-0.05em;
+    bottom:-0.28em;
     z-index:0;
     font-family:'Bebas Neue',sans-serif;
-    font-size:230px;
+    font-size:clamp(96px, 22vh, 230px);
     line-height:1;
     color:rgba(255,255,255,0.16);
     pointer-events:none;
