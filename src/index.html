@@ -3594,18 +3594,59 @@
   })();
 </script>
 
-<div id="searchOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center; padding:16px;">
-  <!-- Transparent container: the pill floats directly on the backdrop, no panel/box behind it. The white surface lives on the pill and (when populated) the results/footer only. -->
-  <div id="searchModal" style="width:580px; max-width:calc(100vw - 32px);">
-    <!-- Search field styled as a full pill (border-radius:999px). Intentional exception to the radius-0 design system, on record in the commit. Green magnifier is the only field indicator; placeholder removed. -->
-    <div style="display:flex; align-items:center; gap:10px; margin:0 16px 8px; padding:8px 20px; background:#FFFFFF; border:1px solid var(--line); border-radius:999px;">
+<style>
+  /* ---------------------------------------------------------------------
+     Spotlight-style unified search surface.
+     The pill field and the results list are ONE rounded white container:
+     empty = just the pill, results grow the SAME surface downward via an
+     animated max-height (never display:none — keeps the collapse guardrail).
+     The rounded corners + soft shadow here are the on-record search
+     exception to the radius-0 / no-shadow system; everything outside
+     search stays square and shadowless.
+  --------------------------------------------------------------------- */
+  #searchOverlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:flex-start; padding:16px; overflow-y:auto; }
+  #searchModal{
+    width:580px; max-width:calc(100vw - 32px);
+    margin-top:12vh; margin-bottom:16px;
+    background:#FFFFFF;
+    border-radius:26px;                       /* == half the collapsed field height, so an empty surface reads as a pill */
+    box-shadow:0 16px 60px rgba(0,0,0,0.30);  /* search-only depth (radius-0 / no-shadow exception, on record) */
+    overflow:hidden;
+  }
+  /* Green magnifier + white field — unchanged look, now the head of the unified surface. */
+  #searchField{ display:flex; align-items:center; gap:10px; padding:16px 22px; }
+  #searchInput{ flex:1; min-width:0; background:transparent; border:none; outline:none; color:#1A1A1A; font-family:'Poppins',sans-serif; font-size:15px; padding:0; }
+  /* Results collapse/grow via max-height only (guardrail: never display:none). */
+  #searchResults{ max-height:0; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; transition:max-height 180ms cubic-bezier(0.22,0.61,0.36,1); }
+  .ri{ display:flex; align-items:center; gap:13px; padding:12px 22px; cursor:pointer; border-top:1px solid var(--line); }
+  .ri:first-child{ border-top:0; }
+  .ri-dot{ width:7px; height:7px; border-radius:50%; background:#40BB6A; flex:0 0 auto; transition:box-shadow 120ms ease; }
+  .ri-body{ min-width:0; flex:1; }
+  .ri-label{ font-family:'Poppins',sans-serif; font-size:13.5px; font-weight:600; color:#1A1A1A; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ri-ctx{ margin-top:2px; font-family:'Poppins',sans-serif; font-size:11.5px; color:#8a8a88; line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ri .sh{ color:#40BB6A; font-weight:700; }
+  /* One selection cursor shared by arrow keys and hover = green-tinted row. */
+  .ri.sel{ background:rgba(64,187,106,0.12); }
+  /* Top-hit emphasis on the best match (row 1). */
+  .ri.top .ri-label{ font-size:14.5px; }
+  .ri.top .ri-dot{ width:9px; height:9px; box-shadow:0 0 0 4px rgba(64,187,106,0.15); }
+  .sr-empty{ padding:14px 22px 18px; color:#9a9a97; font-size:13px; font-family:'Poppins',sans-serif; }
+  @media (max-width:600px){
+    #searchModal{ margin-top:8vh; border-radius:22px; }
+    #searchField{ padding:14px 18px; }
+    .ri, .sr-empty{ padding-left:18px; padding-right:18px; }
+  }
+</style>
+
+<div id="searchOverlay">
+  <div id="searchModal">
+    <!-- Green magnifier is the only field indicator; placeholder removed. -->
+    <div id="searchField">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:0 0 auto;"><circle cx="7.5" cy="7.5" r="5" stroke="#40BB6A" stroke-width="1.5"/><path d="M11.5 11.5L15 15" stroke="#40BB6A" stroke-width="1.5" stroke-linecap="square"/></svg>
-      <input id="searchInput" type="text" autocomplete="off" style="background:transparent; border:none; outline:none; color:#1A1A1A; font-family:'Poppins',sans-serif; font-size:15px; padding:8px 0; flex:1;">
+      <input id="searchInput" type="text" autocomplete="off">
     </div>
-    <div id="searchResults" style="max-height:380px; overflow-y:auto; background:#FFFFFF;"></div>
-    <div id="searchFooter" style="padding:8px 16px; background:#F7F7F5; border-top:1px solid #E8E8E6; display:none; align-items:center;">
-      <span id="searchCount" style="margin-left:auto; font-size:11px; color:#888; font-family:'Poppins',sans-serif;"></span>
-    </div>
+    <!-- Collapsible results surface — same white, seamless join to the field above. -->
+    <div id="searchResults"></div>
   </div>
 </div>
 
@@ -3845,100 +3886,87 @@ function highlight(text, query) {
   return safe.replace(re, '<span class="sh">$1</span>');
 }
 
-function getSnippet(content, query) {
-  if (!content) return '';
-  const idx = content.toLowerCase().indexOf(query.toLowerCase().split(' ')[0]);
-  const start = Math.max(0, idx - 60);
-  const end = Math.min(content.length, idx + 120);
-  return (start > 0 ? '…' : '') + content.slice(start, end) + (end < content.length ? '…' : '');
+// Secondary "location" context line for a row. The index `label` encodes
+// location + term; strip the trailing term so it doesn't repeat the primary
+// label (e.g. "Chapter 8 · Glossary Term" → "Chapter 8 · Glossary").
+function contextLine(r) {
+  let ctx = (r.label || '').trim();
+  const title = (r.title || '').trim();
+  if (title && ctx.endsWith(title)) {
+    ctx = ctx.slice(0, ctx.length - title.length).replace(/[·•\-\s]+$/, '').trim();
+  }
+  return ctx || 'Handbook';
+}
+
+// Grow/collapse the unified surface by animating max-height to the measured
+// content height (clamped), so the field stays put and the panel expands
+// beneath it. Never display:none — the collapse guardrail.
+function sizeResults() {
+  const wrap = document.getElementById('searchResults');
+  const cap = Math.round(window.innerHeight * 0.6);
+  wrap.style.maxHeight = Math.min(wrap.scrollHeight, cap) + 'px';
+}
+function collapseResults() {
+  document.getElementById('searchResults').style.maxHeight = '0px';
+}
+
+let searchSel = -1;
+function setSel(i, items, scroll) {
+  items = items || [...document.querySelectorAll('#searchResults .ri')];
+  if (!items.length) { searchSel = -1; return; }
+  searchSel = Math.max(0, Math.min(i, items.length - 1));
+  items.forEach((it, idx) => it.classList.toggle('sel', idx === searchSel));
+  if (scroll && items[searchSel]) items[searchSel].scrollIntoView({ block: 'nearest' });
 }
 
 function renderResults(results, query) {
-  const container = document.getElementById('searchResults');
-  const count = document.getElementById('searchCount');
-  const footer = document.getElementById('searchFooter');
+  const wrap = document.getElementById('searchResults');
   if (!results.length) {
-    container.innerHTML = '<div style="padding:24px 16px; color:#999; font-size:13px; font-family:Poppins,sans-serif;">No results found.</div>';
-    count.textContent = '';
-    footer.style.display = 'none';
+    wrap.innerHTML = '<div class="sr-empty">No results found.</div>';
+    searchSel = -1;
+    sizeResults();
     return;
   }
-  // Group by chapter
-  const groups = {};
-  results.forEach(r => {
-    if (!groups[r.chapterNum]) groups[r.chapterNum] = [];
-    groups[r.chapterNum].push(r);
-  });
+  // Single ranked list (best first). Row 1 carries the top-hit emphasis;
+  // each row's muted line carries the location, so no section headers needed.
   let html = '';
-  let total = 0;
-  Object.keys(groups).sort((a,b)=>a-b).forEach(ch => {
-    if (parseInt(ch) === 0) {
-      html += `<div class="rg" style="margin-bottom:2px;">
-      <div style="height:40px;padding:0 14px;display:flex;align-items:center;position:relative;overflow:hidden;background:#161823;">
-        <div style="font-size:11px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:82%;position:relative;z-index:1;font-family:Poppins,sans-serif;">Handbook</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:rgba(255,255,255,0.13);position:absolute;right:10px;bottom:-2px;line-height:1;">RB</div>
-      </div>`;
-    } else {
-    const colour = CHAPTER_COLOURS[ch] || '#40BB6A';
-    const chTitle = CHAPTER_TITLES[ch] || 'Chapter '+ch;
-    const num = String(ch).padStart(2,'0');
-    html += `<div class="rg" style="margin-bottom:2px;">
-      <div style="height:40px;padding:0 14px;display:flex;align-items:center;position:relative;overflow:hidden;background:${colour};">
-        <div style="font-size:11px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:82%;position:relative;z-index:1;font-family:Poppins,sans-serif;">${chTitle}</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:rgba(255,255,255,0.13);position:absolute;right:10px;bottom:-2px;line-height:1;">${num}</div>
-      </div>`;
-    }
-    groups[ch].forEach(r => {
-      const snippet = highlight(getSnippet(r.content, query), query);
-      const titleH = highlight(r.title, query);
-      const label = escapeHtml(r.label || '');
-      html += `<div class="ri" data-section="${r.section}" data-target="${r.anchorId}" data-chapter="ch${r.chapterNum}" style="padding:9px 14px;cursor:pointer;border-left:3px solid transparent;display:flex;flex-direction:column;gap:3px;" onmouseenter="this.style.background='#F7F7F5'" onmouseleave="this.style.background=''">
-        <div style="font-size:9.5px;font-weight:600;color:#999;letter-spacing:0.04em;text-transform:uppercase;font-family:Poppins,sans-serif;">${label}</div>
-        <div style="font-size:12px;font-weight:600;color:#1A1A1A;font-family:Poppins,sans-serif;">${titleH}</div>
-        <div style="font-size:11px;color:#666;line-height:1.55;font-family:Poppins,sans-serif;">${snippet}</div>
-      </div>`;
-      total++;
-    });
-    html += '</div>';
+  results.forEach((r, i) => {
+    const labelH = highlight(r.title || '', query);
+    const ctx = escapeHtml(contextLine(r));
+    html += `<div class="ri${i === 0 ? ' top' : ''}" data-section="${r.section}" data-target="${r.anchorId}" data-chapter="ch${r.chapterNum}">
+      <span class="ri-dot"></span>
+      <div class="ri-body">
+        <div class="ri-label">${labelH}</div>
+        <div class="ri-ctx">${ctx}</div>
+      </div>
+    </div>`;
   });
-  container.innerHTML = html;
-  count.textContent = total + ' result' + (total!==1?'s':'');
-  footer.style.display = 'flex';
-  // Highlight spans
-  container.querySelectorAll('.sh').forEach(el => {
-    const ch = el.closest('.rg')?.querySelector('[style*="background:"]');
-    if (ch) {
-      const bg = ch.style.background;
-      el.style.color = bg;
-      el.style.fontWeight = '600';
-    }
-  });
-  // Click handlers
-  container.querySelectorAll('.ri').forEach(el => {
+  wrap.innerHTML = html;
+  const items = [...wrap.querySelectorAll('.ri')];
+  items.forEach((el, i) => {
+    // Hover shares the one selection cursor with the arrow keys.
+    el.addEventListener('mouseenter', () => setSel(i, items, false));
     el.addEventListener('click', () => {
       closeSearch();
-      const section = el.dataset.section;
-      const target = el.dataset.target;
-      const chapter = el.dataset.chapter;
-      // Reuse the page's own chapter-switch logic, then scroll + highlight
-      // once the section is actually visible (handled inside the helper).
       if (window.goToSearchResult) {
-        window.goToSearchResult(section, chapter, target, query);
+        window.goToSearchResult(el.dataset.section, el.dataset.chapter, el.dataset.target, query);
       }
     });
   });
+  setSel(0, items, false);   // pre-select the top hit
+  sizeResults();
 }
 
 // Open / close
 function openSearch() {
-  const overlay = document.getElementById('searchOverlay');
-  overlay.style.display = 'flex';
+  document.getElementById('searchOverlay').style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  document.getElementById('searchInput').focus();
-  document.getElementById('searchInput').value = '';
+  const input = document.getElementById('searchInput');
+  input.value = '';
+  input.focus();
   document.getElementById('searchResults').innerHTML = '';
-  document.getElementById('searchCount').textContent = '';
-  document.getElementById('searchFooter').style.display = 'none';
+  collapseResults();
+  searchSel = -1;
 }
 function closeSearch() {
   document.getElementById('searchOverlay').style.display = 'none';
@@ -3955,33 +3983,24 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeSearch();
 });
 let searchDebounce = null;
-let searchSel = -1;
 document.getElementById('searchInput').addEventListener('input', e => {
   clearTimeout(searchDebounce);
   const q = e.target.value.trim();
   searchDebounce = setTimeout(() => {
-    searchSel = -1;
     if (q.length < 2) {
-      document.getElementById('searchResults').innerHTML = '';
-      document.getElementById('searchCount').textContent = '';
-      document.getElementById('searchFooter').style.display = 'none';
+      searchSel = -1;
+      collapseResults();   // grows/shrinks the same surface; content stays in DOM
       return;
     }
-    const results = miniSearch.search(q, { fuzzy:0.2, prefix:true });
-    renderResults(results.slice(0,40), q);
+    const results = miniSearch.search(q, { fuzzy: 0.2, prefix: true });
+    renderResults(results.slice(0, 40), q);
   }, 150);
 });
-function updateSearchSel(items){
-  items.forEach((it,i) => {
-    it.style.background = (i === searchSel) ? '#F0F0EE' : '';
-    if (i === searchSel) it.scrollIntoView({ block:'nearest' });
-  });
-}
 document.getElementById('searchInput').addEventListener('keydown', e => {
   const items = [...document.querySelectorAll('#searchResults .ri')];
   if (!items.length) return;
-  if (e.key === 'ArrowDown') { e.preventDefault(); searchSel = Math.min(searchSel + 1, items.length - 1); updateSearchSel(items); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); searchSel = Math.max(searchSel - 1, 0); updateSearchSel(items); }
+  if (e.key === 'ArrowDown') { e.preventDefault(); setSel(searchSel + 1, items, true); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); setSel(searchSel - 1, items, true); }
   else if (e.key === 'Enter') { e.preventDefault(); (items[searchSel] || items[0]).click(); }
 });
 
