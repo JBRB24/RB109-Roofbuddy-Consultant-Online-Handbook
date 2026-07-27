@@ -537,12 +537,13 @@
 
   /* ---------- Full-width layout (opt-in via .chapter.full-width) ----------
      Full-bleed structure with a contained reading measure: the content
-     container widens; prose children stay measured (~760px) and left-aligned;
-     structural blocks (image grids, tables, accordions) opt out to fill the
-     width. Collapses to the normal mobile layout since the caps only bite on
-     wide viewports. */
+     container widens; prose children stay measured (~760px) and centred
+     within the wide column (margin auto) so Ch8 aligns with every other
+     chapter; structural blocks (image grids, tables, accordions) opt out to
+     fill the width. Collapses to the normal mobile layout since the caps only
+     bite on wide viewports. */
   .chapter.full-width .content-area{ max-width:1440px; }
-  .chapter.full-width .chapter-content > *{ max-width:760px; }
+  .chapter.full-width .chapter-content > *{ max-width:760px; margin-left:auto; margin-right:auto; }
   .chapter.full-width .chapter-content > .image-grid,
   .chapter.full-width .chapter-content > .compare-wrap,
   .chapter.full-width .chapter-content > .accordion{ max-width:none; }
