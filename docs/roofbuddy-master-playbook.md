@@ -40,6 +40,7 @@ A reusable operating manual distilled from the Roofbuddy Consultant Handbook bui
 - Sequence vs category: ordered sequences (rust Stages 1 to 4) keep order; not everything with images is a category.
 - Accordions: hairline dividers, hard corners, chapter accent, rotating chevron, visible one-line teaser when collapsed, independently openable. Searchable hard rule: all text stays in DOM (collapse via max-height, never display:none, no lazy render); a hit opens the row then scrolls then highlights.
 - Section sub-nav: solid chapter-colour tabs, white text, hover darker shade scoped to @media (hover: hover), active holds darker shade. Mobile fills width, wraps edge-to-edge, no horizontal scroll, no scrollbar.
+- Full-width chapter layout (opt-in .chapter.full-width): full-bleed hero, sub-nav and grids with a contained, centred reading measure. The content-area widens (~1440px, margin auto); prose children cap at ~760px and centre via margin-left/right auto so alignment matches every other chapter; structural blocks (image grids, compare tables, accordions) set max-width:none to fill the width, and grids raise the tile min (~240px) for a clean 4-up to 5-up. Scoped to .full-width so other chapters keep the narrow centred column; the caps only bite on wide viewports, so mobile is unaffected.
 - Lightbox: navy ~92% backdrop, image-only and detail modes, close X/Esc/backdrop.
 - Chapter index overlay: 4x3 grid, tiles enlarged ~60% via wider container, bold titles ending in full-stop, active nav underline tracks current view, no X, backdrop click closes, Esc closes, tile/nav clicks shielded.
 - Site-wide search: index all text by walking the DOM at load; results list with context + location label; click switches view, opens accordion/lightbox if needed, reveal-then-scroll, subtle chapter-colour highlight that fades. Centred modal mobile + desktop, white field on mobile, no keyboard hints.
@@ -67,6 +68,7 @@ Per chapter the director supplies: colour hex, hero and any in-content images.
 - Distinguish sequence from category before grid vs ordered list.
 - Decide the active-state cue whenever everything looks selected.
 - Do a dedicated mobile pass; grids, accordions, sub-navs, menus differ at phone width.
+- Full-width is a bleed exception, not a re-alignment: keep the reading measure centred (margin auto), let only structural blocks bleed. A capped-but-not-centred column drifts to the left edge.
 
 ## 9. Seed checklist for a new project
 - Confirm the three roles and the copy-box loop.
