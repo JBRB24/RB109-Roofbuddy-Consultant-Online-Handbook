@@ -1221,6 +1221,60 @@
   .team-section .team-roster{ --roster-div:rgba(255,255,255,0.16);
     --roster-muted:rgba(255,255,255,0.66); --roster-name:#ffffff; }
   @media (max-width:600px){ .roster-list{ grid-template-columns:1fr; } }
+
+  /* ============================================================
+     Ch9 9.9 — Enquiry Closed reason criteria. Responsive table that
+     reflows to stacked cards on mobile. Square, no shadow, per-chapter
+     var(--c). All text stays in the DOM; the mobile collapse reflows
+     (display:block), it never display:none's the content.
+     ============================================================ */
+  .ecr-subtitle{ font-family:'Poppins',sans-serif; font-size:13px; color:#6b7280; margin:0 0 16px; }
+  .ecr-legend{ font-family:'Poppins',sans-serif; font-size:13px; line-height:1.7; color:#3D3D3D; margin:0 0 12px; }
+  .ecr-legend .ecr-badge{ margin:0 4px 0 0; }
+  .ecr-wrap{ overflow-x:auto; margin:0 0 8px; }   /* horizontal scroll only as a last resort */
+  .ecr-table{ width:100%; border-collapse:collapse; font-family:'Poppins',sans-serif; }
+  .ecr-table th, .ecr-table td{ text-align:left; vertical-align:top; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,0.12); }
+  .ecr-table thead th{ position:sticky; top:104px; z-index:2; background:var(--c); color:#fff;
+    font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-bottom:none; }
+  .ecr-table td{ font-size:13.5px; line-height:1.6; color:#3D3D3D; }
+  .ecr-table td.ecr-reason{ font-weight:700; color:#1A1A1A; }
+  .ecr-col-reason{ width:22%; }
+  /* Status badges */
+  .ecr-badge{ display:inline-block; vertical-align:middle; margin-left:6px; padding:2px 6px;
+    font-size:12px; font-weight:700; line-height:1.3; letter-spacing:0.05em; text-transform:uppercase; }
+  .ecr-badge--new, .ecr-badge--renamed{ background:var(--c); color:#fff; }
+  .ecr-badge--unresolved{ background:transparent; color:#6b7280; border:1px solid currentColor; }
+  /* Not Suitable: lighter-weight nested sub-reasons (as in source) */
+  .ecr-subreasons{ list-style:none; margin:6px 0 0; padding:0; color:#6b7280; font-size:13px; }
+  .ecr-subreasons li{ margin:3px 0; line-height:1.5; }
+  .ecr-sub-label{ font-weight:600; }
+  /* Roofer Application shared requirement note */
+  .ecr-shared-note{ display:block; font-size:12px; font-weight:700; color:var(--c);
+    text-transform:uppercase; letter-spacing:0.04em; margin:0 0 4px; }
+  /* NON NEGOTIABLE notes callout, keyed to var(--c) */
+  .ecr-notes{ border-left:3px solid var(--c); background:color-mix(in srgb, var(--c) 6%, #fff);
+    padding:16px 20px; margin:24px 0 8px; }
+  .ecr-notes__h{ font-family:'Poppins',sans-serif; font-weight:700; font-size:13px; color:var(--c);
+    text-transform:uppercase; letter-spacing:0.06em; margin:0 0 8px; }
+  .ecr-notes p{ font-size:13.5px; line-height:1.7; color:#3D3D3D; margin:0 0 10px; }
+  .ecr-notes p:last-child{ margin-bottom:0; }
+  /* MOBILE: reflow the rows into stacked cards. No display:none on content;
+     the header row is moved off-screen (sr-only) so it stays in the DOM. */
+  @media (max-width:640px){
+    .ecr-wrap{ overflow-x:visible; }
+    .ecr-table, .ecr-table tbody, .ecr-table tr, .ecr-table td{ display:block; width:100%; }
+    .ecr-table thead{ position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+    .ecr-table tr{ border:1px solid rgba(0,0,0,0.15); margin:0 0 14px; }
+    .ecr-table td{ border:none; border-top:1px solid rgba(0,0,0,0.08); padding:10px 14px; }
+    .ecr-table td:first-child{ border-top:none; }
+    .ecr-table td[data-label]::before{ content:attr(data-label); display:block; font-family:'Poppins',sans-serif;
+      font-weight:700; font-size:12px; letter-spacing:0.04em; text-transform:uppercase; color:var(--c); margin:0 0 4px; }
+    .ecr-table td.ecr-reason{ background:var(--c); color:#fff; }
+    .ecr-table td.ecr-reason .ecr-badge--new,
+    .ecr-table td.ecr-reason .ecr-badge--renamed{ background:#fff; color:var(--c); }
+    .ecr-table td.ecr-reason .ecr-badge--unresolved{ color:#fff; border-color:#fff; }
+  }
 </style>
 </head>
 <body>
@@ -2891,6 +2945,103 @@
 <p>The current Google review base sits at around 433 reviews at 4.7 stars, that is not a vanity metric. It is one of the most powerful credibility tools you have on a new appointment. When a client says “how do we know you’re legitimate?”, the review base is the public, verifiable, hard-to-fake proof so use it; this is Jones Theory in action.</p>
 <p>The discipline runs in two directions. First, actively ask satisfied clients for a Google review at the end of the job. Many of them will be happy to leave one and just need to be asked. Second, the more important direction: do everything you can to prevent one-star reviews. A single one-star review carries far more weight than a five-star review in the mind of the next prospective client. Dodge one-star reviews. That phrase, dodging one-star reviews, is the operating instruction.</p>
 <p>How you dodge them: do not leave clients in the dark or promise things you cannot deliver. Do not be defensive when something goes wrong - be the person who solves it. If a job has gone sideways, your job is to make the client feel heard, find the path back to a good outcome, and ensure the QA and warranty processes are activated. A client who feels supported through a problem often leaves a five-star review specifically because of how the problem was handled; where A client who feels abandoned mid-problem is where one-star reviews come from.</p>
+
+<h2 class="sec-h" id="sec-9-9"><span class="sec-num">9.9</span>Enquiry Closed: Reason Criteria</h2>
+<p class="ecr-subtitle">RoofBuddy sales team. Agreed at sales meeting, 28 July 2026. Supersedes previous CRM list.</p>
+<p class="ecr-legend"><span class="ecr-badge ecr-badge--new">NEW</span> newly added reason. <span class="ecr-badge ecr-badge--renamed">RENAMED</span> renamed from a previous reason. <span class="ecr-badge ecr-badge--unresolved">UNRESOLVED</span> not yet finalised, avoid until it has a tight definition.</p>
+
+<div class="ecr-wrap">
+  <table class="ecr-table">
+    <colgroup><col class="ecr-col-reason"><col><col></colgroup>
+    <thead>
+      <tr><th scope="col">REASON</th><th scope="col">USE WHEN</th><th scope="col">REQUIRED BEFORE YOU CLOSE</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ecr-reason">No Contact</td>
+        <td data-label="Use when">Zero two way communication has ever happened. They have never picked up, replied, or responded.</td>
+        <td data-label="Required before you close">Minimum 2 calls, 2 texts, 1 email. No maximum. Re roof or high value: roll to end of week with further touchpoints. If only one contact detail works, use it, then close. Reopen if they come back.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Price Indication: Owner</td>
+        <td data-label="Use when">They own the property, they want a ballpark for GSeal or a re roof, they are not proceeding now.</td>
+        <td data-label="Required before you close">The figure you gave pasted into notes, or a copy of the template email.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Price Indication: Pre purchase <span class="ecr-badge ecr-badge--new">NEW</span></td>
+        <td data-label="Use when">They do not own it yet, or they are planning ahead. Looking to buy, just bought, doing it next year.</td>
+        <td data-label="Required before you close">Same note requirement. Split from Owner because these two are different audiences for anything we send later.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Out of Budget</td>
+        <td data-label="Use when">They own the roof, they have a real number from us, they cannot or will not fund it.</td>
+        <td data-label="Required before you close">The quoted figure in notes. If they are only asking what it costs, that is Price Indication. Critical replacement rarely stops here. Cosmetic work genuinely does.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Too Small / Repairs</td>
+        <td data-label="Use when">Small repair below our threshold. Currently referred to Ollie at Builder's Crack.</td>
+        <td data-label="Required before you close">Log the referral. Fee arrangement still being formalised. Wrong trade entirely is Not Suitable, not this.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Dead / Fake</td>
+        <td data-label="Use when">Every contactable detail fails. Email bounces, phone dead or wrong, address false. Also internal or accidental submissions, plus false premise leads such as the government roof grant clicks.</td>
+        <td data-label="Required before you close">If any single detail works, this is not the reason. Attempt via that channel, then close as No Contact or Waiting on Info. Sanity check the address in Google Maps first.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Already Sorted</td>
+        <td data-label="Use when">Resolved elsewhere. Work already done, or another provider engaged.</td>
+        <td data-label="Required before you close">Note who did it if they tell you.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Not Suitable <span class="ecr-badge ecr-badge--renamed">RENAMED</span></td>
+        <td data-label="Use when">We do not sell what they need. Three sub reasons:
+          <ul class="ecr-subreasons">
+            <li><span class="ecr-sub-label">no suitable product</span> (caravan, motorhome, horse float, conservatory, Bondor board)</li>
+            <li><span class="ecr-sub-label">wrong discipline</span> (builder, electrician, glazier, skylights)</li>
+            <li><span class="ecr-sub-label">no suitable solution</span> (2017 roof asking for GSeal)</li>
+          </ul>
+        </td>
+        <td data-label="Required before you close">Pick the sub reason. Replaces "Not Suitable for GSeal", which was too narrow, so everything non GSeal was landing in the wrong bucket.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Waiting on Info</td>
+        <td data-label="Use when">Two way contact has happened. The ball is in their court on a specific item: a photo, plans, a conversation with their partner, a third party who will call us.</td>
+        <td data-label="Required before you close">Note exactly what you are waiting on. Test against No Contact: have they ever actually communicated with us. Yes, this. No, No Contact.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Duplicate Lead</td>
+        <td data-label="Use when">Same customer, same job, submitted more than once across channels.</td>
+        <td data-label="Required before you close">Reference the original enquiry in notes.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Out of Territory / No Coverage <span class="ecr-badge ecr-badge--new">NEW</span></td>
+        <td data-label="Use when">No service provider who can cover that area.</td>
+        <td data-label="Required before you close">Be straight that coverage varies across New Zealand, offer to sanity check any quote they do get. If a good local roofer surfaces, invite them to join the network.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Roofer Application: Offered <span class="ecr-badge ecr-badge--new">NEW</span></td>
+        <td data-label="Use when">Roofer applied to join the network. We invited or accepted them.</td>
+        <td class="ecr-req-shared" data-label="Required before you close" rowspan="2"><span class="ecr-shared-note">Applies to both Roofer Application rows.</span>Supplier records, not customer enquiries. Likely belongs on a separate close list so enquiry data stays clean.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Roofer Application: Declined <span class="ecr-badge ecr-badge--new">NEW</span></td>
+        <td data-label="Use when">Roofer applied. We declined them.</td>
+      </tr>
+      <tr>
+        <td class="ecr-reason">Not a lead <span class="ecr-badge ecr-badge--unresolved">UNRESOLVED</span></td>
+        <td data-label="Use when">Currently in the CRM. Not on the whiteboard, not discussed. Overlaps Dead / Fake, Duplicate, Out of Territory.</td>
+        <td data-label="Required before you close">Do not use until it has a tight definition. Undefined catch alls absorb everything, which destroys the value of every other reason on this list.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="ecr-notes">
+  <p class="ecr-notes__h">NON NEGOTIABLE: NOTES</p>
+  <p>Every close needs notes. Calls and texts logged individually with date, time, number. "Followed up" is not a note.</p>
+  <p>This is what we use when a one star review lands and we need to show the customer was chased. If the lead is empty, we have nothing.</p>
+  <p>These reasons are also the basis for what we do with closed enquiries next, including targeted follow up and the repair referral stream. That only works if we all apply them the same way from day one.</p>
+</div>
         </div>
       </div>
     </section>
