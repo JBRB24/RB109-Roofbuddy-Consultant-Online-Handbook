@@ -561,6 +561,16 @@
   /* Wider tile min so full-width grids land a clean 4-up (~1200px) and reach
      5-up on very wide screens — scoped so non-full-width chapters keep 3-up. */
   .chapter.full-width .chapter-content > .image-grid{ grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); }
+  /* Ch8 only: pull the image grids back to the prose column (~760px, same
+     left/right edges as body text) and cap at 2-up, stacking to 1 when narrow.
+     Scoped to #ch8 by request; NOT applied to the shared component elsewhere
+     (Ch7 7.1 stages stay as-is). ID beats the full-width class rules above. */
+  #ch8 .chapter-content .image-grid{
+    max-width:760px;
+    margin-left:auto;
+    margin-right:auto;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  }
 
   /* ---------- STATS WIDGET (Chapter 1 only) ---------- */
   .stats-card{
@@ -821,6 +831,27 @@
     background:none; border:none; color:#fff; cursor:pointer; z-index:1;
   }
   .lightbox-close svg{ width:22px; height:22px; }
+  /* Prev/next arrows: square, no shadow, on the backdrop margins so they don't
+     obscure the image. 44px+ tap target on mobile. */
+  .lightbox-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:52px; height:52px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.10);
+    border:1px solid rgba(255,255,255,0.35);
+    color:#fff; cursor:pointer; z-index:2;
+    transition:background .15s ease;
+  }
+  .lightbox-nav:hover{ background:rgba(255,255,255,0.22); }
+  .lightbox-nav:focus-visible{ outline:2px solid #40BB6A; outline-offset:2px; }
+  .lightbox-nav svg{ width:24px; height:24px; }
+  .lb-prev{ left:20px; }
+  .lb-next{ right:20px; }
+  @media (max-width:600px){
+    .lightbox-nav{ width:44px; height:44px; }
+    .lb-prev{ left:8px; }
+    .lb-next{ right:8px; }
+  }
   .lightbox-card{
     display:none;
     flex-direction:column;
@@ -1018,7 +1049,7 @@
     position:fixed;
     inset:0;
     z-index:2000;
-    background:rgba(0,0,0,0.88);
+    background:color-mix(in srgb, var(--navy) 92%, transparent);
     align-items:center;
     justify-content:center;
     opacity:0;
@@ -3232,6 +3263,12 @@
     <button class="lightbox-close" id="lightboxClose" aria-label="Close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M5 5l14 14M19 5L5 19"/></svg>
     </button>
+    <button class="lightbox-nav lb-prev" id="lbPrev" type="button" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="lightbox-nav lb-next" id="lbNext" type="button" aria-label="Next image">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
     <img class="lightbox-img" src="" alt="">
     <div class="lightbox-card">
       <img class="lightbox-card-img" src="" alt="">
@@ -3575,6 +3612,10 @@
     var lightboxCardImg = lightbox ? lightbox.querySelector('.lightbox-card-img') : null;
     var lightboxTerm = lightbox ? lightbox.querySelector('.lightbox-term') : null;
     var lightboxText = lightbox ? lightbox.querySelector('.lightbox-text') : null;
+    var lbPrev = document.getElementById('lbPrev');
+    var lbNext = document.getElementById('lbNext');
+    var lbItems = [];   // the set (grid/section) the open image belongs to, DOM order
+    var lbIndex = -1;
 
     function showLightbox(){
       lightbox.classList.add('open');
@@ -3621,14 +3662,53 @@
         term ? term.textContent : '',
         full ? full.innerHTML : ''
       );
+      lbSetGroup(tile);
+    }
+
+    // ---- Lightbox prev/next: cycle the set the open image belongs to --------
+    // Tiles cycle their .image-grid; standalone images cycle the zoomable
+    // images within their section container. DOM order. Wraps at the ends.
+    function lbOpenEl(el){
+      if(!el) return;
+      if(el.classList && el.classList.contains('ig-tile')){ openTile(el); }
+      else { openLightbox(el.currentSrc || el.src, el.alt); }
+    }
+    function lbUpdateNav(){
+      var show = lbItems.length > 1;
+      if(lbPrev){ lbPrev.style.display = show ? '' : 'none'; }
+      if(lbNext){ lbNext.style.display = show ? '' : 'none'; }
+    }
+    function lbSetGroup(el){
+      var items = [];
+      if(el.classList && el.classList.contains('ig-tile')){
+        var grid = el.closest('.image-grid') || el.parentElement;
+        items = Array.prototype.slice.call(grid.querySelectorAll('.ig-tile'));
+      } else {
+        var scope = el.closest('.image-grid, .chapter-content, #glossary, .team-section, .welcome-section') || document;
+        items = Array.prototype.slice.call(scope.querySelectorAll('.doc-figure img, img.lb'));
+      }
+      lbItems = items;
+      lbIndex = items.indexOf(el);
+      lbUpdateNav();
+    }
+    function lbStep(delta){
+      if(lbItems.length < 2) return;
+      lbIndex = (lbIndex + delta + lbItems.length) % lbItems.length;   // wrap
+      lbOpenEl(lbItems[lbIndex]);
     }
 
     if(lightbox && lightboxImg){
       document.addEventListener('click', function(e){
+        var navBtn = e.target.closest('.lightbox-nav');
+        if(navBtn && lightbox.classList.contains('open')){
+          e.stopPropagation();
+          lbStep(navBtn.classList.contains('lb-next') ? 1 : -1);
+          return;
+        }
         var tile = e.target.closest('.ig-tile');
         if(tile){ openTile(tile); return; }
         var fig = e.target.closest('.doc-figure img, img.lb');
-        if(fig){ openLightbox(fig.currentSrc || fig.src, fig.alt); return; }
+        if(fig){ openLightbox(fig.currentSrc || fig.src, fig.alt); lbSetGroup(fig); return; }
         if(lightbox.classList.contains('open') &&
            (e.target.closest('.lightbox-close') || e.target === lightbox || e.target === lightboxImg)){
           closeLightbox();
@@ -3636,6 +3716,9 @@
       });
       document.addEventListener('keydown', function(e){
         if(e.key === 'Escape' && lightbox.classList.contains('open')){ closeLightbox(); }
+        if(lightbox.classList.contains('open') && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')){
+          e.preventDefault(); lbStep(e.key === 'ArrowRight' ? 1 : -1);
+        }
         // Tiles are keyboard-activatable (role=button).
         if((e.key === 'Enter' || e.key === ' ') && document.activeElement &&
            document.activeElement.classList && document.activeElement.classList.contains('ig-tile')){
