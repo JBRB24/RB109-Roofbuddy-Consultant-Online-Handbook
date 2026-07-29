@@ -491,6 +491,11 @@
     transition:background-color .15s ease;
   }
   .section-nav .sec-pill:last-child{border-right:none;}
+  /* Number wrapper (both breakpoints) + inline section title. The title is
+     desktop-hidden here and revealed inside the mobile strip; the text still
+     lives in the DOM (also in .sec-tip and the heading) so search sees it. */
+  .sp-num{font-weight:inherit;}
+  .sp-title{display:none;}
   /* Current section (resting) + press feedback: same chapter colour, ~10%
      darker. Text stays white. Applies on touch and desktop. */
   .sec-pill.active,
@@ -1188,8 +1193,45 @@
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
 
-    .section-nav{flex-wrap:wrap;overflow:visible;}
-    .sec-pill{flex:1 1 150px;min-width:0;}
+    /* Mobile: one horizontal row that scrolls internally (swipe). Tabs never
+       wrap and the strip's overflow never pushes the page sideways. Scrollbar
+       hidden cross-browser. */
+    .section-nav{
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      overflow-y:hidden;
+      -webkit-overflow-scrolling:touch;
+      scroll-behavior:smooth;
+      scrollbar-width:none;            /* Firefox */
+      -ms-overflow-style:none;         /* legacy Edge/IE */
+    }
+    .section-nav::-webkit-scrollbar{display:none;}  /* Chrome/Safari */
+    .sec-pill{
+      flex:0 0 auto;                   /* keep intrinsic width, never shrink/wrap */
+      min-width:0;
+      white-space:nowrap;
+      padding:12px 16px;
+      text-align:left;
+    }
+    .sec-pill .sp-title{display:inline;margin-left:6px;font-weight:600;}
+    /* Title is inline on mobile, so the hover tooltip is redundant; drop it so
+       its absolutely-positioned box can't pad the scroll width. */
+    .sec-pill .sec-tip{display:none;}
+    /* Edge fades: mask the strip so tab text feathers out where more tabs sit
+       off-screen. Classes toggled by JS from scrollLeft (right by default,
+       left once scrolled, both in the middle). */
+    .section-nav.sn-fade-right:not(.sn-fade-left){
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 44px),transparent);
+              mask-image:linear-gradient(to right,#000 calc(100% - 44px),transparent);
+    }
+    .section-nav.sn-fade-left:not(.sn-fade-right){
+      -webkit-mask-image:linear-gradient(to right,transparent,#000 44px);
+              mask-image:linear-gradient(to right,transparent,#000 44px);
+    }
+    .section-nav.sn-fade-left.sn-fade-right{
+      -webkit-mask-image:linear-gradient(to right,transparent,#000 44px,#000 calc(100% - 44px),transparent);
+              mask-image:linear-gradient(to right,transparent,#000 44px,#000 calc(100% - 44px),transparent);
+    }
 
     .content-area{padding:44px 20px 36px;}
     .stats-card{flex-direction:column;align-items:flex-start;gap:16px;}
@@ -3521,7 +3563,11 @@
         if(i === 0){ tipClass = 'tip-left'; }
         else if(i === tabbed.length - 1){ tipClass = 'tip-right'; }
 
-        btn.innerHTML = (h.dataset.secNum || h.dataset.tab) +
+        var label = (h.dataset.secNum || h.dataset.tab);
+        var titleInline = (h.dataset.secTitle || '').replace(/\s*\.\s*$/, '');
+        btn.innerHTML =
+          '<span class="sp-num">' + label + '</span>' +
+          '<span class="sp-title">' + titleInline + '</span>' +
           '<span class="sec-tip ' + tipClass + '">' + h.dataset.secTitle + '</span>';
         btn.addEventListener('click', function(){ scrollToSection(h.id); });
         nav.appendChild(btn);
@@ -3531,6 +3577,16 @@
       hero.insertAdjacentElement('afterend', nav);
     });
 
+    // Mobile strip: keep the edge fades in sync with scroll position and
+    // recompute on resize (they only render under the mobile media query).
+    Array.prototype.forEach.call(document.querySelectorAll('.section-nav'), function(nav){
+      updateNavFades(nav);
+      nav.addEventListener('scroll', function(){ updateNavFades(nav); }, { passive:true });
+    });
+    window.addEventListener('resize', function(){
+      Array.prototype.forEach.call(document.querySelectorAll('.section-nav'), updateNavFades);
+    }, { passive:true });
+
     // ----------------------------------------------------------------
     // Navigation
     // ----------------------------------------------------------------
@@ -3539,9 +3595,31 @@
       if(!el){ return; }
       var sec = el.closest('.chapter');
       if(!sec){ return; }
+      var nav = sec.querySelector('.section-nav');
+      var activePill = null;
       sec.querySelectorAll('.sec-pill').forEach(function(p){
-        p.classList.toggle('active', p.dataset.sec === secId);
+        var on = p.dataset.sec === secId;
+        p.classList.toggle('active', on);
+        if(on){ activePill = p; }
       });
+      centerActivePill(nav, activePill);
+      updateNavFades(nav);
+    }
+
+    // Mobile tab strip helpers. Both no-op when the strip isn't overflowing
+    // (i.e. desktop, where the flex row fills the width and never scrolls).
+    function navScrollMax(nav){ return nav ? (nav.scrollWidth - nav.clientWidth) : 0; }
+    function centerActivePill(nav, pill){
+      if(!nav || !pill || navScrollMax(nav) <= 1){ return; }
+      var target = pill.offsetLeft - (nav.clientWidth - pill.offsetWidth) / 2;
+      nav.scrollTo({ left: target, behavior:'smooth' });
+    }
+    function updateNavFades(nav){
+      if(!nav){ return; }
+      var max = navScrollMax(nav);
+      var overflowing = max > 1;
+      nav.classList.toggle('sn-fade-left',  overflowing && nav.scrollLeft > 1);
+      nav.classList.toggle('sn-fade-right', overflowing && nav.scrollLeft < max - 1);
     }
 
     function scrollToSection(secId){
