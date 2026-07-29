@@ -19,9 +19,10 @@ A reusable operating manual distilled from the Roofbuddy Consultant Handbook bui
 ## 3. Brand / design system
 - Core tokens: navy #161823, green #40BB6A, Poppins (body/headings), Bebas Neue (ghost numerals), hard corners (border-radius 0), no shadows.
 - Per-chapter colour via one CSS var (--c) so components inherit automatically.
-  Ch2 #009444, Ch3 #1a6e77, Ch4 #33586b, Ch5 #2aa8e0, Ch6 #3d3f63, Ch7 #6f446d, Ch8 #ed1456, Ch9 #822c3b, Ch10 #d15c31, Ch11 #d5966d, Ch12 #d49a2c. (Ch1 is the lighter green, exact hex not recorded.)
+  Ch2 #009444, Ch3 #1a6e77, Ch4 #33586b, Ch5 #2aa8e0, Ch6 #3d3f63, Ch7 #6f446d, Ch8 #ed1456, Ch9 #822c3b, Ch10 #d15c31, Ch11 #d5966d, Ch12 #d49a2c. (Ch1 #40BB6A.)
 - Hero: image at brightness ~0.6, solid chapter-colour layer (mix-blend-mode: color, opacity 1), no navy bottom gradient, Bebas ghost numeral (opacity raised), Poppins title ending in a full-stop, depth deepened ~20%.
 - Numbered section lozenges. Caption style: Poppins 400 italic, 12px/22px, rgb(136,146,164).
+- Type floor: nothing below 12px anywhere. Body copy and list items (bullets and numbered steps) 14px so bullets match the body exactly; top nav 15px; 12px italic captions are the floor; headings, sub-nav pills, section numbers and Bebas numerals keep their own sizes.
 
 ## 4. Content markup convention (role tags map to existing classes)
 - {SECTION n.n | Heading.} numbered lozenge + chapter-coloured heading
@@ -41,9 +42,12 @@ A reusable operating manual distilled from the Roofbuddy Consultant Handbook bui
 - Accordions: hairline dividers, hard corners, chapter accent, rotating chevron, visible one-line teaser when collapsed, independently openable. Searchable hard rule: all text stays in DOM (collapse via max-height, never display:none, no lazy render); a hit opens the row then scrolls then highlights.
 - Section sub-nav: solid chapter-colour tabs, white text, hover darker shade scoped to @media (hover: hover), active holds darker shade. Mobile fills width, wraps edge-to-edge, no horizontal scroll, no scrollbar.
 - Full-width chapter layout (opt-in .chapter.full-width): full-bleed hero, sub-nav and grids with a contained, centred reading measure. The content-area widens (~1440px, margin auto); prose children cap at ~760px and centre via margin-left/right auto so alignment matches every other chapter; structural blocks (image grids, compare tables, accordions) set max-width:none to fill the width, and grids raise the tile min (~240px) for a clean 4-up to 5-up. Scoped to .full-width so other chapters keep the narrow centred column; the caps only bite on wide viewports, so mobile is unaffected.
-- Lightbox: navy ~92% backdrop, image-only and detail modes, close X/Esc/backdrop.
+- Lightbox: navy ~92% backdrop, image-only and detail modes, close X/Esc/backdrop. Prev/next arrows step the set the image belongs to (its grid, or the section's figures) in DOM order, wrap at the ends, keyboard left/right, hidden when the set holds one image; arrows square, no shadow, at the backdrop edges so they never cover the image.
+- Responsive data table to cards (criteria/reason tables): real 3-col table on desktop, square, hairline row dividers, sticky header filled var(--c) with white text, confined to the reading column. On mobile reflow the same table with display:block into stacked cards, reason plus badge as a filled var(--c) card header, per-field labels via data-label ::before. Never display:none the content; move the thead sr-only so it stays indexable. Status badges are small square uppercase tags, filled var(--c) or a muted outline for an unsettled state; a short left-aligned legend explains them. Merged source cells become a rowspan, shown once with an "applies to both" note; nested sub-lists render lighter-weight and regular.
+- Content locked inside an image: mirror it as DOM text (an org chart becomes a grouped name/title roster) and wire it into the search index, so every value is searchable. Per-chapter var(--c), square, no shadow.
+- Global fixed controls (back-to-top): a single fixed button outside the chapters cannot inherit a chapter's --c by cascade. activate() mirrors the active chapter colour onto :root as --active; key the hover to var(--c) with an --active fallback, scoped to @media (hover: hover), resting state unchanged.
 - Chapter index overlay: 4x3 grid, tiles enlarged ~60% via wider container, bold titles ending in full-stop, active nav underline tracks current view, no X, backdrop click closes, Esc closes, tile/nav clicks shielded.
-- Site-wide search: index all text by walking the DOM at load; results list with context + location label; click switches view, opens accordion/lightbox if needed, reveal-then-scroll, subtle chapter-colour highlight that fades. Centred modal mobile + desktop, white field on mobile, no keyboard hints.
+- Site-wide search: index all text by walking the DOM at load; results list with context + location label; click switches view, opens accordion/lightbox if needed, reveal-then-scroll, subtle chapter-colour word highlight that glows then fades. The highlight must survive the programmatic scroll-into-view (no scroll-based clear; it fades on a timer then unwraps so the DOM text is unchanged and MiniSearch stays intact); scope it to the landed section and scroll the first match into view, so a hit that sits deep in a section still lands on screen. Centred modal mobile + desktop, white field on mobile, no keyboard hints.
 - Mobile menu: full-screen navy overlay, logo top (enlarged), large-type centred list, generous spacing, active green, search icon at foot, burger retained across all views, scroll locked.
 
 ## 6. Design principles, the throughlines
@@ -69,6 +73,11 @@ Per chapter the director supplies: colour hex, hero and any in-content images.
 - Decide the active-state cue whenever everything looks selected.
 - Do a dedicated mobile pass; grids, accordions, sub-navs, menus differ at phone width.
 - Full-width is a bleed exception, not a re-alignment: keep the reading measure centred (margin auto), let only structural blocks bleed. A capped-but-not-centred column drifts to the left edge.
+- Full-width grids can be pulled back to the reading column and capped 2-up per chapter with an id-scoped rule, without touching the shared grid component elsewhere. Flag before rolling sitewide.
+- Sticky table header: position:sticky on th needs border-collapse:separate (collapse breaks positioning and stickiness in Chrome) and no scroll container around the table (overflow-x:auto computes overflow-y to auto and traps the sticky). Offset top to clear the topnav plus the sub-nav.
+- Responsive table to cards: reflow one table with display:block; keep the header in the DOM by moving the thead sr-only, never display:none; label the mobile fields with data-label ::before.
+- A global fixed control tints to the active chapter via :root --active, not var(--c), which will not cascade to an element sitting outside the chapters.
+- Search word-highlight fades on a timer, never on scroll: the programmatic scroll-into-view fires scroll events that would wipe it before it is seen.
 
 ## 9. Seed checklist for a new project
 - Confirm the three roles and the copy-box loop.
