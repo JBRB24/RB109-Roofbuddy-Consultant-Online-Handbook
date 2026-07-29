@@ -624,7 +624,7 @@
 
   .chapter-content p{
     font-weight:400;
-    font-size:15px;
+    font-size:14px;
     line-height:1.85;
     color:#3D3D3D;
     margin:0 0 16px;
@@ -640,7 +640,7 @@
     padding-left:22px;
     margin-bottom:10px;
     font-weight:700;
-    font-size:15px;
+    font-size:14px;
     line-height:1.8;
     color:#1A1A1A;
   }
@@ -1015,7 +1015,7 @@
   .steps-annotated { margin: 24px 0; }
   .step-annotation { display: flex; gap: 20px; margin-bottom: 20px; align-items: flex-start; }
   .step-annotation-num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: #40BB6A; line-height: 1; flex-shrink: 0; min-width: 36px; }
-  .step-annotation-body { font-size: 15px; color: #3D3D3D; line-height: 1.85; font-family: 'Poppins', sans-serif; }
+  .step-annotation-body { font-size: 14px; color: #3D3D3D; line-height: 1.85; font-family: 'Poppins', sans-serif; }
   .step-annotation-body strong { font-weight: 700; color: #1A1A1A; }
 
   #searchInput::placeholder{color:#999;opacity:1;}
@@ -1249,9 +1249,12 @@
     font-size:12px; font-weight:700; line-height:1.3; letter-spacing:0.05em; text-transform:uppercase; }
   .ecr-badge--new, .ecr-badge--renamed{ background:var(--c); color:#fff; }
   .ecr-badge--unresolved{ background:transparent; color:#6b7280; border:1px solid currentColor; }
+  /* Reason-cell badges drop to their own line, flush to the cell's left edge
+     (in line with the reason label above), never trailing/centred. */
+  .ecr-reason .ecr-badge{ display:block; width:fit-content; margin:6px 0 0 0; }
   /* Not Suitable: lighter-weight nested sub-reasons (as in source) */
   .ecr-subreasons{ list-style:none; margin:6px 0 0; padding:0; color:#6b7280; font-size:13px; }
-  .ecr-subreasons li{ margin:3px 0; line-height:1.5; }
+  .chapter-content .ecr-subreasons li{ margin:3px 0; line-height:1.5; font-weight:400; }
   .ecr-sub-label{ font-weight:400; }
   /* Roofer Application shared requirement note */
   .ecr-shared-note{ display:block; font-size:12px; font-weight:700; color:var(--c);
@@ -2952,11 +2955,6 @@
 <p>How you dodge them: do not leave clients in the dark or promise things you cannot deliver. Do not be defensive when something goes wrong - be the person who solves it. If a job has gone sideways, your job is to make the client feel heard, find the path back to a good outcome, and ensure the QA and warranty processes are activated. A client who feels supported through a problem often leaves a five-star review specifically because of how the problem was handled; where A client who feels abandoned mid-problem is where one-star reviews come from.</p>
 
 <h2 class="sec-h" id="sec-9-9"><span class="sec-num">9.9</span>Enquiry Closed: Reason Criteria</h2>
-<div class="ecr-legend">
-  <span class="ecr-legend-item"><span class="ecr-badge ecr-badge--new">NEW</span> newly added reason.</span>
-  <span class="ecr-legend-item"><span class="ecr-badge ecr-badge--renamed">RENAMED</span> renamed from a previous reason.</span>
-  <span class="ecr-legend-item"><span class="ecr-badge ecr-badge--unresolved">UNRESOLVED</span> not yet finalised, avoid until it has a tight definition.</span>
-</div>
 
 <div class="ecr-wrap">
   <table class="ecr-table">
@@ -3042,6 +3040,12 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<div class="ecr-legend">
+  <span class="ecr-legend-item"><span class="ecr-badge ecr-badge--new">NEW</span> newly added reason.</span>
+  <span class="ecr-legend-item"><span class="ecr-badge ecr-badge--renamed">RENAMED</span> renamed from a previous reason.</span>
+  <span class="ecr-legend-item"><span class="ecr-badge ecr-badge--unresolved">UNRESOLVED</span> not yet finalised, avoid until it has a tight definition.</span>
 </div>
 
 <div class="ecr-notes">
