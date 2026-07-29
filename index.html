@@ -403,6 +403,24 @@
     .stats-card{flex-direction:column;align-items:flex-start;gap:16px;}
     .stats-metrics{flex-wrap:wrap;gap:22px;}
   }
+
+  /* Roofbuddy Group roster (text mirror of the org chart, July 2026). Square,
+     no shadow, per-chapter --c. Light in chapters, white on the dark team hero. */
+  .team-roster{ margin:32px 0 8px; display:grid; gap:26px; font-family:'Poppins',sans-serif;
+    --roster-div:rgba(0,0,0,0.10); --roster-muted:#5f6b74; --roster-name:#1f2937; }
+  .roster-group{ border-top:2px solid var(--c,#40BB6A); padding-top:14px; }
+  .roster-group-h{ margin:0; font-size:11px; font-weight:600; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--c,#40BB6A); }
+  .roster-group-note{ margin:5px 0 12px; font-size:11.5px; line-height:1.5; color:var(--roster-muted); }
+  .roster-list{ list-style:none; margin:0; padding:0; display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:32px; }
+  .roster-list li{ display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+    padding:8px 0; border-bottom:1px solid var(--roster-div); }
+  .roster-name{ font-size:14px; font-weight:600; color:var(--roster-name); }
+  .roster-role{ font-size:12.5px; line-height:1.4; text-align:right; color:var(--roster-muted); }
+  .team-section .team-roster{ --roster-div:rgba(255,255,255,0.16);
+    --roster-muted:rgba(255,255,255,0.66); --roster-name:#ffffff; }
+  @media (max-width:600px){ .roster-list{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -544,6 +562,95 @@
           <p>As a consultant you will primarily work alongside Finn's sales group, with day-to-day operational support routed through Jerome Maglajos and the roofing support team under Jenna's function. Technical roofing questions, application work, and steel fabrication go to the relevant subsidiary team. Use the chart as a reference — over the first few weeks you will meet most of the people in it.</p>
           <p>Roofbuddy operates two wholly owned subsidiaries: Guardian Steel and Guardian Seal. These extend the company's capability in specific roofing manufacturing and roof restoration categories. As a consultant, you don't need deep technical knowledge of each subsidiary at this stage, but you should know they exist and understand that the Roofbuddy offer is broader than a single product category. When a client's job requires something specific, the network and the subsidiary structure has been built to serve it.</p>
           <p>Head Office is at 77a Morrin Road, St Johns, Auckland. The management and admin team is split between Auckland and abroad. The software development team operates across Auckland, Christchurch, Moscow and the Philippines. Consultants in the field are supported by the Sales Support Team (SST) based in the Philippines, who handle measurement diagrams, client communications, and operational tasks that free consultants up to focus on the high-value interactions. Chapter 12 covers how to delegate effectively to the SST.</p>
+
+          <!-- Roofbuddy Group roster, July 2026. Text mirror of the org chart (names inside the image are not searchable). -->
+          <div class="team-roster" aria-label="Roofbuddy Group roster, July 2026">
+            <div class="roster-group">
+              <p class="roster-group-h">Board / Directors</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">James Logan</span><span class="roster-role">Director/CEO</span></li>
+                <li><span class="roster-name">Michael Haskell</span><span class="roster-role">Executive Director / Business Development</span></li>
+                <li><span class="roster-name">McGregor Fea</span><span class="roster-role">Director</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Senior Leadership Team</p>
+              <p class="roster-group-note">Report to James Logan.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Igi Manaloto</span><span class="roster-role">CTO</span></li>
+                <li><span class="roster-name">Finn Delaney</span><span class="roster-role">Head of Sales</span></li>
+                <li><span class="roster-name">Chris Kinnell</span><span class="roster-role">CXO</span></li>
+                <li><span class="roster-name">Jenna Glen</span><span class="roster-role">COO</span></li>
+                <li><span class="roster-name">Candice Deutschmann</span><span class="roster-role">Business Unit Manager - Guardian Seal</span></li>
+                <li><span class="roster-name">Daniel Deutschmann</span><span class="roster-role">Business Unit Manager - Guardian Steel</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Technology</p>
+              <p class="roster-group-note">Under Igi Manaloto, CTO.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Robbie Mariarno</span><span class="roster-role">Senior Full-stack Engineer</span></li>
+                <li><span class="roster-name">Michael Silkov</span><span class="roster-role">Senior Software Developer</span></li>
+                <li><span class="roster-name">Ivan Milenovic</span><span class="roster-role">CRM Tech Lead</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Sales</p>
+              <p class="roster-group-note">Under Finn Delaney, Head of Sales.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Sean Lovemore</span><span class="roster-role">Senior Roofing Consultant</span></li>
+                <li><span class="roster-name">Nate Brown</span><span class="roster-role">Roofing Consultant</span></li>
+                <li><span class="roster-name">Caleb Williams</span><span class="roster-role">Roofing Consultant</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Design</p>
+              <p class="roster-group-note">Under Chris Kinnell, CXO.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Jonathan Blake</span><span class="roster-role">Senior Graphic Designer</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Roofing Support</p>
+              <p class="roster-group-note">Under Jenna Glen, COO, led by Jerome Maglajos.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Jerome Maglajos</span><span class="roster-role">Head of Roofing Support</span></li>
+                <li><span class="roster-name">Ira Maglajos</span><span class="roster-role">Roofing Support Supervisor</span></li>
+                <li><span class="roster-name">Renz Dela Cruz</span><span class="roster-role">Senior Roofing Support</span></li>
+                <li><span class="roster-name">Jam Pangandag</span><span class="roster-role">Senior Roofing Support</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Guardian Seal</p>
+              <p class="roster-group-note">Under Candice Deutschmann.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Jayron Sollestre</span><span class="roster-role">Operations/Installation Coordinator</span></li>
+                <li><span class="roster-name">Jamal Hossain</span><span class="roster-role">Senior Applicator</span></li>
+                <li><span class="roster-name">Faysal Ahammed</span><span class="roster-role">Senior Applicator</span></li>
+                <li><span class="roster-name">Steve Griffiths</span><span class="roster-role">Senior Applicator</span></li>
+                <li><span class="roster-name">Rolando Sabanal</span><span class="roster-role">Applicator</span></li>
+                <li><span class="roster-name">Gerzon Tapang</span><span class="roster-role">Applicator</span></li>
+                <li><span class="roster-name">Andrey Ejanda</span><span class="roster-role">Applicator</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Guardian Steel</p>
+              <p class="roster-group-note">Under Daniel Deutschmann.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Nion Naiki</span><span class="roster-role">Operations Manager</span></li>
+                <li><span class="roster-name">Allan Ejanda</span><span class="roster-role">Senior Fabricator</span></li>
+                <li><span class="roster-name">Romar Ejanda</span><span class="roster-role">Fabricator</span></li>
+                <li><span class="roster-name">Brian Harvey</span><span class="roster-role">Fabricator/Delivery Driver</span></li>
+              </ul>
+            </div>
+            <div class="roster-group">
+              <p class="roster-group-h">Shared</p>
+              <p class="roster-group-note">Shared across Guardian Seal and Guardian Steel.</p>
+              <ul class="roster-list">
+                <li><span class="roster-name">Petelo Togatuki</span><span class="roster-role">Driver/Storeman/Scaffolder</span></li>
+              </ul>
+            </div>
+          </div>
 
           <h2 class="sec-h"><span class="sec-num">1.9</span>Who this handbook is for.</h2>
           <p>This manual is for people who have chosen to build a sales career inside a company that rewards skill, attitude, and effort in roughly equal measure. It is not for people who want a script to read from. Scripts are tools inside a larger system. The system is what you need to understand.</p>
@@ -756,6 +863,95 @@
               <img src="assets/ch1/ch1_org_chart.png" alt="Roofbuddy Group org chart showing full team structure" class="team-chart-img">
               <figcaption>Roofbuddy Group org chart (current). Senior leadership at the top, followed by the function leads for technology, sales, customer experience, operations, and the two subsidiary business units.</figcaption>
             </figure>
+
+            <!-- Roofbuddy Group roster, July 2026. Text mirror of the org chart (names inside the image are not searchable). -->
+            <div class="team-roster" aria-label="Roofbuddy Group roster, July 2026">
+              <div class="roster-group">
+                <p class="roster-group-h">Board / Directors</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">James Logan</span><span class="roster-role">Director/CEO</span></li>
+                  <li><span class="roster-name">Michael Haskell</span><span class="roster-role">Executive Director / Business Development</span></li>
+                  <li><span class="roster-name">McGregor Fea</span><span class="roster-role">Director</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Senior Leadership Team</p>
+                <p class="roster-group-note">Report to James Logan.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Igi Manaloto</span><span class="roster-role">CTO</span></li>
+                  <li><span class="roster-name">Finn Delaney</span><span class="roster-role">Head of Sales</span></li>
+                  <li><span class="roster-name">Chris Kinnell</span><span class="roster-role">CXO</span></li>
+                  <li><span class="roster-name">Jenna Glen</span><span class="roster-role">COO</span></li>
+                  <li><span class="roster-name">Candice Deutschmann</span><span class="roster-role">Business Unit Manager - Guardian Seal</span></li>
+                  <li><span class="roster-name">Daniel Deutschmann</span><span class="roster-role">Business Unit Manager - Guardian Steel</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Technology</p>
+                <p class="roster-group-note">Under Igi Manaloto, CTO.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Robbie Mariarno</span><span class="roster-role">Senior Full-stack Engineer</span></li>
+                  <li><span class="roster-name">Michael Silkov</span><span class="roster-role">Senior Software Developer</span></li>
+                  <li><span class="roster-name">Ivan Milenovic</span><span class="roster-role">CRM Tech Lead</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Sales</p>
+                <p class="roster-group-note">Under Finn Delaney, Head of Sales.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Sean Lovemore</span><span class="roster-role">Senior Roofing Consultant</span></li>
+                  <li><span class="roster-name">Nate Brown</span><span class="roster-role">Roofing Consultant</span></li>
+                  <li><span class="roster-name">Caleb Williams</span><span class="roster-role">Roofing Consultant</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Design</p>
+                <p class="roster-group-note">Under Chris Kinnell, CXO.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Jonathan Blake</span><span class="roster-role">Senior Graphic Designer</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Roofing Support</p>
+                <p class="roster-group-note">Under Jenna Glen, COO, led by Jerome Maglajos.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Jerome Maglajos</span><span class="roster-role">Head of Roofing Support</span></li>
+                  <li><span class="roster-name">Ira Maglajos</span><span class="roster-role">Roofing Support Supervisor</span></li>
+                  <li><span class="roster-name">Renz Dela Cruz</span><span class="roster-role">Senior Roofing Support</span></li>
+                  <li><span class="roster-name">Jam Pangandag</span><span class="roster-role">Senior Roofing Support</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Guardian Seal</p>
+                <p class="roster-group-note">Under Candice Deutschmann.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Jayron Sollestre</span><span class="roster-role">Operations/Installation Coordinator</span></li>
+                  <li><span class="roster-name">Jamal Hossain</span><span class="roster-role">Senior Applicator</span></li>
+                  <li><span class="roster-name">Faysal Ahammed</span><span class="roster-role">Senior Applicator</span></li>
+                  <li><span class="roster-name">Steve Griffiths</span><span class="roster-role">Senior Applicator</span></li>
+                  <li><span class="roster-name">Rolando Sabanal</span><span class="roster-role">Applicator</span></li>
+                  <li><span class="roster-name">Gerzon Tapang</span><span class="roster-role">Applicator</span></li>
+                  <li><span class="roster-name">Andrey Ejanda</span><span class="roster-role">Applicator</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Guardian Steel</p>
+                <p class="roster-group-note">Under Daniel Deutschmann.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Nion Naiki</span><span class="roster-role">Operations Manager</span></li>
+                  <li><span class="roster-name">Allan Ejanda</span><span class="roster-role">Senior Fabricator</span></li>
+                  <li><span class="roster-name">Romar Ejanda</span><span class="roster-role">Fabricator</span></li>
+                  <li><span class="roster-name">Brian Harvey</span><span class="roster-role">Fabricator/Delivery Driver</span></li>
+                </ul>
+              </div>
+              <div class="roster-group">
+                <p class="roster-group-h">Shared</p>
+                <p class="roster-group-note">Shared across Guardian Seal and Guardian Steel.</p>
+                <ul class="roster-list">
+                  <li><span class="roster-name">Petelo Togatuki</span><span class="roster-role">Driver/Storeman/Scaffolder</span></li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
