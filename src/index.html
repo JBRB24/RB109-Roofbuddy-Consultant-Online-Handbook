@@ -3673,52 +3673,72 @@
         if(p){ p.replaceChild(document.createTextNode(s.textContent), s); p.normalize(); }
       });
     }
-    function wrapFirstMatch(container, terms){
-      if(!container) return null;
-      var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
-      var node;
-      while((node = walker.nextNode())){
-        var text = node.nodeValue;
-        if(!text || !text.trim()){ continue; }
-        var lower = text.toLowerCase();
-        for(var i=0;i<terms.length;i++){
-          var idx = lower.indexOf(terms[i]);
-          if(idx !== -1){
-            var span = document.createElement('span');
-            span.className = 'search-hl';
-            span.textContent = text.slice(idx, idx + terms[i].length);
-            var frag = document.createDocumentFragment();
-            if(idx > 0){ frag.appendChild(document.createTextNode(text.slice(0, idx))); }
-            frag.appendChild(span);
-            var rest = text.slice(idx + terms[i].length);
-            if(rest){ frag.appendChild(document.createTextNode(rest)); }
-            node.parentNode.replaceChild(frag, node);
-            return span;
-          }
+    // Wrap every occurrence of `term` (case-insensitive) inside `container` in
+    // a .search-hl span, without changing the text. Text nodes are collected
+    // before mutating so the walk is not disturbed. Returns the spans created.
+    function wrapMatches(container, term){
+      if(!container || !term) return [];
+      var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+        acceptNode: function(n){
+          if(!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          var p = n.parentNode;
+          if(p && p.classList && p.classList.contains('search-hl')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
         }
-      }
-      return null;
+      });
+      var nodes = [], n;
+      while((n = walker.nextNode())){ nodes.push(n); }
+      var spans = [];
+      nodes.forEach(function(node){
+        var text = node.nodeValue, lower = text.toLowerCase();
+        var idx = lower.indexOf(term);
+        if(idx === -1) return;
+        var frag = document.createDocumentFragment(), pos = 0;
+        while(idx !== -1){
+          if(idx > pos){ frag.appendChild(document.createTextNode(text.slice(pos, idx))); }
+          var span = document.createElement('span');
+          span.className = 'search-hl';
+          span.textContent = text.slice(idx, idx + term.length);
+          frag.appendChild(span);
+          spans.push(span);
+          pos = idx + term.length;
+          idx = lower.indexOf(term, pos);
+        }
+        if(pos < text.length){ frag.appendChild(document.createTextNode(text.slice(pos))); }
+        node.parentNode.replaceChild(frag, node);
+      });
+      return spans;
     }
     function highlightWord(query, containers, chap){
       clearSearchHighlights();
       if(!query){ return null; }
       var q = query.trim().toLowerCase();
-      var terms = [];
-      if(q){ terms.push(q); }
-      var first = q.split(/\s+/)[0];
-      if(first && terms.indexOf(first) === -1){ terms.push(first); }
-      var span = null;
-      for(var i=0;i<containers.length && !span;i++){ span = wrapFirstMatch(containers[i], terms); }
-      if(!span){ return null; }
+      if(!q){ return null; }
+      var firstWord = q.split(/\s+/)[0];
+      // Prefer the full phrase; fall back to the first word. Scoped to the
+      // landed containers only, so we never carpet the whole document.
+      var spans = [];
+      var termsToTry = (firstWord && firstWord !== q) ? [q, firstWord] : [q];
+      for(var t=0; t<termsToTry.length && !spans.length; t++){
+        for(var i=0;i<containers.length;i++){
+          spans = spans.concat(wrapMatches(containers[i], termsToTry[t]));
+        }
+      }
+      if(!spans.length){ return null; }
       var c = (chap ? getComputedStyle(chap).getPropertyValue('--c').trim() : '') || '#40BB6A';
-      span.style.backgroundColor = hexToRgba(c, 0.18);
-      span.style.borderRadius = '0';
-      span.style.transition = 'background-color 0.8s ease-out';
-      window.setTimeout(function(){ span.style.backgroundColor = 'transparent'; }, 2200);
-      window.setTimeout(clearSearchHighlights, 3200);
-      var clearOnce = function(){ clearSearchHighlights(); window.removeEventListener('scroll', clearOnce); };
-      window.setTimeout(function(){ window.addEventListener('scroll', clearOnce, { once:true, passive:true }); }, 500);
-      return span;
+      var glow = hexToRgba(c, 0.22);
+      spans.forEach(function(s){ s.style.backgroundColor = glow; s.style.borderRadius = '0'; });
+      // Glow on landing, then fade on a timer and unwrap, so the DOM text
+      // returns to normal (MiniSearch stays intact). No scroll-based clear:
+      // the smooth scroll-into-view must not wipe the highlight.
+      window.setTimeout(function(){
+        spans.forEach(function(s){
+          s.style.transition = 'background-color 1.6s ease-out';
+          s.style.backgroundColor = 'transparent';
+        });
+      }, 650);
+      window.setTimeout(clearSearchHighlights, 2600);
+      return spans[0];
     }
     function sectionContainers(secH){
       var arr = [secH];
@@ -3758,18 +3778,19 @@
             acc.classList.add('open');
             var accHdr = acc.querySelector('.acc-header');
             if(accHdr){ accHdr.setAttribute('aria-expanded', 'true'); }
-            scrollToMatch(el);
             setActiveSecPill(el.id);
-            highlightWord(query, [acc], chap);
+            var hitAcc = highlightWord(query, [acc], chap);
+            scrollToMatch(hitAcc || el);
             return;
           }
 
           // Section heading: highlight within the whole section range; any other
-          // element: within itself.
-          scrollToMatch(el);
+          // element: within itself. Scroll to the first match so a hit that sits
+          // deep in the section (e.g. a roster name in 1.8) lands in view.
           setActiveSecPill(el.id);
           var containers = (el.classList && el.classList.contains('sec-h')) ? sectionContainers(el) : [el];
-          highlightWord(query, containers, chap);
+          var hit = highlightWord(query, containers, chap);
+          scrollToMatch(hit || el);
         });
       });
     };
