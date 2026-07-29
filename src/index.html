@@ -1039,7 +1039,14 @@
     transition:opacity 200ms ease, background 0.2s ease;
   }
   .back-to-top.visible{opacity:1;pointer-events:auto;}
-  .back-to-top:hover{background:var(--green);}
+  /* Hover takes the chapter's own colour. The button is a single global element
+     outside the chapters, so it can't inherit a chapter's --c by cascade;
+     activate() mirrors the active chapter's --c onto :root as --active, so we
+     key off --c first then fall back to --active, then green off-chapter.
+     Hover only on real hover devices so it never sticks on touch. */
+  @media (hover: hover){
+    .back-to-top:hover{ background: var(--c, var(--active, var(--green))); }
+  }
   .back-to-top svg{display:block;}
 
   /* ---------- LIGHTBOX ---------- */
