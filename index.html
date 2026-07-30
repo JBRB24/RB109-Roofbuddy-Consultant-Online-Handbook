@@ -1139,8 +1139,12 @@
      TEAM SECTION
      ============================================================ */
   .team-section { width: 100%; }
-  .team-hero { position: relative; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; overflow: hidden; }
-  .team-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .team-hero { position: relative; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; overflow: hidden; background: #161823; }
+  /* Background image capped at its natural size: full-bleed width down-scales on
+     narrow viewports but is never enlarged past 1920px (100% of natural), and
+     height is intrinsic (never stretched). Top-anchored; the dark hero base
+     keeps the content legible below where the image ends. */
+  .team-bg-img { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 1920px; height: auto; display: block; }
   .team-content { position: relative; z-index: 2; max-width: 780px; width: 100%; padding: 80px 32px; }
   .team-eyebrow { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; font-family: 'Poppins', sans-serif; }
   .team-heading { font-size: 42px; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 20px; font-family: 'Poppins', sans-serif; }
