@@ -28,6 +28,10 @@ Paste into the instructions of any new project. This list grows over time.
 - Never use long dashes (em-dash, en-dash). Use a comma, a full stop, or rewrite the sentence.
 - Never use ", and" in writing. Restructure.
 
+## Prompts for Cash
+- Every build or task prompt for Cash goes inside a fenced code block so I can one-click copy it. Never hand a prompt over as plain prose. Put the code block last in the message so its copy button sits at the bottom.
+- Inside the code block, write plain text only: no headers, no all-caps labels, no bullet structure. Just direct instructions.
+
 ## Deployment and git (Roofbuddy Consultant Online Handbook)
 - One file, index.html, at the repo root; assets/ beside it. Repo: JBRB24/RB109-Roofbuddy-Consultant-Online-Handbook (public). Deployed via GitHub Pages, source main / root. Live: https://jbrb24.github.io/RB109-Roofbuddy-Consultant-Online-Handbook/
 - End every task with: commit locally, then open the page. Do not push. Keep committing locally as we iterate, as many commits as needed.
