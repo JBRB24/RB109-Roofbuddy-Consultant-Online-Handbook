@@ -226,6 +226,10 @@
   .ch-overlay-icon:hover{color:#fff;}
 
   .ch-grid{
+    /* One spacing token drives BOTH the inter-box gap and the outer gutter, so
+       row-gap, column-gap and the padding to every container edge are exactly
+       equal at every breakpoint. No tile carries its own margin. */
+    --ch-gap:8px;
     flex:1 1 auto;
     min-height:0;            /* let the grid shrink inside the overlay so all 3 rows fit the viewport */
     overflow:hidden;         /* desktop: no scroll; tiles scale to fill the height budget under the header */
@@ -233,11 +237,11 @@
     max-width:1500px;
     margin:0 auto;
     box-sizing:border-box;
-    padding:8px 24px 24px;
+    padding:var(--ch-gap);   /* equal gutter on all four sides = the inter-box gap */
     display:grid;
     grid-template-columns:repeat(4, 1fr);
     grid-template-rows:repeat(3, minmax(0, 1fr));  /* 3 rows share whatever height is left below the header */
-    gap:8px;
+    gap:var(--ch-gap);       /* identical row-gap and column-gap */
   }
   /* Keep 4-across on laptop/desktop (1fr columns shrink to fit, never reflow to
      3/5). On tablet/mobile the tiles are tall relative to width, so forcing every
