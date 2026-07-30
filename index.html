@@ -496,6 +496,9 @@
      lives in the DOM (also in .sec-tip and the heading) so search sees it. */
   .sp-num{font-weight:inherit;}
   .sp-title{display:none;}
+  /* Mobile "Jump to section" dropdown: hidden on desktop (the .section-nav tab
+     strip is used there); revealed only in the mobile media query below. */
+  .section-dd{display:none;}
   /* Current section (resting) + press feedback: same chapter colour, ~10%
      darker. Text stays white. Applies on touch and desktop. */
   .sec-pill.active,
@@ -1193,45 +1196,73 @@
     .hero-title{font-size:24px;}
     .hero-ghost{font-size:170px;}
 
-    /* Mobile: one horizontal row that scrolls internally (swipe). Tabs never
-       wrap and the strip's overflow never pushes the page sideways. Scrollbar
-       hidden cross-browser. */
-    .section-nav{
-      flex-wrap:nowrap;
-      overflow-x:auto;
-      overflow-y:hidden;
-      -webkit-overflow-scrolling:touch;
-      scroll-behavior:smooth;
-      scrollbar-width:none;            /* Firefox */
-      -ms-overflow-style:none;         /* legacy Edge/IE */
+    /* Mobile: replace the sub-nav tab strip with a "Jump to section" dropdown.
+       Hide the desktop strip; the dropdown carries the same section labels in
+       the DOM (menu collapses via max-height/visibility, never display:none),
+       keyed to var(--c) so every chapter inherits its colour. */
+    .section-nav{display:none;}
+    .section-dd{
+      display:block;
+      position:sticky;
+      top:64px;
+      z-index:50;
+      background:#fff;
+      border-bottom:1px solid var(--line);
     }
-    .section-nav::-webkit-scrollbar{display:none;}  /* Chrome/Safari */
-    .sec-pill{
-      flex:0 0 auto;                   /* keep intrinsic width, never shrink/wrap */
-      min-width:0;
-      white-space:nowrap;
+    .section-dd-btn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background:var(--c);
+      color:#fff;
+      border:none;
       padding:12px 16px;
+      font-family:inherit;
+      font-weight:600;
+      font-size:14px;
+      line-height:1.3;
       text-align:left;
+      cursor:pointer;
     }
-    .sec-pill .sp-title{display:inline;margin-left:6px;font-weight:600;}
-    /* Title is inline on mobile, so the hover tooltip is redundant; drop it so
-       its absolutely-positioned box can't pad the scroll width. */
-    .sec-pill .sec-tip{display:none;}
-    /* Edge fades: mask the strip so tab text feathers out where more tabs sit
-       off-screen. Classes toggled by JS from scrollLeft (right by default,
-       left once scrolled, both in the middle). */
-    .section-nav.sn-fade-right:not(.sn-fade-left){
-      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 44px),transparent);
-              mask-image:linear-gradient(to right,#000 calc(100% - 44px),transparent);
+    .section-dd-btn:active{background-color:color-mix(in srgb, var(--c) 90%, #000);}
+    .section-dd-label{display:flex;align-items:baseline;gap:6px;min-width:0;}
+    .section-dd-label .sp-num{font-weight:700;flex:0 0 auto;}
+    .section-dd-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .section-dd-chevron{flex:0 0 auto;transition:transform .2s ease;}
+    .section-dd.open .section-dd-chevron{transform:rotate(180deg);}
+    /* Menu overlays the content below the sticky bar. Collapsed = max-height 0
+       + visibility hidden (labels stay in the DOM for search). */
+    .section-dd-menu{
+      list-style:none;margin:0;padding:0;
+      position:absolute;left:0;right:0;top:100%;
+      background:#fff;
+      border-bottom:1px solid var(--line);
+      max-height:0;
+      overflow:hidden;
+      visibility:hidden;
+      transition:max-height .25s ease, visibility .25s ease;
     }
-    .section-nav.sn-fade-left:not(.sn-fade-right){
-      -webkit-mask-image:linear-gradient(to right,transparent,#000 44px);
-              mask-image:linear-gradient(to right,transparent,#000 44px);
+    .section-dd.open .section-dd-menu{
+      max-height:70vh;
+      overflow-y:auto;
+      visibility:visible;
     }
-    .section-nav.sn-fade-left.sn-fade-right{
-      -webkit-mask-image:linear-gradient(to right,transparent,#000 44px,#000 calc(100% - 44px),transparent);
-              mask-image:linear-gradient(to right,transparent,#000 44px,#000 calc(100% - 44px),transparent);
+    .section-dd-item{
+      padding:12px 16px;
+      font-family:inherit;
+      font-weight:600;
+      font-size:14px;
+      line-height:1.3;
+      color:var(--c);
+      border-top:1px solid var(--line);
+      cursor:pointer;
     }
+    .section-dd-item:first-child{border-top:none;}
+    .section-dd-item .sp-num{font-weight:700;margin-right:6px;}
+    /* Current section highlighted with a chapter-colour tint. */
+    .section-dd-item.active{background-color:color-mix(in srgb, var(--c) 12%, #fff);}
 
     .content-area{padding:44px 20px 36px;}
     .stats-card{flex-direction:column;align-items:flex-start;gap:16px;}
@@ -3575,6 +3606,47 @@
 
       var hero = sec.querySelector('.hero');
       hero.insertAdjacentElement('afterend', nav);
+
+      // Mobile "Jump to section" dropdown: same sections as the tab strip, in
+      // order. Shown only at mobile widths (desktop keeps the strip). Shared
+      // component keyed to var(--c); labels stay in the DOM for search.
+      var dd = document.createElement('div');
+      dd.className = 'section-dd';
+      var first = tabbed[0];
+      var ddBtn = document.createElement('button');
+      ddBtn.type = 'button';
+      ddBtn.className = 'section-dd-btn';
+      ddBtn.setAttribute('aria-haspopup', 'listbox');
+      ddBtn.setAttribute('aria-expanded', 'false');
+      ddBtn.innerHTML =
+        '<span class="section-dd-label">' +
+          '<span class="sp-num">' + (first.dataset.secNum || first.dataset.tab) + '</span>' +
+          '<span class="section-dd-title">' + (first.dataset.secTitle || '').replace(/\s*\.\s*$/, '') + '</span>' +
+        '</span>' +
+        '<svg class="section-dd-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+      var ddMenu = document.createElement('ul');
+      ddMenu.className = 'section-dd-menu';
+      ddMenu.setAttribute('role', 'listbox');
+      tabbed.forEach(function(h, i){
+        var li = document.createElement('li');
+        // Highlight the first section by default; scrollspy/selection moves it.
+        li.className = 'section-dd-item' + (i === 0 ? ' active' : '');
+        li.setAttribute('role', 'option');
+        li.dataset.sec = h.id;
+        li.innerHTML =
+          '<span class="sp-num">' + (h.dataset.secNum || h.dataset.tab) + '</span>' +
+          (h.dataset.secTitle || '').replace(/\s*\.\s*$/, '');
+        li.addEventListener('click', function(){
+          scrollToSection(h.id);
+          setActiveSecPill(h.id);   // update label + row immediately on select
+          closeDropdown(dd);
+        });
+        ddMenu.appendChild(li);
+      });
+      ddBtn.addEventListener('click', function(e){ e.stopPropagation(); toggleDropdown(dd); });
+      dd.appendChild(ddBtn);
+      dd.appendChild(ddMenu);
+      nav.insertAdjacentElement('afterend', dd);
     });
 
     // Mobile strip: keep the edge fades in sync with scroll position and
@@ -3604,7 +3676,46 @@
       });
       centerActivePill(nav, activePill);
       updateNavFades(nav);
+      syncDropdown(sec, secId);
     }
+
+    // Mobile "Jump to section" dropdown: mirror the active section onto the
+    // button label + highlighted row, and open/close/outside-click/Esc.
+    function syncDropdown(sec, secId){
+      var dd = sec.querySelector('.section-dd');
+      if(!dd){ return; }
+      dd.querySelectorAll('.section-dd-item').forEach(function(it){
+        it.classList.toggle('active', it.dataset.sec === secId);
+      });
+      var h = document.getElementById(secId);
+      if(!h){ return; }
+      var numEl   = dd.querySelector('.section-dd-label .sp-num');
+      var titleEl = dd.querySelector('.section-dd-title');
+      if(numEl){   numEl.textContent   = (h.dataset.secNum || h.dataset.tab || ''); }
+      if(titleEl){ titleEl.textContent = (h.dataset.secTitle || '').replace(/\s*\.\s*$/, ''); }
+    }
+    function openDropdown(dd){
+      dd.classList.add('open');
+      var b = dd.querySelector('.section-dd-btn'); if(b){ b.setAttribute('aria-expanded', 'true'); }
+    }
+    function closeDropdown(dd){
+      dd.classList.remove('open');
+      var b = dd.querySelector('.section-dd-btn'); if(b){ b.setAttribute('aria-expanded', 'false'); }
+    }
+    function toggleDropdown(dd){
+      var isOpen = dd.classList.contains('open');
+      document.querySelectorAll('.section-dd.open').forEach(function(o){ if(o !== dd){ closeDropdown(o); } });
+      if(isOpen){ closeDropdown(dd); } else { openDropdown(dd); }
+    }
+    // Click/tap outside closes; Esc closes.
+    document.addEventListener('click', function(e){
+      document.querySelectorAll('.section-dd.open').forEach(function(dd){
+        if(!dd.contains(e.target)){ closeDropdown(dd); }
+      });
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ document.querySelectorAll('.section-dd.open').forEach(closeDropdown); }
+    });
 
     // Mobile tab strip helpers. Both no-op when the strip isn't overflowing
     // (i.e. desktop, where the flex row fills the width and never scrolls).
@@ -3625,8 +3736,13 @@
     function scrollToSection(secId){
       var el = document.getElementById(secId);
       if(!el){ return; }
-      var nav = el.closest('.chapter').querySelector('.section-nav');
-      var offset = 64 + (nav ? nav.offsetHeight : 0);
+      var chap = el.closest('.chapter');
+      // Whichever sticky sub-nav is visible: the tab strip (desktop) or the
+      // dropdown (mobile). The hidden one reports offsetHeight 0.
+      var strip = chap.querySelector('.section-nav');
+      var dd    = chap.querySelector('.section-dd');
+      var barH  = Math.max(strip ? strip.offsetHeight : 0, dd ? dd.offsetHeight : 0);
+      var offset = 64 + barH;
       var y = el.getBoundingClientRect().top + window.pageYOffset - offset - 12;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
