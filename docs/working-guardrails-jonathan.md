@@ -27,3 +27,8 @@ Paste into the instructions of any new project. This list grows over time.
 ## Writing hard rules
 - Never use long dashes (em-dash, en-dash). Use a comma, a full stop, or rewrite the sentence.
 - Never use ", and" in writing. Restructure.
+
+## Deployment and git (Roofbuddy Consultant Online Handbook)
+- One file, index.html, at the repo root; assets/ beside it. Repo: JBRB24/RB109-Roofbuddy-Consultant-Online-Handbook (public). Deployed via GitHub Pages, source main / root. Live: https://jbrb24.github.io/RB109-Roofbuddy-Consultant-Online-Handbook/
+- End every task with: commit locally, then open the page. Do not push. Keep committing locally as we iterate, as many commits as needed.
+- Push to origin/main only when I explicitly say so (e.g. "push to GitHub"). A push to main auto-triggers the Pages rebuild, so pushing equals publishing to the live client-facing site. Batch the local commits and push them together when I am happy.
