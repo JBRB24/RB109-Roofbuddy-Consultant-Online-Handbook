@@ -225,39 +225,31 @@
   }
   .ch-overlay-icon:hover{color:#fff;}
 
+  /* Single fluid grid for the chapters view. There is only one chapters grid
+     (the overlay's #chGrid), so this one rule set IS the shared system — no
+     duplicate rules anywhere. One --ch-gap token drives BOTH the gap and the
+     four-side padding, so row gutters, column gutters and the outer edge are
+     all exactly equal at every breakpoint. No tile carries its own margin. */
   .ch-grid{
-    /* One spacing token drives BOTH the inter-box gap and the outer gutter, so
-       row-gap, column-gap and the padding to every container edge are exactly
-       equal at every breakpoint. No tile carries its own margin. */
     --ch-gap:8px;
     flex:1 1 auto;
-    min-height:0;            /* let the grid shrink inside the overlay so all 3 rows fit the viewport */
-    overflow:hidden;         /* desktop: no scroll; tiles scale to fill the height budget under the header */
+    min-height:0;
     width:100%;
     max-width:1500px;
     margin:0 auto;
     box-sizing:border-box;
-    padding:var(--ch-gap);   /* equal gutter on all four sides = the inter-box gap */
+    padding:var(--ch-gap);                 /* outer gutter == inner gutter */
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    grid-template-rows:repeat(3, minmax(0, 1fr));  /* 3 rows share whatever height is left below the header */
-    gap:var(--ch-gap);       /* identical row-gap and column-gap */
+    grid-template-columns:repeat(4, 1fr);  /* 4-up */
+    grid-auto-rows:minmax(180px, 1fr);     /* implicit rows: fill the height when it fits, never a fixed count, so the bottom row is never cropped */
+    gap:var(--ch-gap);                     /* identical row-gap and column-gap */
+    overflow-y:auto;                       /* scroll when rows exceed the viewport (the no-crop tradeoff) */
   }
-  /* Keep 4-across on laptop/desktop (1fr columns shrink to fit, never reflow to
-     3/5). On tablet/mobile the tiles are tall relative to width, so forcing every
-     row into the viewport would squash them: allow scroll with a comfortable
-     minimum row height instead. */
-  @media (max-width:767px){
-    .ch-grid{
-      grid-template-columns:repeat(2, 1fr);
-      grid-template-rows:none;
-      grid-auto-rows:minmax(200px, auto);
-      overflow-y:auto;
-    }
-  }
-  @media (max-width:480px){
-    .ch-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(180px, auto); }
-  }
+  /* Same responsive stepping, 4 -> 3 -> 2 -> 1. Only the column count changes;
+     gap, padding and the row rule are inherited so the system stays identical. */
+  @media (max-width:1024px){ .ch-grid{ grid-template-columns:repeat(3, 1fr); } }                                    /* 3-up */
+  @media (max-width:767px){  .ch-grid{ grid-template-columns:repeat(2, 1fr); grid-auto-rows:minmax(200px, auto); } } /* 2-up */
+  @media (max-width:480px){  .ch-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(180px, auto); } }            /* 1-up */
   .ch-tile{
     position:relative;
     overflow:hidden;
