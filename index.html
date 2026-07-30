@@ -244,7 +244,15 @@
     grid-auto-rows:minmax(180px, 1fr);     /* implicit rows: fill the height when it fits, never a fixed count, so the bottom row is never cropped */
     gap:var(--ch-gap);                     /* identical row-gap and column-gap */
     overflow-y:auto;                       /* scroll when rows exceed the viewport (the no-crop tradeoff) */
+    /* Hide the scrollbar so it never steals width from the right edge. A classic
+       vertical scrollbar renders INSIDE the padding box, widening the right
+       gutter (measured 23px vs the 8px left) — an asymmetry no gap value can
+       fix. With it hidden, left gutter = right gutter = row gap, all from
+       --ch-gap. The grid still scrolls via touch / wheel / trackpad. */
+    scrollbar-width:none;                  /* Firefox */
+    -ms-overflow-style:none;               /* legacy Edge/IE */
   }
+  .ch-grid::-webkit-scrollbar{ display:none; }  /* Chrome/Safari */
   /* Same responsive stepping, 4 -> 3 -> 2 -> 1. Only the column count changes;
      gap, padding and the row rule are inherited so the system stays identical. */
   @media (max-width:1024px){ .ch-grid{ grid-template-columns:repeat(3, 1fr); } }                                    /* 3-up */
@@ -3812,6 +3820,13 @@
       overlay.style.display = 'flex';
       requestAnimationFrame(function(){ overlay.classList.add('open'); });
       overlay.setAttribute('aria-hidden', 'false');
+      // Keep the full-screen overlay perfectly symmetric. Two things inset its
+      // right edge otherwise: the page scrollbar (html is the real scroller, so
+      // locking body alone is not enough) and html's `scrollbar-gutter:stable`,
+      // which reserves a right-only gutter even with overflow hidden. Lock the
+      // scroll AND drop the reserved gutter while open; both restored on close.
+      document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.scrollbarGutter = 'auto';
       document.body.style.overflow = 'hidden';
       var firstTile = grid.querySelector('.ch-tile');
       if(firstTile){ firstTile.focus(); }
@@ -3821,6 +3836,8 @@
       overlay.classList.remove('open');
       overlay.style.display = 'none';
       overlay.setAttribute('aria-hidden', 'true');
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.scrollbarGutter = '';
       document.body.style.overflow = '';
       // Restore the underlying view's active nav (a following show*/activate
       // call, e.g. from a tile or nav click, will override this as needed).
